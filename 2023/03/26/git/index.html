@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, Ocean">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex">
+    <meta name="keywords" content="Git 基础用法, Ocean">
+    <meta name="description" content="Git是目前世界上最先进的分布式版本控制系统（没有之一），Git版本控制系统是一个分布式的系统,是用来保存工程源代码历史状态(游戏存档)的命令行工具，它是是一个命令行（小黑窗）工具，用于版本控制（存档器），高端大气上档次">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | Ocean</title>
+    <title>Git 基础用法 | Ocean</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -290,12 +290,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title">Git 基础用法</h1>
                 </div>
             </div>
         </div>
@@ -317,9 +317,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/git/">
+                                <span class="chip bg-color">git</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -331,7 +335,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-23
+                    2023-03-26
                 </div>
                 
 
@@ -340,14 +344,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    73
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    8 分
                 </div>
                 
 
@@ -370,19 +374,418 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+                <h1 id="Git介绍"><a href="#Git介绍" class="headerlink" title="Git介绍"></a>Git介绍</h1><p>Git是一个开源的<strong>分布式版本控制系统</strong>，可以有效、高速地处理从很小到非常大的项目版本管理。也是Linus Torvalds为了帮助管理Linux内核开发而开发的一个开放源码的版本控制软件。与常用的版本控制工具<strong>CVS, Subversion</strong>等不同，它采用了<strong>分布式版本库</strong>的方式，不必服务器端软件支持（wingeddevil注：这得分是用什么样的服务端，使用http协议或者git协议等不太一样。并且在push和pull的时候和服务器端还是有交互的。），使源代码的发布和交流极其方便。 Git 的速度很快，这对于诸如 Linux kernel 这样的大项目来说自然很重要。 Git 最为出色的是它的合并跟踪（merge tracing）能力。</p>
+<p>Torvalds 开始着手开发 Git 是为了作为一种过渡方案来替代 BitKeeper</p>
+<p><em>分布式相比于集中式的最大区别在于开发者可以提交到本地，每个开发者通过克隆（git clone），在本地机器上拷贝一个完整的Git仓库</em></p>
+<h2 id="Git基本工作过程"><a href="#Git基本工作过程" class="headerlink" title="Git基本工作过程"></a>Git基本工作过程</h2><blockquote>
+<p>9个常见操作，具体如下</p>
+</blockquote>
+<ul>
+<li><p>1.新建项目文件夹（只做一次）</p>
+</li>
+<li><p>2.进入文件夹 (重要)</p>
+</li>
+<li><p>3.初始化仓库：git init（只做一次）</p>
+</li>
+<li><p>4.编码</p>
+</li>
+<li><p>5.添加文件信息： git add .</p>
+</li>
+<li><p>6.确认添加信息：git commit -m”描述信息”</p>
+</li>
+<li><p>7.查看详细日志信息：git log</p>
+</li>
+<li><p>8.查看简略日志信息：git log –oneline</p>
+</li>
+<li><p>9.版本回滚:git reset –hard 版本号</p>
+</li>
+</ul>
+<p><img src="/home/chy/pic/git.png">;</p>
+<h2 id="其他的常用操作"><a href="#其他的常用操作" class="headerlink" title="其他的常用操作"></a>其他的常用操作</h2><h3 id="git-init"><a href="#git-init" class="headerlink" title="git init"></a>git init</h3><blockquote>
+<p>用法：git clone [url]</p>
+</blockquote>
+<p>该命令可用于通过指定的URL获取一个代码库。</p>
+<h3 id="git-config"><a href="#git-config" class="headerlink" title="git config"></a>git config</h3><blockquote>
+<p>用法：git config –global user.name “[name]”</p>
+</blockquote>
+<blockquote>
+<p>用法：git config –global user.email “[email address]”</p>
+</blockquote>
+<p>该命令将分别设置提交代码的用户名和电子邮件地址。</p>
+<h3 id="git-add"><a href="#git-add" class="headerlink" title="git add"></a>git add</h3><blockquote>
+<p>用法：git add [file]</p>
+</blockquote>
+<p>该命令可以将一个文件添加至stage(暂存区)。</p>
+<blockquote>
+<p>用法：git add *</p>
+</blockquote>
+<p>该命令可以将多个文件添加至stage(暂存区)。</p>
+<h3 id="git-commit"><a href="#git-commit" class="headerlink" title="git commit"></a>git commit</h3><blockquote>
+<p>用法：git commit -m “[ Type in the commit message]”</p>
+</blockquote>
+<p>该命令可以在版本历史记录中永久记录文件。</p>
+<blockquote>
+<p>用法：git commit -a</p>
+</blockquote>
+<p>该命令将提交git add命令添加的所有文件，并提交git add命令之后更改的所有文件。 </p>
+<h3 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h3><blockquote>
+<p>用法：git diff</p>
+</blockquote>
+<p>该命令可以显示尚未添加到stage的文件的变更。</p>
+<blockquote>
+<p>用法：git diff –staged</p>
+</blockquote>
+<p>该命令可以显示添加到stage的文件与当前最新版本之间的差异。</p>
+<blockquote>
+<p>用法：git diff [first branch] [second branch]</p>
+</blockquote>
+<p>该命令可以显示两个分支之间的差异。</p>
+<h3 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h3><blockquote>
+<p>用法：git reset [file]</p>
+</blockquote>
+<p>该命令将从stage中撤出指定的文件，但可以保留文件的内容。</p>
+<blockquote>
+<p>用法：git reset [commit]</p>
+</blockquote>
+<p>该命令可以撤销指定提交之后的所有提交，并在本地保留变更。</p>
+<h3 id="git-status"><a href="#git-status" class="headerlink" title="git status"></a>git status</h3><blockquote>
+<p>用法：git status</p>
+</blockquote>
+<p>该命令将显示所有需要提交的文件。</p>
+<h3 id="git-rm"><a href="#git-rm" class="headerlink" title="git rm"></a>git rm</h3><blockquote>
+<p>用法：git rm [file]</p>
+</blockquote>
+<p>该命令将删除工作目录中的文件，并将删除动作添加到stage。</p>
+<h3 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h3><blockquote>
+<p>用法：git log</p>
+</blockquote>
+<p>该命令可用于显示当前分支的版本历史记录。</p>
+<blockquote>
+<p>用法：git log –follow[file]</p>
+</blockquote>
+<p>该命令可用于显示某个文件的版本历史记录，包括文件的重命名。</p>
+<h3 id="git-show"><a href="#git-show" class="headerlink" title="git show"></a>git show</h3><blockquote>
+<p>用法：git show [commit]</p>
+</blockquote>
+<p>该命令经显示指定提交的元数据以及内容变更。</p>
+<h3 id="git-tag"><a href="#git-tag" class="headerlink" title="git tag"></a>git tag</h3><blockquote>
+<p>用法：git tag [commitID]</p>
+</blockquote>
+<p>该命令可以给指定的提交添加标签。</p>
+<h3 id="git-branch"><a href="#git-branch" class="headerlink" title="git branch"></a>git branch</h3><blockquote>
+<p>用法：git branch</p>
+</blockquote>
+<p>该命令将显示当前代码库中所有的本地分支。</p>
+<blockquote>
+<p>用法：git branch [branch name]</p>
+</blockquote>
+<p>该命令将创建一个分支。</p>
+<blockquote>
+<p>用法：git branch -d [branch name]</p>
+</blockquote>
+<p>该命令将删除指定的分支。</p>
+<h3 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h3><blockquote>
+<p>用法：git checkout [branch name]</p>
+</blockquote>
+<p>你可以通过该命令切换分支。</p>
+<blockquote>
+<p>用法：git checkout -b [branch name]</p>
+</blockquote>
+<p>你可以通过该命令创建一个分支，并切换到新分支上。</p>
+<h3 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h3><blockquote>
+<p>用法：git merge [branch name]</p>
+</blockquote>
+<p>该命令可以将指定分支的历史记录合并到当前分支。</p>
+<h3 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h3><blockquote>
+<p>用法：git remote add [variable name] [Remote Server Link]</p>
+</blockquote>
+<p>你可以通过该命令将本地的代码库连接到远程服务器。</p>
+<h3 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a>git push</h3><blockquote>
+<p>用法：git push [variable name] master</p>
+</blockquote>
+<p>该命令可以将主分支上提交的变更发送到远程代码库。</p>
+<blockquote>
+<p>用法：git push [variable name] [branch]</p>
+</blockquote>
+<p>该命令可以将指定分支上的提交发送到远程代码库。</p>
+<blockquote>
+<p>用法：git push –all [variable name]</p>
+</blockquote>
+<p>该命令可以将所有分支发送到远程代码库。</p>
+<blockquote>
+<p>用法：git pull [Repository Link]</p>
+</blockquote>
+<p>该命令将获取远程服务器上的变更，并合并到你的工作目录。</p>
+<h3 id="git-stash"><a href="#git-stash" class="headerlink" title="git stash"></a>git stash</h3><blockquote>
+<p>用法：git stash save</p>
+</blockquote>
+<p>该命令将临时保存所有修改的文件。</p>
+<blockquote>
+<p>用法：git stash pop</p>
+</blockquote>
+<p>该命令将恢复最近一次stash（储藏）的文件。</p>
+<blockquote>
+<p>用法：git stash list</p>
+</blockquote>
+<p>该命令将显示stash的所有变更。</p>
+<blockquote>
+<p>用法：git stash drop</p>
+</blockquote>
+<p>该命令将丢弃最近一次stash的变更。</p>
+<h2 id="Git小游戏"><a href="#Git小游戏" class="headerlink" title="Git小游戏"></a>Git小游戏</h2><p>游戏链接为<a target="_blank" rel="noopener" href="https://oschina.gitee.io/learn-git-branching/">GIt小游戏</a></p>
+<p>推荐一个图解答案<a target="_blank" rel="noopener" href="https://blog.csdn.net/GDUT_xin/article/details/125537967">答案</a></p>
+<pre class="line-numbers language-none"><code class="language-none">---
+基础篇
+1.git commit
+git commit
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+git commit
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+2.git branch
+git branch bugFix
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+git checkout bugFix
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+3.git merge
+git branch bugFix
+
+git checkout bugFix
+
+git commit -m “commit bugFix”
+
+git checkout main
+
+git commit -m “commit main”
+
+git merge bugFix
+
+4.git rebase
+git branch bugFix
+
+git checkout bugFix
+
+git commit -m “bugFix”
+
+git checkout main
+
+git commit -m “main commit”
+
+git checkout bugFix
+
+git rebase main
+
+高级篇
+1.分离HEAD
+git checkout c4
+
+2.相对引用(^)
+git checkout main^
+
+git checkout c3
+
+3.相对引用2(~)
+git branch -f main c6
+
+git checkout HEAD~1
+
+git branch -f bugFix HEAD~1
+
+4.撤销变更
+git reset HEAD~1
+
+git chekout pushed
+
+git revert HEAD
+
+移动提交记录
+1.git cherry-pick
+git cherry-pick c3 c4 c7
+
+2.交互式rebase
+git rebase -i overHere （打开控制面板）
+
+omit c2 （点击c2）
+
+c4 c5交换位置 （拉取）
+
+杂项
+1.只取一个提交记录
+git checkout main
+
+git cherry-pick c4
+
+2.提交的技巧#1
+git rebase -i HEAD~2 交换2和3的位置
+
+git commit --amend
+
+git rebase -i HEAD~2 恢复2和3的位置
+
+git checkout mian
+
+git rebase caption main
+
+3.提交的技巧#2
+git checkout main
+
+git cherry-pick c2
+
+git commit --amend
+
+git cherry-pick c3
+
+4.git tag
+git tag v0 c1
+
+git tag v1 c2
+
+git checkout c2
+
+5. git descride
+git commit
+
+高级话题
+1.多次rebase
+git rebase main bugFix
+
+git rebase bugFix side
+
+git rebase side another
+
+git rebase another main
+
+2.两个父节点
+git branch bugWork main^ ^ 2^
+
+3.纠缠不清的分支
+git checkout one
+
+git cherry-pick c4 c3 c2
+
+git checkout two
+
+git cherry-pick c5 c4 c3 c2
+
+git branch -f three c2
+
+Push &amp; Pull —— Git 远程仓库！
+1.git clone
+git clone
+
+2.远程分支
+git commit
+
+git checkout o&#x2F;main
+
+git commit
+
+3.git fetch
+git fetch
+
+4.git pull
+git pull
+
+5.模拟团队合作
+git clone
+
+git fakeTeamwork 2
+
+git commit
+
+git pull
+
+6.git push
+git commit
+
+git commit
+
+git push
+
+7.偏离的提及历史
+git clone
+
+git fakeTeamwork
+
+git commit
+
+git pull --rebase
+
+git push
+
+8.锁定的main（locked main）
+git reset --hard o&#x2F;main
+
+git checkout -b feature c2
+
+git push origin feature
+
+关于 origin 和它的周边 —— Git 远程仓库高级操作
+1.推送主分支
+git fetch
+
+git rebase o&#x2F;main side1
+
+git rebase side1 side2
+
+git rebase side2 side3
+
+git rebase side3 main
+
+git push
+
+2.合并远程仓库
+git checkout main
+
+git pull
+
+git merge side1
+
+git merge side2
+
+git merge side3
+
+git push
+
+3.远程追踪
+git checkout -b side o&#x2F;main
+
+git commit
+
+git pull --rebase
+
+git push
+
+4.git push的参数
+git push origin main
+
+git push origin foo
+
+5.git push的参数2
+git push origin main^:foo
+
+git push origin foo:main
+
+6.git fetch的参数
+git fetch origin main~1:foo
+
+git fetch origin foo:main
+
+git checkout foo
+
+git merge main
+
+7.没有source的source
+git fetch origin :bar
+
+git push origin :foo
+
+8.git pull的参数
+git pull origin bar:foo
+
+git pull origin main:side
+
+---<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 
                 
             </div>
@@ -409,7 +812,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://oceanechy.github.io/2023/03/23/hello-world/">http://oceanechy.github.io/2023/03/23/hello-world/</a>
+                    <a href="http://oceanechy.github.io/2023/03/26/git/">http://oceanechy.github.io/2023/03/26/git/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -446,7 +849,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/git/">
+                                    <span class="chip bg-color">git</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -523,77 +930,29 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/03/25/chy1/">
+                <a href="/2023/03/26/git/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="你好1">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Git 基础用法">
                         
-                        <span class="card-title">你好1</span>
+                        <span class="card-title">Git 基础用法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-25
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%88%86%E7%B1%BB2/" class="post-category">
-                                    分类2
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E6%A0%87%E7%AD%BE2/">
-                        <span class="chip bg-color">标签2</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2023/03/23/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
+                            Git是目前世界上最先进的分布式版本控制系统（没有之一），Git版本控制系统是一个分布式的系统,是用来保存工程源代码历史状态(游戏存档)的命令行工具，它是是一个命令行（小黑窗）工具，用于版本控制（存档器），高端大气上档次
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-26
                             </span>
                         <span class="publish-author">
                             
@@ -604,6 +963,63 @@
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/git/">
+                        <span class="chip bg-color">git</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/03/25/chy/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="你好">
+                        
+                        <span class="card-title">你好</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%88%86%E7%B1%BB1/" class="post-category">
+                                    分类1
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%A0%87%E7%AD%BE1/">
+                        <span class="chip bg-color">标签1</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
