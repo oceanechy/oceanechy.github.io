@@ -164,6 +164,17 @@
     
   </li>
   
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
   <li>
     <a href="#searchModal" class="modal-trigger waves-effect waves-light">
       <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
@@ -244,6 +255,17 @@
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
 			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
 		</a>
           
         </li>
@@ -543,13 +565,15 @@
                 <div class="post-categories">
                     
                         
+                            <a href="/categories/Opencv/" class="category">Opencv</a>
+                        
                     
                 </div>
-                <a href="/2023/03/27/epipolar-geometry/">
-                    <h3 class="post-title">对极几何(Epipolar_Geometry)</h3>
+                <a href="/2023/03/28/ransac/">
+                    <h3 class="post-title">RANSAC以及Hough变换原理</h3>
                 </a>
-                <p class="post-description">对极几何是相机在两个不同的位置生成的两幅图像，其拍摄位置和生成图像之间的特殊几何关系。</p>
-                <a href="/2023/03/27/epipolar-geometry/" class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #FF5E3A 0%, #FF2A68 100%)" target="_blank">
+                <p class="post-description">算法简介RANSAC是”RANdom SAmple Consensus”（随机采样一致）的缩写。它可以从一组包含“局外点”的观测数据集中，通过迭代方式估计数学模型的参数，</p>
+                <a href="/2023/03/28/ransac/" class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #FF5E3A 0%, #FF2A68 100%)" target="_blank">
                     <i class="icon far fa-eye fa-fw"></i>阅读更多
                 </a>
             </div>
@@ -587,6 +611,8 @@
                 <div class="post-categories">
                     
                         
+                            <a href="/categories/cs231A/" class="category">cs231A</a>
+                        
                     
                 </div>
                 <a href="/2023/03/27/image-transformer/">
@@ -619,6 +645,63 @@
     <!-- 所有文章卡片 -->
     <article id="articles" class="container articles">
         <div class="row article-row">
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2023/03/28/ransac/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="RANSAC以及Hough变换原理">
+                            
+                            <span class="card-title">RANSAC以及Hough变换原理</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                算法简介RANSAC是”RANdom SAmple Consensus”（随机采样一致）的缩写。它可以从一组包含“局外点”的观测数据集中，通过迭代方式估计数学模型的参数，它是一种不确定的算法—-它有一定的概率得出一个合理的结果；为了提高概率
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-28
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Opencv/" class="post-category">
+                                    Opencv
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/RANSAC/">
+                            <span class="chip bg-color">RANSAC</span>
+                        </a>
+                        
+                        <a href="/tags/Hough/">
+                            <span class="chip bg-color">Hough</span>
+                        </a>
+                        
+                        <a href="/tags/Opencv/">
+                            <span class="chip bg-color">Opencv</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
             
              <!-- 隐藏某个文章 -->
             <div class="article col s12 m6 l4" data-aos="zoom-in">
@@ -694,8 +777,12 @@
                             </span>
                             <span class="publish-author">
                                 
-                                <i class="fas fa-user fa-fw"></i>
-                                oceanechy
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/cs231A/" class="post-category">
+                                    cs231A
+                                </a>
+                                
                                 
                             </span>
                         </div>
@@ -739,8 +826,12 @@
                             </span>
                             <span class="publish-author">
                                 
-                                <i class="fas fa-user fa-fw"></i>
-                                oceanechy
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/cs231A/" class="post-category">
+                                    cs231A
+                                </a>
+                                
                                 
                             </span>
                         </div>
@@ -749,8 +840,12 @@
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/cs231A/">
-                            <span class="chip bg-color">cs231A</span>
+                        <a href="/tags/%E5%AF%B9%E6%9E%81%E5%87%A0%E4%BD%95/">
+                            <span class="chip bg-color">对极几何</span>
+                        </a>
+                        
+                        <a href="/tags/%E5%AF%B9%E6%9E%81%E7%BA%A6%E6%9D%9F/">
+                            <span class="chip bg-color">对极约束</span>
                         </a>
                         
                     </div>
@@ -784,8 +879,12 @@
                             </span>
                             <span class="publish-author">
                                 
-                                <i class="fas fa-user fa-fw"></i>
-                                oceanechy
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/git/" class="post-category">
+                                    git
+                                </a>
+                                
                                 
                             </span>
                         </div>
@@ -794,8 +893,8 @@
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/git/">
-                            <span class="chip bg-color">git</span>
+                        <a href="/tags/git%E5%9F%BA%E7%A1%80/">
+                            <span class="chip bg-color">git基础</span>
                         </a>
                         
                     </div>
@@ -854,47 +953,34 @@
             </div>
               <!-- 隐藏某个文章 -->
             
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/03/23/hello-world/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                            
-                            <span class="card-title">Hello World</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-23
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                oceanechy
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
         </div>
     </article>
 
 </main>
+
+
+<div class="container paging">
+    <div class="row">
+        <div class="col s6 m4 l4">
+            
+            <a class="left btn-floating btn-large disabled">
+                <i class="fas fa-angle-left"></i>
+            </a>
+            
+        </div>
+        <div class="page-info col m4 l4 hide-on-small-only">
+            <div class="center-align b-text-gray">1 / 2</div>
+        </div>
+        <div class="col s6 m4 l4">
+            
+            <a href="/page/2/"
+               class="right btn-floating btn-large waves-effect waves-light bg-color">
+                <i class="fas fa-angle-right"></i>
+            </a>
+            
+        </div>
+    </div>
+</div>
 
 
 
@@ -970,7 +1056,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">4.4k</span>
+                        class="white-color">6.6k</span>
             
             
             

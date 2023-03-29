@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="对极几何(Epipolar_Geometry), Ocean">
-    <meta name="description" content="对极几何是相机在两个不同的位置生成的两幅图像，其拍摄位置和生成图像之间的特殊几何关系。">
+    <meta name="keywords" content="RANSAC以及Hough变换原理, Ocean">
+    <meta name="description" content="算法简介RANSAC是”RANdom SAmple Consensus”（随机采样一致）的缩写。它可以从一组包含“局外点”的观测数据集中，通过迭代方式估计数学模型的参数，它是一种不确定的算法—-它有一定的概率得出一个合理的结果；为了提高概率">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>对极几何(Epipolar_Geometry) | Ocean</title>
+    <title>RANSAC以及Hough变换原理 | Ocean</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -317,7 +317,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">对极几何(Epipolar_Geometry)</h1>
+                    <h1 class="description center-align post-title">RANSAC以及Hough变换原理</h1>
                 </div>
             </div>
         </div>
@@ -341,12 +341,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%AF%B9%E6%9E%81%E5%87%A0%E4%BD%95/">
-                                <span class="chip bg-color">对极几何</span>
+                            <a href="/tags/RANSAC/">
+                                <span class="chip bg-color">RANSAC</span>
                             </a>
                         
-                            <a href="/tags/%E5%AF%B9%E6%9E%81%E7%BA%A6%E6%9D%9F/">
-                                <span class="chip bg-color">对极约束</span>
+                            <a href="/tags/Hough/">
+                                <span class="chip bg-color">Hough</span>
+                            </a>
+                        
+                            <a href="/tags/Opencv/">
+                                <span class="chip bg-color">Opencv</span>
                             </a>
                         
                     </div>
@@ -357,8 +361,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/cs231A/" class="post-category">
-                                cs231A
+                            <a href="/categories/Opencv/" class="post-category">
+                                Opencv
                             </a>
                         
                     </div>
@@ -370,7 +374,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-27
+                    2023-03-28
                 </div>
                 
 
@@ -379,14 +383,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    290
+                    2.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    8 分
                 </div>
                 
 
@@ -409,32 +413,134 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="对极几何基本用处"><a href="#对极几何基本用处" class="headerlink" title="对极几何基本用处"></a>对极几何基本用处</h1><h2 id="立体匹配"><a href="#立体匹配" class="headerlink" title="立体匹配"></a>立体匹配</h2><p>对于已知两视角空间位置关系的情况下，由于对极几何这个几何模型限定的约束条件，使得在立体图像对上搜索空间上的分别在两个图像中的位置只需要相应的对极线上找，把原来的二维搜搜问题，直接简化为一维搜索，双目测距就是这方面得应用之一。</p>
-<h2 id="确定两个摄像点的相对位置与姿态问题"><a href="#确定两个摄像点的相对位置与姿态问题" class="headerlink" title="确定两个摄像点的相对位置与姿态问题"></a>确定两个摄像点的相对位置与姿态问题</h2><p>在未知视角位置的情况下，通过搜索图像对中的匹配点，可以求得两个位置和姿态得相对关系，这一点常用在机器人导航、地图得生成、三维重建等方面。</p>
+                <h1 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h1><p>RANSAC是”RANdom SAmple Consensus”（随机采样一致）的缩写。它可以从一组包含“局外点”的观测数据集中，通过迭代方式估计数学模型的参数，它是一种不确定的算法—-它有一定的概率得出一个合理的结果；为了提高概率必须提高迭代次数。</p>
 <blockquote>
-<p>基本概念</p>
+<p>基本假设</p>
 </blockquote>
 <ul>
-<li>极点（Epipoles）：两个相机得基线与两个成像平面得交点</li>
-<li>极线（Epipolar Lines）：空间中点在成像平面上的投影点与极点的连线</li>
-<li>极平面（Epipolar Plane）：空间中的点与两个相机的光轴中心点所组成的平面</li>
+<li>数据由<strong>局内点</strong>组成， 例如，数据的分布可以用一些模型（比如直线方程）参数来解释；</li>
+<li><strong>局外点</strong>是不能适应该模型的参数；</li>
+<li>除此之外的数据属于噪声；</li>
 </ul>
+<p>局外点产生的原因有：噪声的极值；错误的测量方法；对数据的错误假设等；</p>
 <blockquote>
-<p>本质矩阵</p>
+<p>概述</p>
 </blockquote>
-<p><img src="/pic/duiji2.png"></p>
+<p>RANSAC算法的输入时一组观测数据，一个可以解释或者适应于观测数据的参数化模型，一些可行的参数。</p>
+<p>RANSAC通过反复选择数据中的一组随机子集来达成目标。被选取的子集被假设为局内点，并用下述方法进行验证：</p>
+<ul>
+<li>有一个模型适应于假定的局内点，即所有的未知参数都能从假设的局内点计算得出；</li>
+<li>用1中得到的模型去测试所有的其它数据，如果某个点适用于估计的模型，认为他也是局内点；</li>
+<li>如果有足够多的点呗归类为假设的局内点，那么估计的模型就足够合理；</li>
+<li>然后，用所有假设的局内点去重新估计模型，因为它仅仅被初始的假设局内点估计过；</li>
+<li>最后，通过估计局内点与模型的错误率来评估模型；</li>
+</ul>
+<p>这个过程被重复执行固定的次数，每次产生的模型要么因为局内点太少而被抛弃，要么因为比现有的模型更好而被选用。</p>
+<p>关于模型好坏算法实现上有两种方式：</p>
+<ul>
+<li>规定一个点数，达到这个点数后，算这些点与模型间的误差，找误差最小的模型。 对应下面算法一</li>
+<li>规定一个误差，找匹配模型并小于这个误差的所有点，匹配的点最多的模型，就是最好模型。 对应下面算法二</li>
+</ul>
+<p>算法伪代码一：</p>
+<pre class="line-numbers language-伪代码" data-language="伪代码"><code class="language-伪代码">输入：
+data ---- 一组观测数据
+model ---- 适应于数据的模型
+n ---- 适用于模型的最少数据个数
+k ---- 算法的迭代次数
+t ---- 用于决定数据是否适应于模型的阈值
+d ---- 判定模型是否适用于数据集的数据数目
+
+输出：
+best_model —— 跟数据最匹配的模型参数（如果没有找到，返回null）
+best_consensus_set —— 估计出模型的数据点
+best_error —— 跟数据相关的估计出的模型的错误
+
+iterations &#x3D; 0
+best_model &#x3D; null
+best_consensus_set &#x3D; null
+best_error &#x3D; 无穷大
+while( iterations &lt; k )
+    maybe_inliers &#x3D;  从数据集中随机选择n个点
+    maybe_model &#x3D; 适合于maybe_inliers的模型参数
+    consensus_set &#x3D; maybe_inliers
+
+    for (每个数据集中不属于maybe_inliers的点)
+        if （如果点适合于maybe_model，并且错误小于t）
+           将该点添加到consensus_set
+
+    if (consensus_set中的点数大于d)
+        已经找到了好的模型， 现在测试该模型到底有多好
+       better_model &#x3D; 适用于consensus_set中所有点的模型参数
+       this_error &#x3D;  better_model 究竟如何适合这些点的度量
+    
+    if （this_error &lt; best_error）
+        发现比以前好的模型，保存该模型直到更好的模型出现
+        best_model &#x3D; better_model
+        best_consensus_set &#x3D; consensus_set
+        best_error &#x3D; this_error
+
+    iterations ++
+函数返回best_model, best_consensus_set, best_error
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>RANSAC算法的可能变化包括以下几种：</p>
+<ul>
+<li>如果发现一种足够好的模型（该模型有足够下的错误率）， 则跳出主循环，这样节约不必要的计算；设置一个错误率的阈值，小于这个值就跳出循环；</li>
+<li>可以直接从maybe_model计算this_error，而不从consensus_set重新估计模型，这样可能会节约时间，但是可能会对噪音敏感。</li>
+</ul>
+<p>算法伪代码二：</p>
+<pre class="line-numbers language-伪代码" data-language="伪代码"><code class="language-伪代码">输入：
+data ---- 一组观测数据
+numForEstimate ----- 初始模型需要的点数
+delta ------ 判定点符合模型的误差
+probability ----- 表示迭代过程中从数据集内随机选取出的点均为局内点的概率
+
+输出：
+best_model —— 跟数据最匹配的模型参数（如果没有找到，返回null）
+best_consensus_set —— 估计出模型的数据点
+
+k &#x3D; 1000	&#x2F;&#x2F;设置初始值
+
+iterations &#x3D; 0
+best_model &#x3D; null
+best_consensus_set &#x3D; null
+
+while( iterations &lt; k )
+    maybe_inliers &#x3D;  从数据集中随机选择numForEstimate个点
+    maybe_model &#x3D; 适合于maybe_inliers的模型参数，比如直线，取两个点，得直线方程
+
+    for (每个数据集中不属于maybe_inliers的点)
+        if （如果点适合于maybe_model，并且错误小于delta）
+            将该点添加到maybe_inliers
+
+    if(maybe_inliers的点数 &gt; best_consensus_set 的点数）	&#x2F;&#x2F;找到更好的模型
+        best_model &#x3D; maybe_model
+        best_consensus_set  &#x3D; maybe_inliers
+        根据公式k&#x3D;log(1-p)&#x2F;log(1-pow(w,n))重新计算k
+    iterations ++
+函数返回best_model, best_consensus_set,
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><p>我们不得不根据特定的问题和数据集通过实验来确定参数t和d。然而参数k（迭代次数）可以从理论结果推断。当我们从估计模型参数时，用p表示一些迭代过程中从数据集内随机选取出的点均为局内点的概率；此时，结果模型很可能有用，因此p也表征了算法产生有用结果的概率。用w表示每次从数据集中选取一个局内点的概率，如下式所示： w &#x3D; 局内点的数目 &#x2F; 数据集的数目 通常情况下，我们事先并不知道w的值，但是可以给出一些鲁棒的值。假设估计模型需要选定n个点，wn是所有n个点均为局内点的概率；1 − wn是n个点中至少有一个点为局外点的概率，此时表明我们从数据集中估计出了一个不好的模型。 (1 − wn)k表示算法永远都不会选择到n个点均为局内点的概率，它和1-p相同。因此，<br>$$<br>1-p&#x3D;\left(1-w^n\right)^k<br>$$</p>
+<p>我们对上式的两边取对数，得出<br>$$<br>k&#x3D;\frac{\log (1-p)}{\log \left(1-w^n\right)}<br>$$</p>
+<p>值得注意的是，这个结果假设n个点都是独立选择的；也就是说，某个点被选定之后，它可能会被后续的迭代过程重复选定到。这种方法通常都不合理，由此推导出的k值被看作是选取不重复点的上限。例如，要从上图中的数据集寻找适合的直线，RANSAC算法通常在每次迭代时选取2个点，计算通过这两点的直线maybe_model，要求这两点必须唯一。</p>
+<p>为了得到更可信的参数，标准偏差或它的乘积可以被加到k上。k的标准偏差定义为：</p>
+<p>$$<br>S D(k)&#x3D;\frac{\sqrt{1-w^n}}{w^n}<br>$$</p>
+<h1 id="优点与缺点"><a href="#优点与缺点" class="headerlink" title="优点与缺点"></a>优点与缺点</h1><p>RANSAC的优点是它能鲁棒的估计模型参数。例如，它能从包含大量局外点的数据集中估计出高精度的参数。</p>
+<p>RANSAC的缺点是它计算参数的迭代次数没有上限；如果设置迭代次数的上限，得到的结果可能不是最优的结果，甚至可能得到错误的结果。RANSAC只有一定的概率得到可信的模型，概率与迭代次数成正比。RANSAC的另一个缺点是它要求设置跟问题相关的阀值。</p>
+<p>RANSAC只能从特定的数据集中估计出一个模型，如果存在两个（或多个）模型，RANSAC不能找到别的模型。如果有多个模型，可以先估算出一个，然后用剩余的数据重新运算，重复这个过程，直到没有模型。</p>
 <blockquote>
-<p>对极约束(E)</p>
+<p>参考文献</p>
 </blockquote>
-<p><img src="/pic/duiji.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xrwang/archive/2011/03/09/ransac-1.html">王先荣RANSAC介绍</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/402727549">RANSAC详解，保姆级教程</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45532306">计算机视觉基本原理</a></p>
 <blockquote>
-<p>基础矩阵</p>
+<p>补充知识</p>
 </blockquote>
-<p><img src="/pic/duiji3.png"></p>
-<blockquote>
-<p>对极约束(F)</p>
-</blockquote>
-<p><img src="/pic/duiji4.png"></p>
+<p><strong>霍夫变换</strong>是一种特征提取(feature extraction)，被广泛应用在图像分析（image analysis）、计算机视觉(computer vision)以及数位影像处理(digital image processing)。霍夫变换是用来辨别找出物件中的特征，例如：线条。他的算法流程大致如下，给定一个物件、要辨别的形状的种类，算法会在参数空间(parameter space)中执行投票来决定物体的形状，而这是由累加空间(accumulator space)里的局部最大值(local maximum)来决定。</p>
+<p>经典的霍夫变换是侦测图片中的直线，之后，霍夫变换不仅能识别直线，也能够识别任何形状，常见的有圆形、椭圆形。1981年，因为DanaH.Ballard的一篇期刊论文”Generalizing the Hough transform to detect arbitrary shapes”，让霍夫变换开始流行于计算机视觉界。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47649796">霍夫变换-神奇的特征提取方法</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/203292567">通俗易懂-霍夫变换原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/386048978">霍夫变换及代码实现</a></p>
 
                 
             </div>
@@ -461,7 +567,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://oceanechy.github.io/2023/03/27/epipolar-geometry/">http://oceanechy.github.io/2023/03/27/epipolar-geometry/</a>
+                    <a href="http://oceanechy.github.io/2023/03/28/ransac/">http://oceanechy.github.io/2023/03/28/ransac/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -499,12 +605,16 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%AF%B9%E6%9E%81%E5%87%A0%E4%BD%95/">
-                                    <span class="chip bg-color">对极几何</span>
+                                <a href="/tags/RANSAC/">
+                                    <span class="chip bg-color">RANSAC</span>
                                 </a>
                             
-                                <a href="/tags/%E5%AF%B9%E6%9E%81%E7%BA%A6%E6%9D%9F/">
-                                    <span class="chip bg-color">对极约束</span>
+                                <a href="/tags/Hough/">
+                                    <span class="chip bg-color">Hough</span>
+                                </a>
+                            
+                                <a href="/tags/Opencv/">
+                                    <span class="chip bg-color">Opencv</span>
                                 </a>
                             
                         </div>
@@ -583,17 +693,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/03/27/image-transformer/">
+                <a href="/2023/03/28/ransac/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="图像变换(image_transformer)">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="RANSAC以及Hough变换原理">
                         
-                        <span class="card-title">图像变换(image_transformer)</span>
+                        <span class="card-title">RANSAC以及Hough变换原理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -603,26 +714,35 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-28
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/cs231A/" class="post-category">
-                                    cs231A
+                            <a href="/categories/Opencv/" class="post-category">
+                                    Opencv
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/transformer/">
-                        <span class="chip bg-color">transformer</span>
+                    <a href="/tags/RANSAC/">
+                        <span class="chip bg-color">RANSAC</span>
+                    </a>
+                    
+                    <a href="/tags/Hough/">
+                        <span class="chip bg-color">Hough</span>
+                    </a>
+                    
+                    <a href="/tags/Opencv/">
+                        <span class="chip bg-color">Opencv</span>
                     </a>
                     
                 </div>
@@ -636,33 +756,29 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/26/git/">
+                <a href="/2023/03/27/slam/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Git 基础用法">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="视觉及其融合惯性SLAM技术发展综述">
                         
-                        <span class="card-title">Git 基础用法</span>
+                        <span class="card-title">视觉及其融合惯性SLAM技术发展综述</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Git是目前世界上最先进的分布式版本控制系统（没有之一），Git版本控制系统是一个分布式的系统,是用来保存工程源代码历史状态(游戏存档)的命令行工具，它是是一个命令行（小黑窗）工具，用于版本控制（存档器），高端大气上档次
+                            
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-26
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-27
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/git/" class="post-category">
-                                    git
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            oceanechy
                             
                         </span>
                     </div>
@@ -670,8 +786,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/git%E5%9F%BA%E7%A1%80/">
-                        <span class="chip bg-color">git基础</span>
+                    <a href="/tags/slam/">
+                        <span class="chip bg-color">slam</span>
                     </a>
                     
                 </div>
