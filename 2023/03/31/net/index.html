@@ -4,8 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="视觉及其融合惯性SLAM技术发展综述, Ocean">
-    <meta name="description" content="SLAM技术同步定位与建图（Simultaneous Localization and Mapping，简称SLAM）问题可以描述为：机器人在未知环境中从一个未知位置开始移动,在移动过程中根据位置和地图进行自身定位，同时在自身定位的基础上建">
+    <meta name="keywords" content="服务器开发与工具使用（vscode,anaconda,DL等）, Ocean">
+    <meta name="description" content="服务器首先拥有一个属于自己的服务器账号，包括服务器ip，端口，用户名以及密码等。
+接着，需要安装ssh,一般linux系统都自带ssh，windows一般自带ssh客户端。如未安装，可查看以下教程安装
+ssh安装与配置，详解版
+Window">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>视觉及其融合惯性SLAM技术发展综述 | Ocean</title>
+    <title>服务器开发与工具使用（vscode,anaconda,DL等） | Ocean</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -312,12 +315,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">视觉及其融合惯性SLAM技术发展综述</h1>
+                    <h1 class="description center-align post-title">服务器开发与工具使用（vscode,anaconda,DL等）</h1>
                 </div>
             </div>
         </div>
@@ -341,14 +344,43 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/slam/">
-                                <span class="chip bg-color">slam</span>
+                            <a href="/tags/net/">
+                                <span class="chip bg-color">net</span>
+                            </a>
+                        
+                            <a href="/tags/ssh/">
+                                <span class="chip bg-color">ssh</span>
+                            </a>
+                        
+                            <a href="/tags/DL/">
+                                <span class="chip bg-color">DL</span>
+                            </a>
+                        
+                            <a href="/tags/vscode/">
+                                <span class="chip bg-color">vscode</span>
+                            </a>
+                        
+                            <a href="/tags/anaconda/">
+                                <span class="chip bg-color">anaconda</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/net/" class="post-category">
+                                net
+                            </a>
+                        
+                            <a href="/categories/net/DL/" class="post-category">
+                                DL
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -357,7 +389,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-27
+                    2023-03-31
                 </div>
                 
 
@@ -366,14 +398,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    446
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    3 分
                 </div>
                 
 
@@ -396,28 +428,57 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="SLAM技术"><a href="#SLAM技术" class="headerlink" title="SLAM技术"></a>SLAM技术</h1><p>同步定位与建图（Simultaneous Localization and Mapping，简称SLAM）问题可以描述为：机器人在未知环境中从一个未知位置开始移动,在移动过程中根据位置和地图进行自身定位，同时在自身定位的基础上建造增量式地图，实现机器人的自主定位和导航。</p>
-<blockquote>
-<p>SLAM 技术主要呈现以下 3 点发展趋势。</p>
-</blockquote>
+                <h1 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h1><p>首先拥有一个属于自己的服务器账号，包括服务器ip，端口，用户名以及密码等。</p>
+<p>接着，需要安装ssh,一般linux系统都自带ssh，windows一般自带ssh客户端。如未安装，可查看以下教程安装</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_50964512/article/details/123588745">ssh安装与配置，详解版</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33594636/article/details/128849482">Windows安装和启动SSH服务</a></p>
+<h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><p><strong>xftp7以及xshell7的安装</strong></p>
 <ul>
-<li>理论优化改进：由于应用场景需求的多样化，结合惯性、异源图像等多传感器的信息融合模式成为 SLAM 主流，促进了以紧耦合为主的信息融合理论发展，而随着大场景 SLAM 应用需求及图优化理论的推进，逐步形成了<strong>基于扩展卡尔曼滤波</strong>框架的改进滤波器优化架构，和以<strong>光束法平差（BA）</strong>为主的非线性优化架构两种研究趋势。</li>
-<li>新型技术引入：随着<strong>深度学习</strong>技术在计算机视觉中的广泛应用，视觉 SLAM 呈现出由传统几何变换方式逐步转向结合深度学习的智能融合趋势。一方面<strong>视觉图像与语义信息</strong>的紧密联系，使得集成语义信息的视觉 SLAM 得到更多探索；另一方面为减少对传统方式依赖，利用<strong>神经网络架构</strong>替代 SLAM 的部分模块或端到端<strong>强化学习</strong>的模式得以广泛研究。</li>
-<li>应用领域推广：视觉 SLAM 目前在<em>智能家居、自动驾驶、无人机</em>等领域得到了不同层次的应用，随着硬件性能的提升，视觉 SLAM</li>
+<li><p>Xftp7是一个功能强大但轻量级的SFTP&#x2F;FTP客户机，用于需要在网络上安全地传输文件的用户。通过使用 拖放、直接编辑、增强的同步、传输调度和更直观的选项卡界面等特性，文件传输得到了简化。</p>
+</li>
+<li><p>Xshell 是一个强大的安全终端模拟软件，它支持SSH1、SHH2、以及 Microsoft Windows 平台的TELNET协议。Xshell 通过互联网到远程主机的安全连接以及它创新性的设计和特色帮助用户在复杂的网络环境中享受他们的工作。</p>
+</li>
+<li><p>Xshell 可以在 Windows 界面下用来访问远端不同系统下的服务器，从而比较好的达到远程控制终端的目的。除此之外，其还有丰富的外观配色方案以及样式选择。</p>
+</li>
 </ul>
-<p><img src="/pic/%E5%9B%BE%E7%89%871.png" alt="视觉、惯性SLAM系统框架结构"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%872.png" alt="视觉SLAM构建地图类型"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%873.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%874.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%875.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%876.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%877.png" alt="标准视觉SLAM Pipeline"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%878.png" alt="极具影响力的视觉SLAM方法"></p>
+<p>下载需要填个邮箱，之后它会给你的邮箱发个下载链接，点击下载链接安装即可。</p>
+<p><a target="_blank" rel="noopener" href="https://www.xshell.com/zh/free-for-home-school/">学生版下载网址</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.xshell.com/">官网网址</a></p>
+<p><strong>vscode软件安装</strong></p>
+<p>Visual Studio Code 简称 VSCode ，2015 年由微软公司发布。</p>
+<p>可用于 Windows，macOS 和 Linux。它具有对 JavaScript，TypeScript 和 Node.js 的内置支持，并具有丰富的其他语言（例如 C++，C＃，Java，Python，PHP，Go</p>
+<p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">vscode下载官网</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44950987/article/details/128129613">vscode安装教程</a></p>
+<p><strong>vscode链接远程服务器</strong></p>
+<p>在vscode软件里安装插件<em><strong>Remote-SSH</strong></em>，安装完成后需要添加服务器连接配置，具体操作如下链接：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhaxun/article/details/120568402">vscode连接远程服务器</a></p>
 <blockquote>
-<p>VSLAM 常用数据集：表内的GT 是指真值的可用性</p>
+<p>总结：xftp7用来传数据，xshell7与vscode都可以通过命令行形式对远程服务器进行操控，其中vscode依靠它强大的性能可以直接对服务器中个人程序进行图形化编写，运行，调试等</p>
 </blockquote>
-<p><img src="/pic/%E5%9B%BE%E7%89%879.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%8710.png" alt="各种论文中用于评估的一些主流视觉SLAM数据集的实例"></p>
+<h1 id="服务器中开发环境配置"><a href="#服务器中开发环境配置" class="headerlink" title="服务器中开发环境配置"></a>服务器中开发环境配置</h1><h2 id="Anaconda-x2F-miniconda安装"><a href="#Anaconda-x2F-miniconda安装" class="headerlink" title="Anaconda&#x2F;miniconda安装"></a>Anaconda&#x2F;miniconda安装</h2><p>对于需要进行深度学习的同学，需要安装Anaconda以管理自己的服务器环境，对于本实验室的服务器，可直接访问&#x2F;share&#x2F;software来获得此前下载过的Anaconda各版本</p>
+<p>如果想自己安装不同版本的anaconda，请查看如下教程：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32925500">Anaconda介绍，安装及使用教程</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42257666/article/details/121383450">anaconda安装配置教程</a></p>
+<p><strong>conda是Anaconda提供的一个管理版本和Python环境的工具，我们一般都使用它创建虚拟环境，能够隔离不同的Python软件包环境，也不会影响到其他用户。强烈建议每个用户单独将它安装在用户目录用于Python环境管理。不建议使用系统自带的Python环境。</strong></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/537439636">conda的使用,创建虚拟环境</a></p>
+<p>安装完成之后，可以替换镜像源为清华源，安装软件包时速度一般能更快，换源教程如下：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43115981/article/details/129064657">anaconda换源</a></p>
+<h2 id="在自己创建的虚拟环境中安装PyTorch"><a href="#在自己创建的虚拟环境中安装PyTorch" class="headerlink" title="在自己创建的虚拟环境中安装PyTorch"></a>在自己创建的虚拟环境中安装PyTorch</h2><p>参照官网，选择好对应的cuda版本和python语言以及linux系统即可。</p>
+<p>注意使用conda安装时，会自动安装cudatoolkit与cudnn，</p>
+<p><a target="_blank" rel="noopener" href="https://pytorch.org/">pytorch官网</a></p>
+<p><a target="_blank" rel="noopener" href="https://pytorch.org/get-started/previous-versions/">pytorch以往版本</a></p>
+<p>安装好pytorch后，就可以开始自己的深度学习编程之旅了~~~</p>
+<h1 id="深度学习教程"><a href="#深度学习教程" class="headerlink" title="深度学习教程"></a>深度学习教程</h1><p>这里推荐一些深度学习教程</p>
+<p><a target="_blank" rel="noopener" href="https://zh-v2.d2l.ai/">动手学深度学习</a></p>
+<p><a href="hhttps://www.bilibili.com/video/BV1FT4y1E74V/?p=3&vd_source=c3ce2553ecbf3f37d2f4be6f466233fa">吴恩达深度学习</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1nJ411z7fe/?spm_id_from=333.337.search-card.all.click&vd_source=c3ce2553ecbf3f37d2f4be6f466233fa">斯坦福李飞飞cs231n计算机视觉课程【附中文字幕】</a></p>
+<p>强烈推荐B站UP主：<a target="_blank" rel="noopener" href="https://space.bilibili.com/18161609/channel/series">霹雳吧啦Wz</a></p>
+<p>他对深度学习基础的网络进行了详细的讲解并附上源码，包括图像分类、语义分割、关键点检测、目标检测，实例分割等，强烈推荐学习</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/WZMIAOMIAO/deep-learning-for-image-processing">源码地址</a></p>
+<p>另外推荐一些开源的深度学习开源工具箱，零基础上手就可以跑起来</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/open-mmlab">OpenMMLab 平台</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/open-mmlab/mmdetection">MMDetection基于 PyTorch 的目标检测开源工具箱</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/open-mmlab/mmyolo">mmyolo基于 PyTorch 和 MMDetection 的 YOLO 系列算法开源工具箱</a></p>
 
                 
             </div>
@@ -444,7 +505,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://oceanechy.github.io/2023/03/27/slam/">http://oceanechy.github.io/2023/03/27/slam/</a>
+                    <a href="http://oceanechy.github.io/2023/03/31/net/">http://oceanechy.github.io/2023/03/31/net/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -482,8 +543,24 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/slam/">
-                                    <span class="chip bg-color">slam</span>
+                                <a href="/tags/net/">
+                                    <span class="chip bg-color">net</span>
+                                </a>
+                            
+                                <a href="/tags/ssh/">
+                                    <span class="chip bg-color">ssh</span>
+                                </a>
+                            
+                                <a href="/tags/DL/">
+                                    <span class="chip bg-color">DL</span>
+                                </a>
+                            
+                                <a href="/tags/vscode/">
+                                    <span class="chip bg-color">vscode</span>
+                                </a>
+                            
+                                <a href="/tags/anaconda/">
+                                    <span class="chip bg-color">anaconda</span>
                                 </a>
                             
                         </div>
@@ -562,17 +639,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/03/28/ransac/">
+                <a href="/2023/03/31/net/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="RANSAC、LMEDS以及Hough变换原理">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="服务器开发与工具使用（vscode,anaconda,DL等）">
                         
-                        <span class="card-title">RANSAC、LMEDS以及Hough变换原理</span>
+                        <span class="card-title">服务器开发与工具使用（vscode,anaconda,DL等）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -582,38 +660,47 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-28
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-31
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Opencv/" class="post-category">
-                                    Opencv
+                            <a href="/categories/net/" class="post-category">
+                                    net
+                                </a>
+                            
+                            <a href="/categories/net/DL/" class="post-category">
+                                    DL
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/RANSAC/">
-                        <span class="chip bg-color">RANSAC</span>
+                    <a href="/tags/net/">
+                        <span class="chip bg-color">net</span>
                     </a>
                     
-                    <a href="/tags/LMEDS/">
-                        <span class="chip bg-color">LMEDS</span>
+                    <a href="/tags/ssh/">
+                        <span class="chip bg-color">ssh</span>
                     </a>
                     
-                    <a href="/tags/Hough/">
-                        <span class="chip bg-color">Hough</span>
+                    <a href="/tags/DL/">
+                        <span class="chip bg-color">DL</span>
                     </a>
                     
-                    <a href="/tags/Opencv/">
-                        <span class="chip bg-color">Opencv</span>
+                    <a href="/tags/vscode/">
+                        <span class="chip bg-color">vscode</span>
+                    </a>
+                    
+                    <a href="/tags/anaconda/">
+                        <span class="chip bg-color">anaconda</span>
                     </a>
                     
                 </div>
@@ -627,13 +714,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/27/image-transformer/">
+                <a href="/2023/03/30/ros/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="图像变换(image_transformer)">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="ROS介绍及快速体验">
                         
-                        <span class="card-title">图像变换(image_transformer)</span>
+                        <span class="card-title">ROS介绍及快速体验</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -644,14 +731,18 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-30
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/cs231A/" class="post-category">
-                                    cs231A
+                            <a href="/categories/ROS/" class="post-category">
+                                    ROS
+                                </a>
+                            
+                            <a href="/categories/ROS/c/" class="post-category">
+                                    c++
                                 </a>
                             
                             
@@ -661,12 +752,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/transformer/">
-                        <span class="chip bg-color">transformer</span>
+                    <a href="/tags/ros/">
+                        <span class="chip bg-color">ros</span>
                     </a>
                     
-                    <a href="/tags/opencv/">
-                        <span class="chip bg-color">opencv</span>
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
                     </a>
                     
                 </div>

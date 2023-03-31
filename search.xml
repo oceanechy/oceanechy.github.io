@@ -4,6 +4,41 @@
   
     
     <entry>
+      <title>服务器开发与工具使用（vscode,anaconda,DL等）</title>
+      <link href="/2023/03/31/net/"/>
+      <url>/2023/03/31/net/</url>
+      
+        <content type="html"><![CDATA[<h1 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h1><p>首先拥有一个属于自己的服务器账号，包括服务器ip，端口，用户名以及密码等。</p><p>接着，需要安装ssh,一般linux系统都自带ssh，windows一般自带ssh客户端。如未安装，可查看以下教程安装</p><p><a href="https://blog.csdn.net/weixin_50964512/article/details/123588745">ssh安装与配置，详解版</a></p><p><a href="https://blog.csdn.net/qq_33594636/article/details/128849482">Windows安装和启动SSH服务</a></p><h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><p><strong>xftp7以及xshell7的安装</strong></p><ul><li><p>Xftp7是一个功能强大但轻量级的SFTP&#x2F;FTP客户机，用于需要在网络上安全地传输文件的用户。通过使用 拖放、直接编辑、增强的同步、传输调度和更直观的选项卡界面等特性，文件传输得到了简化。</p></li><li><p>Xshell 是一个强大的安全终端模拟软件，它支持SSH1、SHH2、以及 Microsoft Windows 平台的TELNET协议。Xshell 通过互联网到远程主机的安全连接以及它创新性的设计和特色帮助用户在复杂的网络环境中享受他们的工作。</p></li><li><p>Xshell 可以在 Windows 界面下用来访问远端不同系统下的服务器，从而比较好的达到远程控制终端的目的。除此之外，其还有丰富的外观配色方案以及样式选择。</p></li></ul><p>下载需要填个邮箱，之后它会给你的邮箱发个下载链接，点击下载链接安装即可。</p><p><a href="https://www.xshell.com/zh/free-for-home-school/">学生版下载网址</a></p><p><a href="https://www.xshell.com/">官网网址</a></p><p><strong>vscode软件安装</strong></p><p>Visual Studio Code 简称 VSCode ，2015 年由微软公司发布。</p><p>可用于 Windows，macOS 和 Linux。它具有对 JavaScript，TypeScript 和 Node.js 的内置支持，并具有丰富的其他语言（例如 C++，C＃，Java，Python，PHP，Go</p><p><a href="https://code.visualstudio.com/">vscode下载官网</a></p><p><a href="https://blog.csdn.net/weixin_44950987/article/details/128129613">vscode安装教程</a></p><p><strong>vscode链接远程服务器</strong></p><p>在vscode软件里安装插件<em><strong>Remote-SSH</strong></em>，安装完成后需要添加服务器连接配置，具体操作如下链接：</p><p><a href="https://blog.csdn.net/zhaxun/article/details/120568402">vscode连接远程服务器</a></p><blockquote><p>总结：xftp7用来传数据，xshell7与vscode都可以通过命令行形式对远程服务器进行操控，其中vscode依靠它强大的性能可以直接对服务器中个人程序进行图形化编写，运行，调试等</p></blockquote><h1 id="服务器中开发环境配置"><a href="#服务器中开发环境配置" class="headerlink" title="服务器中开发环境配置"></a>服务器中开发环境配置</h1><h2 id="Anaconda-x2F-miniconda安装"><a href="#Anaconda-x2F-miniconda安装" class="headerlink" title="Anaconda&#x2F;miniconda安装"></a>Anaconda&#x2F;miniconda安装</h2><p>对于需要进行深度学习的同学，需要安装Anaconda以管理自己的服务器环境，对于本实验室的服务器，可直接访问&#x2F;share&#x2F;software来获得此前下载过的Anaconda各版本</p><p>如果想自己安装不同版本的anaconda，请查看如下教程：</p><p><a href="https://zhuanlan.zhihu.com/p/32925500">Anaconda介绍，安装及使用教程</a></p><p><a href="https://blog.csdn.net/qq_42257666/article/details/121383450">anaconda安装配置教程</a></p><p><strong>conda是Anaconda提供的一个管理版本和Python环境的工具，我们一般都使用它创建虚拟环境，能够隔离不同的Python软件包环境，也不会影响到其他用户。强烈建议每个用户单独将它安装在用户目录用于Python环境管理。不建议使用系统自带的Python环境。</strong></p><p><a href="https://zhuanlan.zhihu.com/p/537439636">conda的使用,创建虚拟环境</a></p><p>安装完成之后，可以替换镜像源为清华源，安装软件包时速度一般能更快，换源教程如下：</p><p><a href="https://blog.csdn.net/qq_43115981/article/details/129064657">anaconda换源</a></p><h2 id="在自己创建的虚拟环境中安装PyTorch"><a href="#在自己创建的虚拟环境中安装PyTorch" class="headerlink" title="在自己创建的虚拟环境中安装PyTorch"></a>在自己创建的虚拟环境中安装PyTorch</h2><p>参照官网，选择好对应的cuda版本和python语言以及linux系统即可。</p><p>注意使用conda安装时，会自动安装cudatoolkit与cudnn，</p><p><a href="https://pytorch.org/">pytorch官网</a></p><p><a href="https://pytorch.org/get-started/previous-versions/">pytorch以往版本</a></p><p>安装好pytorch后，就可以开始自己的深度学习编程之旅了~~~</p><h1 id="深度学习教程"><a href="#深度学习教程" class="headerlink" title="深度学习教程"></a>深度学习教程</h1><p>这里推荐一些深度学习教程</p><p><a href="https://zh-v2.d2l.ai/">动手学深度学习</a></p><p><a href="hhttps://www.bilibili.com/video/BV1FT4y1E74V/?p=3&vd_source=c3ce2553ecbf3f37d2f4be6f466233fa">吴恩达深度学习</a></p><p><a href="https://www.bilibili.com/video/BV1nJ411z7fe/?spm_id_from=333.337.search-card.all.click&vd_source=c3ce2553ecbf3f37d2f4be6f466233fa">斯坦福李飞飞cs231n计算机视觉课程【附中文字幕】</a></p><p>强烈推荐B站UP主：<a href="https://space.bilibili.com/18161609/channel/series">霹雳吧啦Wz</a></p><p>他对深度学习基础的网络进行了详细的讲解并附上源码，包括图像分类、语义分割、关键点检测、目标检测，实例分割等，强烈推荐学习</p><p><a href="https://github.com/WZMIAOMIAO/deep-learning-for-image-processing">源码地址</a></p><p>另外推荐一些开源的深度学习开源工具箱，零基础上手就可以跑起来</p><p><a href="https://github.com/open-mmlab">OpenMMLab 平台</a></p><p><a href="https://github.com/open-mmlab/mmdetection">MMDetection基于 PyTorch 的目标检测开源工具箱</a></p><p><a href="https://github.com/open-mmlab/mmyolo">mmyolo基于 PyTorch 和 MMDetection 的 YOLO 系列算法开源工具箱</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> net </category>
+          
+          <category> DL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> net </tag>
+            
+            <tag> ssh </tag>
+            
+            <tag> DL </tag>
+            
+            <tag> vscode </tag>
+            
+            <tag> anaconda </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ROS介绍及快速体验</title>
       <link href="/2023/03/30/ros/"/>
       <url>/2023/03/30/ros/</url>
