@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="视觉及其融合惯性SLAM技术发展综述, Ocean">
-    <meta name="description" content="视觉及其融合惯性的 SLAM 技术发展综述">
+    <meta name="keywords" content="slam14讲源代码的记录, Ocean">
+    <meta name="description" content="记录slam14讲源代码中的一些东西">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>视觉及其融合惯性SLAM技术发展综述 | Ocean</title>
+    <title>slam14讲源代码的记录 | Ocean</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -312,12 +312,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">视觉及其融合惯性SLAM技术发展综述</h1>
+                    <h1 class="description center-align post-title">slam14讲源代码的记录</h1>
                 </div>
             </div>
         </div>
@@ -350,6 +350,15 @@
                 </div>
                 <div class="col s5 right-align">
                     
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/slam/" class="post-category">
+                                slam
+                            </a>
+                        
+                    </div>
+                    
                 </div>
             </div>
 
@@ -357,7 +366,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-27
+                    2023-04-04
                 </div>
                 
 
@@ -366,14 +375,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    446
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    9 分
                 </div>
                 
 
@@ -396,28 +405,238 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="SLAM技术"><a href="#SLAM技术" class="headerlink" title="SLAM技术"></a>SLAM技术</h1><p>同步定位与建图（Simultaneous Localization and Mapping，简称SLAM）问题可以描述为：机器人在未知环境中从一个未知位置开始移动,在移动过程中根据位置和地图进行自身定位，同时在自身定位的基础上建造增量式地图，实现机器人的自主定位和导航。</p>
+                <h2 id="第二讲"><a href="#第二讲" class="headerlink" title="第二讲"></a>第二讲</h2><p>本讲主要是cmake的使用以及一些库的链接方式</p>
+<pre class="line-numbers language-cmake" data-language="cmake"><code class="language-cmake"><span class="token comment">#声明cmake的最低版本</span>
+<span class="token keyword">cmake_minimum_required</span><span class="token punctuation">(</span><span class="token property">VERSION</span> <span class="token number">2.8</span><span class="token punctuation">)</span>
+
+<span class="token comment">#声明一个cmake工程</span>
+<span class="token keyword">project</span><span class="token punctuation">(</span>HelloSLAM<span class="token punctuation">)</span>
+
+<span class="token comment">#设置编译模式</span>
+<span class="token keyword">set</span><span class="token punctuation">(</span><span class="token variable">CMAKE_BUILD_TYPE</span><span class="token string">"Debug"</span><span class="token punctuation">)</span>
+
+<span class="token comment">#添加可执行程序</span>
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span>helloSLAM helloSLAM.cpp<span class="token punctuation">)</span>
+
+
+<span class="token comment">#下一部分</span>
+<span class="token comment">#添加库文件</span>
+
+<span class="token keyword">add_library</span><span class="token punctuation">(</span>hello <span class="token namespace">STATIC</span> libHelloSLAM.cpp<span class="token punctuation">)</span>   <span class="token comment">#静态链接库,会生成.a文件,可默认不加STATIC或者SHARED</span>
+
+<span class="token comment"># add_library(hello_shared SHARED libHelloSLAM.cpp)  #动态链接库，会生成.so文件</span>
+
+<span class="token keyword">add_executable</span><span class="token punctuation">(</span>useHello useHello.cpp<span class="token punctuation">)</span>
+
+<span class="token keyword">target_link_libraries</span><span class="token punctuation">(</span>useHello hello<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/pic/11.jpg"></p>
+<p><img src="/pic/12.jpg"></p>
+<p><a target="_blank" rel="noopener" href="https://cmake.org/cmake/help/latest/genindex.html#">CMake指令查询网址</a></p>
 <blockquote>
-<p>SLAM 技术主要呈现以下 3 点发展趋势。</p>
+<p>补充</p>
 </blockquote>
-<ul>
-<li>理论优化改进：由于应用场景需求的多样化，结合惯性、异源图像等多传感器的信息融合模式成为 SLAM 主流，促进了以紧耦合为主的信息融合理论发展，而随着大场景 SLAM 应用需求及图优化理论的推进，逐步形成了<strong>基于扩展卡尔曼滤波</strong>框架的改进滤波器优化架构，和以<strong>光束法平差（BA）</strong>为主的非线性优化架构两种研究趋势。</li>
-<li>新型技术引入：随着<strong>深度学习</strong>技术在计算机视觉中的广泛应用，视觉 SLAM 呈现出由传统几何变换方式逐步转向结合深度学习的智能融合趋势。一方面<strong>视觉图像与语义信息</strong>的紧密联系，使得集成语义信息的视觉 SLAM 得到更多探索；另一方面为减少对传统方式依赖，利用<strong>神经网络架构</strong>替代 SLAM 的部分模块或端到端<strong>强化学习</strong>的模式得以广泛研究。</li>
-<li>应用领域推广：视觉 SLAM 目前在<em>智能家居、自动驾驶、无人机</em>等领域得到了不同层次的应用，随着硬件性能的提升，视觉 SLAM</li>
-</ul>
-<p><img src="/pic/%E5%9B%BE%E7%89%871.png" alt="视觉、惯性SLAM系统框架结构"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%872.png" alt="视觉SLAM构建地图类型"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%873.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%874.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%875.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%876.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%877.png" alt="标准视觉SLAM Pipeline"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%878.png" alt="极具影响力的视觉SLAM方法"></p>
+<p>添加头文件include_directories()可使用具体路径，例如：</p>
+<p>#添加Eigen头文件<br>include_directories(“&#x2F;usr&#x2F;include&#x2F;eigen3”)</p>
+<p>静态库<br>• 原理:在编译时将源代码复制到程序中，运行时不用库文件依旧可以运行。<br>• 优点:运行已有代码，运行时不用再用库;无需加载库，运行更快<br>• 缺点:占用更多的空间和磁盘;静态库升级，需要重新编译程序<br>共享库(常用)<br>• 原理:编译时仅仅是记录用哪一个库里面的哪一个符号，不复制相关代码<br>• 优点:不复制代码，占用空间小;多个程序可以同时调用一个库;升级方便，无需重新编译 • 缺点:程序运行需要加载库，耗费一定时间</p>
+<table>
+<thead>
+<tr>
+<th align="center">操作系统</th>
+<th align="center">静态库</th>
+<th align="center">共享库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Windows</td>
+<td align="center">lib</td>
+<td align="center">.dll</td>
+</tr>
+<tr>
+<td align="center">Linux</td>
+<td align="center">.a</td>
+<td align="center">.so</td>
+</tr>
+<tr>
+<td align="center">Mac OS</td>
+<td align="center">.a</td>
+<td align="center">dylib</td>
+</tr>
+</tbody></table>
+<h2 id="第三讲"><a href="#第三讲" class="headerlink" title="第三讲"></a>第三讲</h2><p>第三讲主要是三维空间刚体运动</p>
+<p><strong>Eigen库的使用</strong></p>
+<h3 id="eigenMatrix-cpp中的需要记住的"><a href="#eigenMatrix-cpp中的需要记住的" class="headerlink" title="eigenMatrix.cpp中的需要记住的"></a>eigenMatrix.cpp中的需要记住的</h3><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+using namespace Eigen;
+
+Vector3d v_3d;      &#x2F;&#x2F;实际上是MAtrix&lt;double,3,1&gt;
+Matrix3d matrix_33&#x3D;Matrix3d::Zero();&#x2F;&#x2F; Eigen::Matrix&lt;double, 3, 3&gt;
+
+Matrix&lt;float,2,3&gt; matrix_23;
+&#x2F;&#x2F;可以直接这样输入数据
+matrix_23&lt;&lt;1,2,3,4,5,6;
+
+&#x2F;&#x2F;相乘不能混用，需要显式转换
+Matrix&lt;double,2,1&gt; result &#x3D;matrix_23.cast&lt;double&gt;()*v_3d;
+
+matrix_33.transpose()；&#x2F;&#x2F;转置
+matrix_33.trace()&#x2F;&#x2F;迹
+matrix_33.inverse() ;&#x2F;&#x2F;求逆
+matrix_33.determinant();&#x2F;&#x2F;求行列式
+
+&#x2F;&#x2F;实对称矩阵一定可以对角化
+SelfAdjointEigenSolver&lt;Matrix3d&gt; eigen_solver(matrix_33.transpose()*matrix_33);
+eigen_solver.eigenvalues()；&#x2F;&#x2F;特征值
+eigen_solver.eigenvectors()；&#x2F;&#x2F;特征向量
+
+&#x2F;&#x2F;求解 matrix_NN * x &#x3D; v_Nd 这个方程.QR分解
+x&#x3D;matrix_NN.colPivHouseholderQr().solve(v_Nd);
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="eigenGeometry-cpp中"><a href="#eigenGeometry-cpp中" class="headerlink" title="eigenGeometry.cpp中"></a>eigenGeometry.cpp中</h3><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">Matrix3d rotation_matrix&#x3D;Matrix3d::Identity();&#x2F;&#x2F;单位阵,旋转矩阵
+
+AngleAxisd rotation_vector(M_PI&#x2F;4,Vector3d(0,0,1));&#x2F;&#x2F;旋转向量，使用的AngleAxisd
+&#x2F;&#x2F;旋转角以及旋转轴
+cout &lt;&lt; &quot;rotation_vector&quot; &lt;&lt; &quot;angle is: &quot; &lt;&lt; rotation_vector.angle() * (180 &#x2F; M_PI) 
+                                &lt;&lt; &quot; axis is: &quot; &lt;&lt; rotation_vector.axis().transpose() &lt;&lt; endl;
+
+&#x2F;&#x2F;旋转向量变旋转矩阵
+rotation_matrix &#x3D; rotation_vector.toRotationMatrix();
+&#x2F;&#x2F;旋转矩阵变旋转向量
+rotation_vector.fromRotationMatrix(rotation_matrix);
+
+&#x2F;&#x2F; 欧拉角: 可以将旋转矩阵直接转换成欧拉角
+Vector3d euler_angles &#x3D; rotation_matrix.eulerAngles(2, 1, 0); &#x2F;&#x2F; ZYX顺序，即yaw-pitch-roll顺序
+
+&#x2F;&#x2F;欧式变换使用Isometry,这里注意需要使用头文件 #include&lt;Eigen&#x2F;Geometry&gt;
+  Isometry3d T &#x3D; Isometry3d::Identity();                &#x2F;&#x2F; 虽然称为3d，实质上是4＊4的矩阵
+  T.rotate(rotation_vector);                                     &#x2F;&#x2F; 按照rotation_vector进行旋转
+  T.pretranslate(Vector3d(1, 3, 4));                     &#x2F;&#x2F; 把平移向量设成(1,3,4)
+  cout &lt;&lt; &quot;Transform matrix &#x3D; \n&quot; &lt;&lt; T.matrix() &lt;&lt; endl;
+
+&#x2F;&#x2F;四元数:拥有一个实部，3个虚部，Quaterniond是（s(q0),q1,q2,q3）
+Quaterniond q&#x3D;Quaterniond(rotation_vector);
+cout &lt;&lt; &quot;quaternion from rotation vector &#x3D; &quot; &lt;&lt; q.coeffs().transpose()&lt;&lt; endl; 
+  &#x2F;&#x2F; 请注意coeffs的顺序是(x,y,z,w),w为实部，前三者为虚部<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="plotTrajectory-cpp中需要注意的"><a href="#plotTrajectory-cpp中需要注意的" class="headerlink" title="plotTrajectory.cpp中需要注意的"></a>plotTrajectory.cpp中需要注意的</h3><p>使用ifstream流来读取文件</p>
+<p>说明：</p>
+<p>1.ifstream类的对象创建成功的时候会返回非空值，借此判断是否创建文件对象成功</p>
+<p>2.ifstream有个函数eof()用来判断文件是否读到尾部,没读到尾部返回false，否则返回true。</p>
+<p>若尾部有回车，那么最后一条记录会读取两次。</p>
+<p>若尾部没有回车，那么最后一条记录只会读取一次</p>
+<p>3.iftream的对象假设为fin，fin在读取数据的时候会根据你的输出对象来选择输出的方式。</p>
+<p>例程</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;fstream&gt;
+using namespace std;
+
+int main()
+&#123;
+	ifstream fin(&quot;abc.txt&quot;);&#x2F;&#x2F;读取文件的名字，可以相对或绝对
+	if(!fin) 
+	&#123;
+		cout&lt;&lt;&quot;open fail.&quot;&lt;&lt;endl;
+		exit(1);
+	&#125;
+	else&#123;
+		while(!fin.eof())
+		&#123;
+			char a[20],b[20],c[20];
+			fin&gt;&gt;a&gt;&gt;b&gt;&gt;c;&#x2F;&#x2F;读取的时候遇见空格才会跳跃。
+			cout&lt;&lt;a&lt;&lt;&quot;	&quot;&lt;&lt;b&lt;&lt;&quot;  &quot;&lt;&lt;c&lt;&lt;&quot;  &quot;&lt;&lt;endl;
+		&#125;
+		fin.close();
+	&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果STL容器中的元素是Eigen库数据结构，例如这里定义一个vector容器，元素是Matrix4d ，如下所示：</p>
 <blockquote>
-<p>VSLAM 常用数据集：表内的GT 是指真值的可用性</p>
+<p>vector<a href="Eigen::Matrix4d">Eigen::Matrix4d</a></p>
 </blockquote>
-<p><img src="/pic/%E5%9B%BE%E7%89%879.png"></p>
-<p><img src="/pic/%E5%9B%BE%E7%89%8710.png" alt="各种论文中用于评估的一些主流视觉SLAM数据集的实例"></p>
+<p>这个错误也是和上述一样的提示，编译不会出错，只有在运行的时候出错。解决的方法很简单，定义改成下面的方式：</p>
+<blockquote>
+<p>vector&lt;Eigen::Matrix4d,Eigen::aligned_allocator<a href="Eigen::Matrix4d">Eigen::Matrix4d</a>&gt;;</p>
+</blockquote>
+<p>其实上述的这段代码才是标准的定义容器方法，只是我们一般情况下定义容器的元素都是C++中的类型，所以可以省略，这是因为在C++11标准中，aligned_allocator管理C++中的各种数据类型的内存方法是一样的，可以不需要着重写出来。但是在Eigen管理内存和C++11中的方法是不一样的，所以需要单独强调元素的内存分配和管理。</p>
+<p>对于轨迹文件的处理过程如下：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">while (!fin.eof()) &#123;
+  double time, tx, ty, tz, qx, qy, qz, qw;
+  fin &gt;&gt; time &gt;&gt; tx &gt;&gt; ty &gt;&gt; tz &gt;&gt; qx &gt;&gt; qy &gt;&gt; qz &gt;&gt; qw;
+  Isometry3d Twr(Quaterniond(qw, qx, qy, qz)); &#x2F;&#x2F; 对比旋转向量的T.rotate(rotation_vector);            &#x2F;&#x2F; 按照rotation_vector进行旋转
+  Twr.pretranslate(Vector3d(tx, ty, tz));
+  poses.push_back(Twr);
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41756645/article/details/122958689">旋转矩阵、变换矩阵、欧式变换</a></p>
+<h2 id="第四讲"><a href="#第四讲" class="headerlink" title="第四讲"></a>第四讲</h2><p>主要是李群以及李代数，Sophus的使用</p>
+<p>ch4&#x2F;useSophus.cpp中</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;李群的表示
+  &#x2F;&#x2F; 沿Z轴转90度的旋转矩阵
+  Matrix3d R &#x3D; AngleAxisd(M_PI &#x2F; 2, Vector3d(0, 0, 1)).toRotationMatrix();
+  &#x2F;&#x2F; 或者四元数
+  Quaterniond q(R);
+  Sophus::SO3d SO3_R(R);              &#x2F;&#x2F; Sophus::SO3d可以直接从旋转矩阵构造
+  Sophus::SO3d SO3_q(q);              &#x2F;&#x2F; 也可以通过四元数构造
+
+    &#x2F;&#x2F; 对SE(3)操作大同小异
+  Vector3d t(1, 0, 0);           &#x2F;&#x2F; 沿X轴平移1
+  Sophus::SE3d SE3_Rt(R, t);           &#x2F;&#x2F; 从R,t构造SE(3)
+  Sophus::SE3d SE3_qt(q, t);            &#x2F;&#x2F; 从q,t构造SE(3)
+
+  &#x2F;&#x2F;通过.matrix()查看李群的矩阵 
+
+  &#x2F;&#x2F;通过对数映射转化为李代数，这里的log直接把李群转化为李代数，不是反对称矩阵
+  Vector3d so3 &#x3D; SO3_R.log();
+  cout &lt;&lt; &quot;so3 &#x3D; &quot; &lt;&lt; so3.transpose() &lt;&lt; endl;
+  &#x2F;&#x2F; hat 为向量到反对称矩阵
+  cout &lt;&lt; &quot;so3 hat&#x3D;\n&quot; &lt;&lt; Sophus::SO3d::hat(so3) &lt;&lt; endl;
+    &#x2F;&#x2F; 李代数se(3) 是一个六维向量，方便起见先typedef一下
+  typedef Eigen::Matrix&lt;double, 6, 1&gt; Vector6d;
+  Vector6d se3 &#x3D; SE3_Rt.log();
+  cout &lt;&lt; &quot;se3 &#x3D; &quot; &lt;&lt; se3.transpose() &lt;&lt; endl;
+  &#x2F;&#x2F; 观察输出，会发现在Sophus中，se(3)的平移在前，旋转在后.需要注意
+  &#x2F;&#x2F; 同样的，有hat和vee两个算符
+  cout &lt;&lt; &quot;se3 hat &#x3D; \n&quot; &lt;&lt; Sophus::SE3d::hat(se3) &lt;&lt; endl;
+
+  &#x2F;&#x2F; 增量扰动模型的更新，李代数求导
+    Vector3d update_so3(1e-4, 0, 0); &#x2F;&#x2F;假设更新量为这么多
+  Sophus::SO3d SO3_updated &#x3D; Sophus::SO3d::exp(update_so3) * SO3_R;
+  cout &lt;&lt; &quot;SO3 updated &#x3D; \n&quot; &lt;&lt; SO3_updated.matrix() &lt;&lt; endl;
+
+    Vector6d update_se3; &#x2F;&#x2F;更新量,这里不是太懂
+  update_se3.setZero();
+  update_se3(0, 0) &#x3D; 1e-4;
+  Sophus::SE3d SE3_updated &#x3D; Sophus::SE3d::exp(update_se3) * SE3_Rt;
+  cout &lt;&lt; &quot;SE3 updated &#x3D; &quot; &lt;&lt; endl &lt;&lt; SE3_updated.matrix() &lt;&lt; endl;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><a target="_blank" rel="noopener" href="https://xsin.gitee.io/2019/01/14/SlSophus%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8/">Slam中Sophus函数的使用</a></p>
+<p>ch4&#x2F;example&#x2F;trajectoryError.cpp中比较真实轨迹与估计轨迹之间的误差</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;vector（动态数组）类型的TrajectoryType存储位姿
+
+typedef vector&lt;Sophus::SE3d, Eigen::aligned_allocator&lt;Sophus::SE3d&gt;&gt; TrajectoryType;
+
+&#x2F;&#x2F;通过下面这样读取至李群中
+  while (!fin.eof()) &#123;
+    double time, tx, ty, tz, qx, qy, qz, qw;
+    fin &gt;&gt; time &gt;&gt; tx &gt;&gt; ty &gt;&gt; tz &gt;&gt; qx &gt;&gt; qy &gt;&gt; qz &gt;&gt; qw;
+    Sophus::SE3d p1(Eigen::Quaterniond(qw, qx, qy, qz), Eigen::Vector3d(tx, ty, tz));
+    trajectory.push_back(p1);
+  &#125;
+
+  &#x2F;&#x2F;轨迹误差的计算方法如下
+    double rmse &#x3D; 0;
+  for (size_t i &#x3D; 0; i &lt; estimated.size(); i++) &#123;
+    Sophus::SE3d p1 &#x3D; estimated[i], p2 &#x3D; groundtruth[i];
+    double error &#x3D; (p2.inverse() * p1).log().norm();
+    rmse +&#x3D; error * error;
+  &#125;
+  rmse &#x3D; rmse &#x2F; double(estimated.size());
+  rmse &#x3D; sqrt(rmse);
+  cout &lt;&lt; &quot;RMSE &#x3D; &quot; &lt;&lt; rmse &lt;&lt; endl;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="第五讲"><a href="#第五讲" class="headerlink" title="第五讲"></a>第五讲</h2><p>本讲主要是相机与图像</p>
 
                 
             </div>
@@ -444,7 +663,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://oceanechy.github.io/2023/03/27/slam/">http://oceanechy.github.io/2023/03/27/slam/</a>
+                    <a href="http://oceanechy.github.io/2023/04/04/slam14/">http://oceanechy.github.io/2023/04/04/slam14/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -562,58 +781,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/03/28/ransac/">
+                <a href="/2023/04/04/slam14/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="RANSAC、LMEDS以及Hough变换原理">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="slam14讲源代码的记录">
                         
-                        <span class="card-title">RANSAC、LMEDS以及Hough变换原理</span>
+                        <span class="card-title">slam14讲源代码的记录</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            RANSAC为Random Sample Consensus的缩写，它是根据一组包含异常数据的样本数据集，计算出数据的数学模型参数，得到有效样本数据的算法。它于1981年由Fischler和Bolles最先提出
+                            记录slam14讲源代码中的一些东西
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-28
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-04
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Opencv/" class="post-category">
-                                    Opencv
+                            <a href="/categories/slam/" class="post-category">
+                                    slam
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Opencv/">
-                        <span class="chip bg-color">Opencv</span>
-                    </a>
-                    
-                    <a href="/tags/RANSAC/">
-                        <span class="chip bg-color">RANSAC</span>
-                    </a>
-                    
-                    <a href="/tags/LMEDS/">
-                        <span class="chip bg-color">LMEDS</span>
-                    </a>
-                    
-                    <a href="/tags/Hough/">
-                        <span class="chip bg-color">Hough</span>
+                    <a href="/tags/slam/">
+                        <span class="chip bg-color">slam</span>
                     </a>
                     
                 </div>
@@ -627,31 +836,39 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/27/image-transformer/">
+                <a href="/2023/04/04/opencv5/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="图像变换(image_transformer)">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Opencv系列（五）">
                         
-                        <span class="card-title">图像变换(image_transformer)</span>
+                        <span class="card-title">Opencv系列（五）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            几何空间变换是图像处理中的最基础的算法，主要包括图像的旋转，平移，缩放，偏移，组合变换等等,本文从基本的变换开始，对常用的变换进行总结
+                            Opencv的基本使用，3D相关HEF矩阵计算以及位姿求解方法solvePnP,solvePnPRansac等
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-04
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/cs231A/" class="post-category">
-                                    cs231A
+                            <a href="/categories/Opencv/" class="post-category">
+                                    Opencv
+                                </a>
+                            
+                            <a href="/categories/Opencv/PnP/" class="post-category">
+                                    PnP
+                                </a>
+                            
+                            <a href="/categories/Opencv/PnP/HEF/" class="post-category">
+                                    HEF
                                 </a>
                             
                             
@@ -661,12 +878,20 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/transformer/">
-                        <span class="chip bg-color">transformer</span>
+                    <a href="/tags/Opencv/">
+                        <span class="chip bg-color">Opencv</span>
                     </a>
                     
-                    <a href="/tags/opencv/">
-                        <span class="chip bg-color">opencv</span>
+                    <a href="/tags/HEF%E7%9F%A9%E9%98%B5/">
+                        <span class="chip bg-color">HEF矩阵</span>
+                    </a>
+                    
+                    <a href="/tags/PnP/">
+                        <span class="chip bg-color">PnP</span>
+                    </a>
+                    
+                    <a href="/tags/EPnP/">
+                        <span class="chip bg-color">EPnP</span>
                     </a>
                     
                 </div>

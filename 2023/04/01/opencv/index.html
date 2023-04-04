@@ -399,14 +399,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.4k
+                    7.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    26 分
+                    30 分
                 </div>
                 
 
@@ -957,7 +957,94 @@ descriptors, bool useProvidedKeypoints&#x3D;false) <span aria-hidden="true" clas
 <li>_descriptors:如果为空，只寻找特征点，不计算特征描述子；</li>
 <li>_useProvidedKeypoints:如果为true,函数只计算特征描述子</li>
 </ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;chrono&gt;
+using namespace std;
 
+#include &lt;opencv2&#x2F;core&#x2F;core.hpp&gt;
+#include &lt;opencv2&#x2F;highgui&#x2F;highgui.hpp&gt;
+
+int main ( int argc, char** argv )
+&#123;
+    &#x2F;&#x2F; 读取argv[1]指定的图像
+    cv::Mat image;
+    image &#x3D; cv::imread ( argv[1] ); 
+    &#x2F;&#x2F; 判断图像文件是否正确读取
+    if ( image.data &#x3D;&#x3D; nullptr ) &#x2F;&#x2F;数据不存在,可能是文件不存在
+    &#123;
+        cerr&lt;&lt;&quot;文件&quot;&lt;&lt;argv[1]&lt;&lt;&quot;不存在.&quot;&lt;&lt;endl;
+        return 0;
+    &#125;
+
+    &#x2F;&#x2F; 文件顺利读取, 首先输出一些基本信息 H*W  rows*cols
+    cout&lt;&lt;&quot;图像宽为&quot;&lt;&lt;image.cols&lt;&lt;&quot;,高为&quot;&lt;&lt;image.rows&lt;&lt;&quot;,通道数为&quot;&lt;&lt;image.channels()&lt;&lt;endl;
+    cv::imshow ( &quot;image&quot;, image );      &#x2F;&#x2F; 用cv::imshow显示图像
+    cv::waitKey ( 0 );                  &#x2F;&#x2F; 暂停程序,等待一个按键输入
+    &#x2F;&#x2F; 判断image的类型
+    if ( image.type() !&#x3D; CV_8UC1 &amp;&amp; image.type() !&#x3D; CV_8UC3 )
+    &#123;
+        &#x2F;&#x2F; 图像类型不符合要求
+        cout&lt;&lt;&quot;请输入一张彩色图或灰度图.&quot;&lt;&lt;endl;
+        return 0;
+    &#125;
+
+    &#x2F;&#x2F; 遍历图像, 请注意以下遍历方式亦可使用于随机像素访问
+    &#x2F;&#x2F; 使用 std::chrono 来给算法计时
+    chrono::steady_clock::time_point t1 &#x3D; chrono::steady_clock::now();
+    for ( size_t y&#x3D;0; y&lt;image.rows; y++ )
+    &#123;
+        &#x2F;&#x2F; 用cv::Mat::ptr获得图像的行指针
+        unsigned char* row_ptr &#x3D; image.ptr&lt;unsigned char&gt; ( y );  &#x2F;&#x2F; row_ptr是第y行的头指针
+        for ( size_t x&#x3D;0; x&lt;image.cols; x++ )
+        &#123;
+            &#x2F;&#x2F; 访问位于 x,y 处的像素
+            unsigned char* data_ptr &#x3D; &amp;row_ptr[ x*image.channels() ]; &#x2F;&#x2F; data_ptr 指向待访问的像素数据
+            &#x2F;&#x2F; 输出该像素的每个通道,如果是灰度图就只有一个通道
+            for ( int c &#x3D; 0; c !&#x3D; image.channels(); c++ )
+            &#123;
+                unsigned char data &#x3D; data_ptr[c]; &#x2F;&#x2F; data为I(x,y)第c个通道的值
+            &#125;
+        &#125;
+    &#125;
+    chrono::steady_clock::time_point t2 &#x3D; chrono::steady_clock::now();
+    chrono::duration&lt;double&gt; time_used &#x3D; chrono::duration_cast&lt;chrono::duration&lt;double&gt;&gt;( t2-t1 );
+    cout&lt;&lt;&quot;遍历图像用时：&quot;&lt;&lt;time_used.count()&lt;&lt;&quot; 秒。&quot;&lt;&lt;endl;
+
+    &#x2F;&#x2F; 关于 cv::Mat 的拷贝
+    &#x2F;&#x2F; 直接赋值并不会拷贝数据
+    cv::Mat image_another &#x3D; image;
+    &#x2F;&#x2F; 修改 image_another 会导致 image 发生变化
+    image_another ( cv::Rect ( 0,0,100,100 ) ).setTo ( 0 ); &#x2F;&#x2F; 将左上角100*100的块置零
+    cv::imshow ( &quot;image&quot;, image );
+    cv::waitKey ( 0 );
+
+    &#x2F;&#x2F; 使用clone函数来拷贝数据
+    cv::Mat image_clone &#x3D; image.clone();
+    image_clone ( cv::Rect ( 0,0,100,100 ) ).setTo ( 255 );
+    cv::imshow ( &quot;image&quot;, image );
+    cv::imshow ( &quot;image_clone&quot;, image_clone );
+    cv::waitKey ( 0 );
+
+    &#x2F;&#x2F; 对于图像还有很多基本的操作,如剪切,旋转,缩放等,限于篇幅就不一一介绍了,请参看OpenCV官方文档查询每个函数的调用方法.
+    cv::destroyAllWindows();
+    return 0;
+&#125;
+cmake_minimum_required( VERSION 2.8 )
+project( imageBasics )
+
+# 添加c++ 11标准支持
+set( CMAKE_CXX_FLAGS &quot;-std&#x3D;c++11&quot; )
+
+# 寻找OpenCV库
+set(OpenCV_DIR  ~&#x2F;ssd&#x2F;software&#x2F;opencv3.3.1&#x2F;build)   #添加OpenCVConfig.cmake的搜索路径
+
+find_package( OpenCV 3 REQUIRED )
+# 添加头文件
+include_directories( $&#123;OpenCV_INCLUDE_DIRS&#125; )
+
+add_executable( imageBasics imageBasics.cpp )
+# 链接OpenCV库
+target_link_libraries( imageBasics $&#123;OpenCV_LIBS&#125; )         <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -1447,7 +1534,7 @@ descriptors, bool useProvidedKeypoints&#x3D;false) <span aria-hidden="true" clas
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">24.4k</span>
+                        class="white-color">27.3k</span>
             
             
             
