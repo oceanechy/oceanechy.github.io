@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Opencv系列（五）, Ocean">
-    <meta name="description" content="Opencv的基本使用，3D相关HEF矩阵计算以及求解方法solvePnP,solvePnPRansac等">
+    <meta name="description" content="Opencv的基本使用，3D相关HEF矩阵计算以及位姿求解方法solvePnP,solvePnPRansac等">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -382,7 +382,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-04-03
+                    2023-04-04
                 </div>
                 
 
@@ -391,14 +391,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    71
+                    1.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    6 分
                 </div>
                 
 
@@ -448,6 +448,85 @@
 <p><img src="/pic/%E9%80%89%E5%8C%BA_075.png" alt="根据E估计深度(三角化)"></p>
 <h3 id="H矩阵意义"><a href="#H矩阵意义" class="headerlink" title="H矩阵意义"></a>H矩阵意义</h3><p><img src="/pic/%E9%80%89%E5%8C%BA_076.png"></p>
 <p><img src="/pic/%E9%80%89%E5%8C%BA_077.png" alt="Opencv中的函数"></p>
+<blockquote>
+<p>注：以上截图内容参考计算机视觉life</p>
+</blockquote>
+<h2 id="位姿求取"><a href="#位姿求取" class="headerlink" title="位姿求取"></a>位姿求取</h2><h3 id="求取位姿的方法"><a href="#求取位姿的方法" class="headerlink" title="求取位姿的方法"></a>求取位姿的方法</h3><ol>
+<li>对极约束：2D-2D，通过二维图像点的对应关系，恢复出在两帧之间摄像机的运动。</li>
+<li>PnP：3D-2D,求解3D到2D点对运动的方法。描述了当知道n个3D空间点及其投影位置时，如何估计相机的位姿。</li>
+<li>ICP：3D-3D，配对好的3D点,已知世界参考系下的3D点和相机参考系下的3D点</li>
+</ol>
+<h3 id="PnP概念"><a href="#PnP概念" class="headerlink" title="PnP概念"></a>PnP概念</h3><p>如果场景的三维结构已知，利用多个控制点在三维场景中的坐标及其在图像中的透视投影坐标即可<br>求解出相机坐标系与世界坐标系之间的绝对位姿关系，包括绝对平移向量t以及旋转矩阵R，该类求<br>解方法统称为N点透视位姿求解（Perspective-N-Point，PNP问题）。这里的控制点是指准确知道三<br>维空间坐标位置，同时也知道对应图像平面坐标的点。<br><strong>已知条件：</strong></p>
+<ul>
+<li>n3D参考点(3D reference points)坐标; </li>
+<li>与这n个3D点对应的、投影在图像上的2D参考点(2D reference points)坐标; </li>
+<li>相机的的内参K;</li>
+</ul>
+<p><strong>求解：</strong></p>
+<ul>
+<li>相机的位姿。</li>
+</ul>
+<h3 id="PnP应用场景"><a href="#PnP应用场景" class="headerlink" title="PnP应用场景"></a>PnP应用场景</h3><p><strong>场景主要有两个</strong></p>
+<ol>
+<li>求解相机的位姿，一般应用于AR，人脸跟踪等；<br>通常输入的是物体在世界坐标系下的3D点以及这些3D点在图像上投影的2D点，因此求得的是相机（相机坐标系）相对于真实物体（世界坐标系）的位姿</li>
+</ol>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_078.png"></p>
+<ol start="2">
+<li>求取前一帧到当前帧的相机位姿变化，一般用于slam中；</li>
+</ol>
+<p>通常输入的是上一帧中的3D点（在上一帧的相机坐标系下表示的点）和这些3D点在当前帧中的投影得到的2D点，所以它求得的是当前帧相对于上一帧的位姿变换</p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_079.png"></p>
+<h3 id="Opencv中的函数"><a href="#Opencv中的函数" class="headerlink" title="Opencv中的函数"></a>Opencv中的函数</h3><p><strong>solvePnP</strong></p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_080.png"></p>
+<p>flags有如下的求解方法：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">enum &#123; SOLVEPNP_ITERATIVE &#x3D; 0,
+       SOLVEPNP_EPNP      &#x3D; 1, &#x2F;&#x2F;!&lt; EPnP: Efficient Perspective-n-Point Camera Pose Estimation @cite lepetit2009epnp
+       SOLVEPNP_P3P       &#x3D; 2, &#x2F;&#x2F;!&lt; Complete Solution Classification for the Perspective-Three-Point Problem @cite gao2003complete
+       SOLVEPNP_DLS       &#x3D; 3, &#x2F;&#x2F;!&lt; A Direct Least-Squares (DLS) Method for PnP  @cite hesch2011direct
+       SOLVEPNP_UPNP      &#x3D; 4, &#x2F;&#x2F;!&lt; Exhaustive Linearization for Robust Camera Pose and Focal Length Estimation @cite penate2013exhaustive
+       SOLVEPNP_AP3P      &#x3D; 5, &#x2F;&#x2F;!&lt; An Efficient Algebraic Solution to the Perspective-Three-Point Problem @cite Ke17
+       SOLVEPNP_MAX_COUNT      &#x2F;&#x2F;!&lt; Used for count
+&#125;;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>提示</p>
+</blockquote>
+<ol>
+<li>SOLVEPNP_ITERATIVE，默认值，它通过迭代求出重投影误差最小的解作为问题的最优解。该方法<br>实质是迭代求出重投影误差最小的解，这个解显然不一定是正解。</li>
+</ol>
+<p><strong>使用范围：</strong>4对共面匹配点，小于4组点不准确</p>
+<ol start="2">
+<li>SOLVEPNP_P3P，是使用非常经典的Gao的P3P问题求解算法。P3P算法要求输入的控制点个数只能是4对。3对点求出4组可能的解，通过对第4对点进行重投影，返回重投影误差最小的，确定最优解。可以使用任意4对匹配点求解，不要共面，特征点数量不为4时报错.</li>
+</ol>
+<p><strong>使用范围：</strong>4对不共面匹配点</p>
+<ol start="3">
+<li>SOLVEPNP_EPNP，该方法使用EfficientPNP方法，求解问题EPnP使用大于等于3组点，是目前最有效的PnP求解方法。</li>
+</ol>
+<p><strong>使用范围：</strong>最少需要4对不共面的匹配点（对于共面的情况只需要3对）,点太少能运行，但不准确</p>
+<p><strong>注：</strong>方法 SOLVEPNP_DLS 和 SOLVEPNP_UPNP 不能使用，因为当前的实现是不稳定的，有时会给出完全错误的结果。如果传递这两个标志之一，则将使用 SOLVEPNP_EPNP 方法。<br>建议：小于4组匹配点时，用SOLVEPNP_ITERATIVE；在4组匹配点时，用SOLVEPNP_P3P；大于4组匹配点时，用SOLVEPNP_EPNP。</p>
+<p><strong>solvePnPRansac</strong></p>
+<p>solvePnP的一个缺点是对异常值不够鲁棒，当我们用相机定位真实世界的点，可能存在错配，对误<br>匹配进行Ransac过滤，RANSAC是“Random Sample Consensus（随机抽样一致）”的缩写</p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_081.png"></p>
+<p><a target="_blank" rel="noopener" href="https://docs.opencv.org/4.0.1/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d">可查看官方文档</a></p>
+<h2 id="扩展-PnP问题求解原理"><a href="#扩展-PnP问题求解原理" class="headerlink" title="扩展-PnP问题求解原理"></a>扩展-PnP问题求解原理</h2><p>目前主要有直接线性变换（DLT），P3P，EPnP，UPnP以及非线性优化方法。</p>
+<p>关于PnP的求解问题</p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_082.png"></p>
+<p>把（3）式带入（1）式和（2）式，整理得：</p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_083.png"></p>
+<p>我们可以看出，fx fy u0 v0是相机内参，上一节中已经求出，Xw Yw x y是一组3D&#x2F;2D点的坐标，所以未知数有R11 R12 R13 R21 R22 R23 R31 R32 R33 T1 T2 T3一共12个，由于旋转矩阵是正交矩阵，每行每列都是单位向量且两两正交，所以R的自由度为3，秩也是3，比如知道R11 R12 R21就能求出剩下的Rxx。加上平移向量的3个未知数，一共6个未知数，而每一组2D&#x2F;3D点提供的x y Xw Yw Zw可以确立两个方程，所以3组2D&#x2F;3D点的坐标能确立6个方程从而解出6个未知数。故PnP需要知道至少3组2D&#x2F;3D点。</p>
+<h3 id="DLT"><a href="#DLT" class="headerlink" title="DLT"></a>DLT</h3><p>通过2D-3D的关系直接构建方程，直接求解：<br>DLT主要是通过构建一个12维的增广矩阵（R|t），然后通过投影矩阵构建一个方程：</p>
+<p>通过最后一行，消去s，最后构建一个12维的线性方程组，通过6对匹配点（一对点两个方程）来求解中间的矩阵。 最后将[R|t]左侧3<em>3矩阵块进行QR分解，用一个旋转矩阵去近似（将3</em>3矩阵空间投影到SE(3)流形上）。</p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_085.png"></p>
+<p>优点：求解简单<br>缺点：直接将 T 矩阵看成了 12 个未知数，忽略了它们之间的联系。因为旋转矩阵 R ∈ SO(3)，用 DLT 求出的解不一定满足该约束，它是一个一般矩阵。寻找一个最好的旋转矩阵对它进行近似</p>
+<h3 id="P3P（ICP-3D-3D）"><a href="#P3P（ICP-3D-3D）" class="headerlink" title="P3P（ICP:3D-3D）"></a>P3P（ICP:3D-3D）</h3><p>采用一种变换的形式，把2D-3D匹配关系，变换成3D-3D点的匹配关系：<br>将世界坐标系下的ABC三点和图像坐标系下的abc三点匹配，其中AB，BC，AC的⻓度已知，<br>&lt;a,b&gt;，&lt;b,c&gt;，&lt;a,c&gt;也是已知，通过余弦定理得出方程组</p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_086.png"></p>
+<p>类似于分解 E 的情况，该方程最多可能得到四个解，但我们可以用验证点来计算最可能的解，得到<br>A, B, C 在相机坐标系下的 3D 坐标。然后，根据 3D-3D 的点对，使用类似ICP的坐标系对，计算相<br>机的运动 R, t。</p>
+<p>优点：需要的匹配点少</p>
+<p>缺点：P3P 只利用三个点的信息。当给定的配对点多于 3 组时，难以利用更多的信息；如果 3D 点<br>或 2D 点受噪声影响，或者存在误匹配，则算法失效。</p>
+<p>可参考论文《<a target="_blank" rel="noopener" href="https://cmp.felk.cvut.cz/~zimmerk/track3D/papers/p3p.pdf">CompleteSolution Classification for the Perspective-Three-Point Problem</a>》</p>
+<h3 id="EPnP"><a href="#EPnP" class="headerlink" title="EPnP"></a>EPnP</h3><p>将世界坐标系中的3D坐标表示为一组虚拟的控制点的加权和。</p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_087.png"></p>
+<p>可参考论文《<a target="_blank" rel="noopener" href="https://github.com/cvlab-epfl/EPnP">EPnP: Efficient Perspective-n-Point Camera Pose Estimation</a>》</p>
 
                 
             </div>
@@ -474,7 +553,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://oceanechy.github.io/2023/04/03/opencv5/">http://oceanechy.github.io/2023/04/03/opencv5/</a>
+                    <a href="http://oceanechy.github.io/2023/04/04/opencv5/">http://oceanechy.github.io/2023/04/04/opencv5/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -605,7 +684,7 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2023/04/03/opencv5/">
+                <a href="/2023/04/04/opencv5/">
                     <div class="card-image">
                         
                         
@@ -617,12 +696,12 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Opencv的基本使用，3D相关HEF矩阵计算以及求解方法solvePnP,solvePnPRansac等
+                            Opencv的基本使用，3D相关HEF矩阵计算以及位姿求解方法solvePnP,solvePnPRansac等
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-03
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-04
                             </span>
                         <span class="publish-author">
                             
@@ -916,7 +995,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">22.7k</span>
+                        class="white-color">24.4k</span>
             
             
             
