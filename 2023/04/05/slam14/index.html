@@ -345,6 +345,26 @@
                                 <span class="chip bg-color">slam</span>
                             </a>
                         
+                            <a href="/tags/CMake/">
+                                <span class="chip bg-color">CMake</span>
+                            </a>
+                        
+                            <a href="/tags/Sophus/">
+                                <span class="chip bg-color">Sophus</span>
+                            </a>
+                        
+                            <a href="/tags/Eigen/">
+                                <span class="chip bg-color">Eigen</span>
+                            </a>
+                        
+                            <a href="/tags/Pangolin/">
+                                <span class="chip bg-color">Pangolin</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%9B%BE%E5%83%8F%E5%8E%BB%E7%95%B8%E5%8F%98/">
+                                <span class="chip bg-color">图像去畸变</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -366,7 +386,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-04-04
+                    2023-04-05
                 </div>
                 
 
@@ -375,14 +395,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    4.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    21 分
                 </div>
                 
 
@@ -636,7 +656,240 @@ typedef vector&lt;Sophus::SE3d, Eigen::aligned_allocator&lt;Sophus::SE3d&gt;&gt;
   cout &lt;&lt; &quot;RMSE &#x3D; &quot; &lt;&lt; rmse &lt;&lt; endl;
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="第五讲"><a href="#第五讲" class="headerlink" title="第五讲"></a>第五讲</h2><p>本讲主要是相机与图像</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28087491/article/details/113540037">Pangolin可视化绘图库的使用</a></p>
+<h2 id="第五讲"><a href="#第五讲" class="headerlink" title="第五讲"></a>第五讲</h2><p>本讲主要是相机与图像,内参外参畸变参数等，Opencv使用以及摄像头标定等</p>
+<h3 id="ch5-x2F-imageBasics-x2F-imageBasics-cpp中操作Opencv图像中需要注意的"><a href="#ch5-x2F-imageBasics-x2F-imageBasics-cpp中操作Opencv图像中需要注意的" class="headerlink" title="ch5&#x2F;imageBasics&#x2F;imageBasics.cpp中操作Opencv图像中需要注意的"></a>ch5&#x2F;imageBasics&#x2F;imageBasics.cpp中操作Opencv图像中需要注意的</h3><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">  image &#x3D; cv::imread(argv[1]); &#x2F;&#x2F;cv::imread函数读取指定路径下的图像
+
+  &#x2F;&#x2F; 文件顺利读取, 首先输出一些基本信息
+  cout &lt;&lt; &quot;图像宽为&quot; &lt;&lt; image.cols &lt;&lt; &quot;,高为&quot; &lt;&lt; image.rows &lt;&lt; &quot;,通道数为&quot; &lt;&lt; image.channels() &lt;&lt; endl;
+  cv::imshow(&quot;image&quot;, image);      &#x2F;&#x2F; 用cv::imshow显示图像
+  cv::waitKey(0);                  &#x2F;&#x2F; 暂停程序,等待一个按键输入
+
+  &#x2F;&#x2F; 使用 std::chrono 来给算法计时
+  chrono::steady_clock::time_point t1 &#x3D; chrono::steady_clock::now();
+    sleep(1);
+    chrono::steady_clock::time_point t2 &#x3D; chrono::steady_clock::now();
+  chrono::duration&lt;double&gt; time_used &#x3D; chrono::duration_cast &lt; chrono::duration &lt; double &gt;&gt; (t2 - t1);
+  cout &lt;&lt; &quot;遍历图像用时：&quot; &lt;&lt; time_used.count() &lt;&lt; &quot; 秒。&quot; &lt;&lt; endl;
+&#x2F;&#x2F;time_point表示一个时间点，用来获取1970.1.1以来的秒数和当前的时间。time_point必须要clock来计时，time_point有一个函数time_since_epoch()用来获得1970年1月1日到time_point时间经过的duration
+&#x2F;&#x2F;时钟间隔Duration
+
+
+&#x2F;&#x2F; 遍历图像, 请注意以下遍历方式亦可使用于随机像素访问
+for (size_t y &#x3D; 0; y &lt; image.rows; y++) &#123;
+    &#x2F;&#x2F; 用cv::Mat::ptr获得图像的行指针
+    unsigned char *row_ptr &#x3D; image.ptr&lt;unsigned char&gt;(y);  &#x2F;&#x2F; row_ptr是第y行的头指针
+    for (size_t x &#x3D; 0; x &lt; image.cols; x++) &#123;
+      &#x2F;&#x2F; 访问位于 x,y 处的像素
+      unsigned char *data_ptr &#x3D; &amp;row_ptr[x * image.channels()]; &#x2F;&#x2F; data_ptr 指向待访问的像素数据
+      &#x2F;&#x2F; 输出该像素的每个通道,如果是灰度图就只有一个通道
+      for (int c &#x3D; 0; c !&#x3D; image.channels(); c++) &#123;
+        unsigned char data &#x3D; data_ptr[c]; &#x2F;&#x2F; data为I(x,y)第c个通道的值
+      &#125;
+    &#125;
+  &#125;
+
+    &#x2F;&#x2F; 关于 cv::Mat 的拷贝
+  &#x2F;&#x2F; 直接赋值并不会拷贝数据
+  cv::Mat image_another &#x3D; image;
+  &#x2F;&#x2F; 修改 image_another 会导致 image 发生变化
+  image_another(cv::Rect(0, 0, 100, 100)).setTo(0); &#x2F;&#x2F; 将左上角100*100的块置零
+  cv::imshow(&quot;image&quot;, image);
+  cv::waitKey(0);
+
+
+  &#x2F;&#x2F; 使用clone函数来拷贝数据
+  cv::Mat image_clone &#x3D; image.clone();
+  image_clone(cv::Rect(0, 0, 100, 100)).setTo(255);
+  cv::imshow(&quot;image&quot;, image);
+  cv::imshow(&quot;image_clone&quot;, image_clone);
+  cv::waitKey(0);
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>补充</p>
+</blockquote>
+<p>CMakeLists.txt文件代码</p>
+<pre class="line-numbers language-CMake" data-language="CMake"><code class="language-CMake">cmake_minimum_required( VERSION 2.8 )
+project(imageBasics)
+ 
+set( CMAKE_CXX_FLAGS &quot;-std&#x3D;c++11 -O3&quot;)
+find_package(OpenCV)
+include_directories($&#123;OpenCV&#125;)
+
+
+add_executable(imageBasics imageBasics.cpp)
+# 链接OpenCV库
+target_link_libraries(imageBasics $&#123;OpenCV_LIBS&#125;)
+
+add_executable(undistortImage undistortImage.cpp)
+# 链接OpenCV库
+target_link_libraries(undistortImage $&#123;OpenCV_LIBS&#125;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43428547/article/details/88956911">二维数组与指针(详解)</a></p>
+<p>数组名与指针的关系</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">a;&#x2F;&#x2F;代表数组首行地址，一般用a[0][0]的地址表示
+&amp;a;&#x2F;&#x2F;代表整个数组的地址，一般用a[0][0]地址表示
+a[i];代表了第i行起始元素的地址(网上说是代表了第i行的地址，但我觉得不是，在讲数组与指针的关系时我会验证给大家看)
+&amp;a[i];代表了第i行的地址，一般用a[i][0]的地址表示
+a[i]+j;&#x2F;&#x2F;代表了第i行第j个元素地址,a[i]就是j&#x3D;&#x3D;0的情况
+a[i][j];&#x2F;&#x2F;代表了第i行第j个元素
+&amp;a[i][j];&#x2F;&#x2F;代表了第i行第j个元素的地址
+*a;&#x2F;&#x2F;代表数组a首元素地址也就是a[0]或者&amp;a[0][0]
+*(a+i);&#x2F;&#x2F;代表了第i行首元素的地址,*a是i&#x3D;0的情况
+*(a+i)+j;&#x2F;&#x2F;代表了第i行j个元素的地址
+**a;&#x2F;&#x2F;代表a的首元素的值也就是a[0][0]
+*(*(a+i)+j);&#x2F;&#x2F;代表了第i行第j个元素
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010420283/article/details/111946293?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-111946293-blog-121178263.235%5Ev27%5Epc_relevant_default_base1&spm=1001.2101.3001.4242.2&utm_relevant_index=4">c++中几种记时函数实例</a></p>
+<p>几种及时函数如下：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;方法1,标准库
+#include &lt;sys&#x2F;time.h&gt;
+ 
+struct timeval tv;
+gettimeofday(&amp;tv,NULL);
+auto b1&#x3D;(unsigned long long)tv.tv_sec*1000+(unsigned long long)tv.tv_usec&#x2F;1000;
+sleep(1);
+gettimeofday(&amp;tv,NULL);
+auto b2&#x3D;(unsigned long long)tv.tv_sec*1000+(unsigned long long)tv.tv_usec&#x2F;1000;
+cout&lt;&lt;&quot;method 1, cost time is:&quot;&lt;&lt;(b2-b1)&lt;&lt;endl;
+ 
+ 
+&#x2F;&#x2F;方法2，chrono
+#include&lt;chrono&gt;
+using namespace std::chrono; 
+auto t1&#x3D; duration_cast&lt;milliseconds&gt;(steady_clock::now().time_since_epoch()).count();
+sleep(1);
+auto t2&#x3D;duration_cast&lt;milliseconds&gt;(steady_clock::now().time_since_epoch()).count();
+cout&lt;&lt;&quot;method 2, cost time is:&quot;&lt;&lt;(t2-t1)&lt;&lt;endl;
+ 
+&#x2F;&#x2F;方法2副本，该代码只能求两段时间差，不能得到打印出当前时刻。
+auto begin&#x3D;system_clock::now();
+sleep(1);
+auto end&#x3D;system_clock::now();
+cout&lt;&lt;&quot;method 2-1, cost time is:&quot;&lt;&lt;duration_cast&lt;milliseconds&gt;(end - begin).count()&lt;&lt;endl;
+ 
+ 
+ 
+&#x2F;&#x2F;方法3
+#include &lt;unistd.h&gt;
+clock_t c1&#x3D;clock();
+sleep(1);
+clock_t c2&#x3D;clock();
+cout&lt;&lt;&quot;method 3, cost time is:&quot;&lt;&lt;(c2-c1)&lt;&lt;endl;
+ <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="ch5-x2F-imageBasics-x2F-undistortImage-cpp中图像去畸变"><a href="#ch5-x2F-imageBasics-x2F-undistortImage-cpp中图像去畸变" class="headerlink" title="ch5&#x2F;imageBasics&#x2F;undistortImage.cpp中图像去畸变"></a>ch5&#x2F;imageBasics&#x2F;undistortImage.cpp中图像去畸变</h3><p><img src="/pic/%E9%80%89%E5%8C%BA_90.png" alt="去畸变公式"></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;主要知道内参以及去畸变参数
+
+  &#x2F;&#x2F; 畸变参数
+  double k1 &#x3D; -0.28340811, k2 &#x3D; 0.07395907, p1 &#x3D; 0.00019359, p2 &#x3D; 1.76187114e-05;
+  &#x2F;&#x2F; 内参
+  double fx &#x3D; 458.654, fy &#x3D; 457.296, cx &#x3D; 367.215, cy &#x3D; 248.375;
+
+
+  &#x2F;&#x2F; 计算去畸变后图像的内容
+  for (int v &#x3D; 0; v &lt; rows; v++) &#123;
+    for (int u &#x3D; 0; u &lt; cols; u++) &#123;
+      &#x2F;&#x2F; 按照公式，计算点(u,v)对应到畸变图像中的坐标(u_distorted, v_distorted)
+      double x &#x3D; (u - cx) &#x2F; fx, y &#x3D; (v - cy) &#x2F; fy;
+      double r &#x3D; sqrt(x * x + y * y);
+      double x_distorted &#x3D; x * (1 + k1 * r * r + k2 * r * r * r * r) + 2 * p1 * x * y + p2 * (r * r + 2 * x * x);
+      double y_distorted &#x3D; y * (1 + k1 * r * r + k2 * r * r * r * r) + p1 * (r * r + 2 * y * y) + 2 * p2 * x * y;
+      double u_distorted &#x3D; fx * x_distorted + cx;
+      double v_distorted &#x3D; fy * y_distorted + cy;
+
+      &#x2F;&#x2F; 赋值 (最近邻插值)
+      if (u_distorted &gt;&#x3D; 0 &amp;&amp; v_distorted &gt;&#x3D; 0 &amp;&amp; u_distorted &lt; cols &amp;&amp; v_distorted &lt; rows) &#123;
+        image_undistort.at&lt;uchar&gt;(v, u) &#x3D; image.at&lt;uchar&gt;((int) v_distorted, (int) u_distorted);
+      &#125; else &#123;
+        image_undistort.at&lt;uchar&gt;(v, u) &#x3D; 0;
+      &#125;
+    &#125;
+  &#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>Opencv提供了去畸变函数cv::Undistort().</strong></p>
+<ul>
+<li><p>函数功能：直接对图像进行畸变矫正。</p>
+</li>
+<li><p>其内部调用了initUndistortRectifyMap和remap函数。</p>
+</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">CV_EXPORTS_W void undistort( InputArray src, &#x2F;&#x2F;原始图像
+                            OutputArray dst,&#x2F;&#x2F;矫正图像
+                             InputArray cameraMatrix,&#x2F;&#x2F;原相机的内参矩阵
+                             InputArray distCoeffs,&#x2F;&#x2F;相机矫正参数
+                             InputArray newCameraMatrix &#x3D; noArray() );&#x2F;&#x2F;新相机内参矩阵<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>直接使用Opencv中的函数主要是对参数写成矩阵形式加进去就可以了</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;opencv2&#x2F;opencv.hpp&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+
+int main(int argc, char **argv) &#123;
+
+    const cv::Mat K &#x3D; ( cv::Mat_&lt;double&gt; ( 3,3 ) &lt;&lt; 458.654, 0.0, 367.215, 0.0, 457.296, 248.375, 0.0, 0.0, 1.0 ); &#x2F;&#x2F; 相机内参矩阵
+    &#x2F;&#x2F;k1 &#x3D; -0.28340811, k2 &#x3D; 0.07395907, p1 &#x3D; 0.00019359, p2 &#x3D; 1.76187114e-05;
+    const cv::Mat D &#x3D; (cv::Mat_&lt;double&gt; ( 5,1 ) &lt;&lt;  -0.28340811, 0.07395907, 0.0, 0.00019359, 1.76187114e-05);
+    &#x2F;&#x2F;double k1 &#x3D; -0.28340811, k2 &#x3D; 0.07395907, k3&#x3D;0,p1 &#x3D; 0.00019359, p2 &#x3D; 1.76187114e-05;
+
+    const string str &#x3D; &quot;&#x2F;home&#x2F;chy&#x2F;slambook2&#x2F;ch5&#x2F;imageBasics&#x2F;distorted.png&quot;;
+
+  cv::Mat image &#x3D; cv::imread(str, 0);   &#x2F;&#x2F; 图像是灰度图，CV_8UC1
+  int rows &#x3D; image.rows, cols &#x3D; image.cols;
+  cv::Mat image_undistort &#x3D; cv::Mat(rows, cols, CV_8UC1);   &#x2F;&#x2F; 去畸变以后的图
+
+  cv::undistort(image,image_undistort,K,D,K);
+
+  &#x2F;&#x2F; 画图去畸变后图像
+  cv::imshow(&quot;distorted&quot;, image);
+  cv::imshow(&quot;undistorted&quot;, image_undistort);
+  cv::waitKey();
+  return 0;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cannonfodder9527/article/details/129002265">SLAM14讲第5讲去畸变方法改进</a></p>
+<p><strong>使用 getOptimalNewCameraMatrix + initUndistortRectifyMap + remap 矫正图像</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_18894441/article/details/122983176">关于OpenCV中的去畸变 c++</a></p>
+<h3 id="ch5-x2F-stereo-x2F-stereoVision-cpp中双目视觉"><a href="#ch5-x2F-stereo-x2F-stereoVision-cpp中双目视觉" class="headerlink" title="ch5&#x2F;stereo&#x2F;stereoVision.cpp中双目视觉"></a>ch5&#x2F;stereo&#x2F;stereoVision.cpp中双目视觉</h3><p><img src="/pic/%E9%80%89%E5%8C%BA_091.png" alt="双目视觉求深度z"></p>
+<p>使用SGBM算法计算左右图像的视差</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">cv::Ptr&lt;cv::StereoSGBM&gt; sgbm &#x3D; cv::StereoSGBM::create(
+       0, 96, 9, 8 * 9 * 9, 32 * 9 * 9, 1, 63, 10, 100, 32);    &#x2F;&#x2F; sgbm经典参数配置
+   cv::Mat disparity_sgbm, disparity;
+   sgbm-&gt;compute(left, right, disparity_sgbm);&#x2F;&#x2F;输入前面两张图，第三个参数是输出
+   disparity_sgbm.convertTo(disparity, CV_32F, 1.0 &#x2F; 16.0f);  &#x2F;&#x2F;将disparity_sgbm变成32F类型的disparity，这里的disparity才是视差图。  如果Mat类型数据的深度不满足上面的要求，则需要使用convertTo()函数来进行转换。convertTo()函数负责转换数据类型不同的Mat
+
+       for (int v &#x3D; 0; v &lt; left.rows; v++)
+       for (int u &#x3D; 0; u &lt; left.cols; u++) &#123;
+           if (disparity.at&lt;float&gt;(v, u) &lt;&#x3D; 0.0 || disparity.at&lt;float&gt;(v, u) &gt;&#x3D; 96.0) continue;
+
+           Vector4d point(0, 0, 0, left.at&lt;uchar&gt;(v, u) &#x2F; 255.0); &#x2F;&#x2F; 前三维为xyz,第四维为颜色
+
+           &#x2F;&#x2F; 根据双目模型计算 point 的位置
+           double x &#x3D; (u - cx) &#x2F; fx;
+           double y &#x3D; (v - cy) &#x2F; fy;
+           double depth &#x3D; fx * b &#x2F; (disparity.at&lt;float&gt;(v, u));
+           point[0] &#x3D; x * depth;
+           point[1] &#x3D; y * depth;
+           point[2] &#x3D; depth;
+
+           pointcloud.push_back(point);
+       &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>sgbm参数解释：</strong></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">cv::Ptr&lt;cv::StereoSGBM&gt; sgbm &#x3D; cv::StereoSGBM::create(
+    0, 96, 9, 8 * 9 * 9, 32 * 9 * 9, 1, 63, 10, 100, 32);    &#x2F;&#x2F; sgbm经典参数配置<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/pic/%E9%80%89%E5%8C%BA_092.png"></p>
+<p><strong>convertTo函数</strong></p>
+<p> 用于计算距离的视差图（CV_32F）和用于肉眼看的视差图（CV_8U）使用的格式不同，并且用于计算的视差图无需进行裁剪和归一化，这些只是为了显示的可读性和美观。所以，在对sgbm进行compute之后得到视差图disparity_sgbm，除以16得到用于计算的视差图disparity（除以16是因为每个像素值由一个16bit表示，其中低位的4位存储的是视差值得小数部分，所以真实视差值应该是该值除以16</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_70026476/article/details/127351340">参考:实践部分双目视觉代码讲解</a></p>
+<p>这部分Pangolin的讲解也可以参考上面的链接</p>
 
                 
             </div>
@@ -663,7 +916,7 @@ typedef vector&lt;Sophus::SE3d, Eigen::aligned_allocator&lt;Sophus::SE3d&gt;&gt;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://oceanechy.github.io/2023/04/04/slam14/">http://oceanechy.github.io/2023/04/04/slam14/</a>
+                    <a href="http://oceanechy.github.io/2023/04/05/slam14/">http://oceanechy.github.io/2023/04/05/slam14/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -703,6 +956,26 @@ typedef vector&lt;Sophus::SE3d, Eigen::aligned_allocator&lt;Sophus::SE3d&gt;&gt;
                             
                                 <a href="/tags/slam/">
                                     <span class="chip bg-color">slam</span>
+                                </a>
+                            
+                                <a href="/tags/CMake/">
+                                    <span class="chip bg-color">CMake</span>
+                                </a>
+                            
+                                <a href="/tags/Sophus/">
+                                    <span class="chip bg-color">Sophus</span>
+                                </a>
+                            
+                                <a href="/tags/Eigen/">
+                                    <span class="chip bg-color">Eigen</span>
+                                </a>
+                            
+                                <a href="/tags/Pangolin/">
+                                    <span class="chip bg-color">Pangolin</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%9B%BE%E5%83%8F%E5%8E%BB%E7%95%B8%E5%8F%98/">
+                                    <span class="chip bg-color">图像去畸变</span>
                                 </a>
                             
                         </div>
@@ -786,7 +1059,7 @@ typedef vector&lt;Sophus::SE3d, Eigen::aligned_allocator&lt;Sophus::SE3d&gt;&gt;
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2023/04/04/slam14/">
+                <a href="/2023/04/05/slam14/">
                     <div class="card-image">
                         
                         
@@ -803,7 +1076,7 @@ typedef vector&lt;Sophus::SE3d, Eigen::aligned_allocator&lt;Sophus::SE3d&gt;&gt;
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-05
                             </span>
                         <span class="publish-author">
                             
@@ -823,6 +1096,26 @@ typedef vector&lt;Sophus::SE3d, Eigen::aligned_allocator&lt;Sophus::SE3d&gt;&gt;
                     
                     <a href="/tags/slam/">
                         <span class="chip bg-color">slam</span>
+                    </a>
+                    
+                    <a href="/tags/CMake/">
+                        <span class="chip bg-color">CMake</span>
+                    </a>
+                    
+                    <a href="/tags/Sophus/">
+                        <span class="chip bg-color">Sophus</span>
+                    </a>
+                    
+                    <a href="/tags/Eigen/">
+                        <span class="chip bg-color">Eigen</span>
+                    </a>
+                    
+                    <a href="/tags/Pangolin/">
+                        <span class="chip bg-color">Pangolin</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%9B%BE%E5%83%8F%E5%8E%BB%E7%95%B8%E5%8F%98/">
+                        <span class="chip bg-color">图像去畸变</span>
                     </a>
                     
                 </div>
@@ -1089,7 +1382,7 @@ typedef vector&lt;Sophus::SE3d, Eigen::aligned_allocator&lt;Sophus::SE3d&gt;&gt;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">27.3k</span>
+                        class="white-color">29.6k</span>
             
             
             
