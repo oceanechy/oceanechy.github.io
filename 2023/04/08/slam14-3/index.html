@@ -345,6 +345,10 @@
                                 <span class="chip bg-color">slam</span>
                             </a>
                         
+                            <a href="/tags/c/">
+                                <span class="chip bg-color">c++</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -355,6 +359,10 @@
                         
                             <a href="/categories/slam/" class="post-category">
                                 slam
+                            </a>
+                        
+                            <a href="/categories/slam/c/" class="post-category">
+                                c++
                             </a>
                         
                     </div>
@@ -375,14 +383,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    13.1k
+                    16.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    66 分
+                    83 分
                 </div>
                 
 
@@ -1777,6 +1785,398 @@ void bundleAdjustment(const vector&lt;Point3f&gt; &amp;pts1,
     t &#x3D; (Mat_&lt;double&gt;(3, 1) &lt;&lt; t_(0, 0), t_(1, 0), t_(2, 0));
 &#125;
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/joun772/article/details/109466153?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-12-109466153-blog-116243451.235%5Ev28%5Epc_relevant_recovery_v2&spm=1001.2101.3001.4242.7&utm_relevant_index=15">SLAM十四讲-ch7(2)-位姿估计(包含2d-2d、3d-2d、3d-3d、以及三角化实现代码的注释)</a></p>
+<h2 id="第八讲"><a href="#第八讲" class="headerlink" title="第八讲"></a>第八讲</h2><p>直接法是vo的另一个主要的分支，它与特征点法有很大的不同，理解光流法跟踪特征点的原理，理解直接法估计相机位姿，实现多层直接法的计算</p>
+<h3 id="ch8-x2F-optical-flow-cpp"><a href="#ch8-x2F-optical-flow-cpp" class="headerlink" title="ch8&#x2F;optical_flow.cpp"></a>ch8&#x2F;optical_flow.cpp</h3><p>光流是一种描述像素随时间在图像之间运动的方法：</p>
+<p>光流法有两个假设：（1）灰度不变假设：同一个空间点的像素灰度值，在各个图像中是固定不变的；（2）假设某个窗口内的像素具有相同的运动</p>
+<p>一、本讲的代码使用了三种方法来追踪图像上的特征点</p>
+<ul>
+<li>第一种：使用OpenCV中的LK光流；</li>
+<li>第二种：用高斯牛顿实现光流：单层光流；</li>
+<li>第三种：用高斯牛顿实现光流：多层光流。</li>
+</ul>
+<p>其中高斯牛顿法，即最小化灰度误差估计最优的像素偏移。在具体函数实现中（即calculateOpticalFlow)，求解这样一个问题：</p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_136.png"></p>
+<p><strong>Opencv中的LK光流</strong>：使用  cv::calculateOpticalFlowPyrLK函数：</p>
+<ul>
+<li>提供前后两张图像及对应的特征点，即可得到追踪后的点，以及各点的状态、误差;</li>
+<li>根据status变量是否为1来确定对应的点是否被正确追踪到。</li>
+<li>cv::calcOpticalFlowPyrLK(img1,img2,pt1,pt2,status,error);</li>
+</ul>
+<p><strong>单层光流</strong>：用高斯牛顿法实现光流，光流也可以看成一个优化问题，通过最小化灰度误差估计最优的像素偏移</p>
+<p><strong>多层光流</strong>：因为单层光流在相机运动较快的情况下，容易达到一个局部极小值，因此引入图像金字塔。当原始图像的像素运动较大时，在金字塔顶层看来，运动仍然是一个小的运动范围</p>
+<p>二、代码注释</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include&lt;opencv2&#x2F;opencv.hpp&gt;
+#include&lt;string&gt;
+#include&lt;chrono&gt;
+#include&lt;Eigen&#x2F;Core&gt;
+#include&lt;Eigen&#x2F;Dense&gt;
+
+using namespace std;
+using namespace cv;
+string file_1&#x3D;&quot;.&#x2F;LK1.png&quot;;   &#x2F;&#x2F;第一张图像的路径,可能需要写成绝对路径
+string file_2&#x3D;&quot;.&#x2F;LK2.png&quot;;  &#x2F;&#x2F;第二张图像的路径
+  
+&#x2F;&#x2F;使用高斯牛顿法实现光流
+&#x2F;&#x2F;定义一个光流追踪类
+class OpticalFlowTracker
+&#123;
+ public:
+    OpticalFlowTracker(    &#x2F;&#x2F;带参构造函数，并初始化
+      const Mat &amp;img1_,
+      const Mat &amp;img2_,
+      const vector&lt;KeyPoint&gt;&amp;kp1_,
+      vector&lt;KeyPoint&gt;&amp;kp2_,
+      vector&lt;bool&gt;&amp;success_,
+      bool inverse_&#x3D;true,bool has_initial_&#x3D;false):
+      img1(img1_),img2(img2_),kp1(kp1_),kp2(kp2_),success(success_),inverse(inverse_),
+      has_initial(has_initial_) &#123;&#125;
+      
+      &#x2F;&#x2F;计算光流的函数
+      void calculateOpticalFlow(const Range &amp;range);  &#x2F;&#x2F;range是一个区间，应该看作一个窗口
+      
+  private:
+    const Mat &amp;img1;
+    const Mat &amp;img2;
+    const vector&lt;KeyPoint&gt; &amp;kp1;
+    vector&lt;KeyPoint&gt; &amp;kp2;
+    vector&lt;bool&gt; &amp;success;
+    bool inverse&#x3D;true;
+    bool has_initial&#x3D;false;
+  &#125;;
+  &#x2F;&#x2F;单层光流的函数声明
+  void OpticalFlowSingleLevel(
+    const Mat &amp;img1,
+    const Mat &amp;img2,
+    const vector&lt;KeyPoint&gt;&amp;kp1,
+    vector&lt;KeyPoint&gt;&amp;kp2,
+    vector&lt;bool&gt;&amp;success,
+    bool inverse&#x3D;false,
+    bool has_initial_guess&#x3D;false
+  );
+  &#x2F;&#x2F;多层光流的函数声明
+  void OpticalFlowMultiLevel(
+    const Mat &amp;img1,
+    const Mat &amp;img2,
+    const vector&lt;KeyPoint&gt;&amp;kp1,
+    vector&lt;KeyPoint&gt;&amp;kp2,
+    vector&lt;bool&gt; &amp;success,
+    bool inverse&#x3D;false
+       );
+  
+  &#x2F;&#x2F;从图像中获取一个灰度值
+  &#x2F;&#x2F;采用双线性内插法，来估计一个点的像素：
+  &#x2F;&#x2F;f(x,y)&#x3D;f(0,0)(1-x)(1-y)+f(1,0)x(1-y)+f(0,1)(1-x)y+f(1,1)xy
+  inline float GetPixelValue(const cv::Mat &amp;img,float x,float y)
+  &#123;
+    &#x2F;&#x2F;边缘检测
+    if(x&lt;0)
+      x&#x3D;0;
+    if(y&lt;0)
+      y&#x3D;0;
+    if(x&gt;&#x3D;img.cols)
+      x&#x3D;img.cols-1;
+    if(y&gt;&#x3D;img.rows)
+      y&#x3D;img.rows-1;
+    uchar *data&#x3D;&amp;img.data[int(y)*img.step+int(x)];  &#x2F;&#x2F;img.step:表示图像矩阵中每行包含的字节数;int(x)将x转换为int类型
+    
+    float xx&#x3D;x-floor(x);   &#x2F;&#x2F;floor(x)函数：向下取整函数，即返回一个不大于x的最大整数
+    float yy&#x3D;y-floor(y);
+    
+    return float(
+      (1-xx)*(1-yy)*data[0]+
+      xx*(1-yy)*data[1]+
+      (1-xx)*yy*data[img.step]+
+      xx*yy*data[img.step+1]
+      );
+  &#125;
+  
+  &#x2F;&#x2F;主函数
+  int main(int argc,char**argv)
+  &#123;
+    Mat img1&#x3D;imread(file_1,0);  &#x2F;&#x2F;以灰度读取图像，重点
+    Mat img2&#x3D;imread(file_2,0);
+    &#x2F;&#x2F;特征点检测
+    vector&lt;KeyPoint&gt;kp1;  &#x2F;&#x2F;关键点 存放在容器kp1中
+    Ptr&lt;GFTTDetector&gt; detector&#x3D;GFTTDetector::create(500,0.01,20); &#x2F;&#x2F;通过GFTTD来获取角点，参数：最大角点数目500;角点可以接受的最小特征值0.01;角点之间的最小距离20
+    detector-&gt;detect(img1,kp1);&#x2F;&#x2F;类似于ORB特征点的提取过程
+    
+    &#x2F;&#x2F;接下来实现在第二张图像中追踪这些角点，即追踪 kp1
+    &#x2F;&#x2F;第一种方法：单层光流
+    vector&lt;KeyPoint&gt;kp2_single;
+    vector&lt;bool&gt;success_single;
+    OpticalFlowSingleLevel(img1,img2,kp1,kp2_single,success_single);
+    
+    &#x2F;&#x2F;第二种方法：多层光流
+    vector&lt;KeyPoint&gt;kp2_multi;
+    vector&lt;bool&gt;success_multi;
+    chrono::steady_clock::time_point t1&#x3D;chrono::steady_clock::now();
+    OpticalFlowMultiLevel(img1,img2,kp1,kp2_multi,success_multi,true);
+    chrono::steady_clock::time_point t2&#x3D;chrono::steady_clock::now();
+    auto time_used&#x3D;chrono::duration_cast&lt;chrono::duration&lt;double&gt;&gt;(t2-t1);
+     &#x2F;&#x2F;输出使用高斯牛顿法所花费的时间
+    cout &lt;&lt; &quot;optical flow by gauss-newton: &quot; &lt;&lt; time_used.count() &lt;&lt; endl;
+
+    
+    &#x2F;&#x2F;使用OpenCV中的LK光流
+    vector&lt;Point2f&gt;pt1,pt2;
+    for(auto &amp;kp:kp1)     &#x2F;&#x2F;kp1中存放的是第一张图像中的角点，通过遍历，将kp1存放在pt1中
+      pt1.push_back(kp.pt);
+    vector&lt;uchar&gt;status;
+    vector&lt;float&gt;error;
+    t1&#x3D;chrono::steady_clock::now();
+    &#x2F;&#x2F;调用cv::calculateOpticalFlowPyrLK函数：
+    &#x2F;&#x2F;提供前后两张图像及对应的特征点，即可得到追踪后的点，以及各点的状态、误差;
+    &#x2F;&#x2F;根据status变量是否为1来确定对应的点是否被正确追踪到。
+    cv::calcOpticalFlowPyrLK(img1,img2,pt1,pt2,status,error);
+    t2&#x3D;chrono::steady_clock::now();
+    time_used&#x3D;chrono::duration_cast&lt;chrono::duration&lt;double&gt;&gt;(t2-t1);
+    cout &lt;&lt; &quot;optical flow by opencv: &quot; &lt;&lt; time_used.count() &lt;&lt; endl;  &#x2F;&#x2F;输出使用opencv所花费的时间
+    
+    &#x2F;&#x2F;下面一部分代码实现绘图的功能
+    &#x2F;&#x2F;第一张图像：单层光流的效果图
+     Mat img2_single;
+     &#x2F;&#x2F;将输入图像从一个空间转换到另一个色彩空间
+     cv::cvtColor(img2,img2_single,CV_GRAY2BGR); &#x2F;&#x2F;cvtColor(）函数实现的功能：将img2灰度图转换成彩色图img2_single输出
+     for(int i&#x3D;0;i&lt;kp2_single.size();i++)
+     &#123;
+       if(success_single[i])   &#x2F;&#x2F;判断是否追踪成功
+       &#123;
+	 &#x2F;&#x2F;circle():画圆：参数：源图像，画圆的圆心坐标，圆的半径，圆的颜色，线条的粗细程度
+	 &#x2F;&#x2F;kp2_single[i].pt：用来取第i个角点的坐标；Scalar(0,250,0)：设置颜色，遵循B G R ，所以此图中为绿色
+	 cv::circle(img2_single,kp2_single[i].pt,2,cv::Scalar(0,250,0),2);
+	 &#x2F;&#x2F;line():绘制直线：参数：要画的线所在的图像，直线起点，直线终点，直线的颜色（绿色）
+	 cv::line(img2_single,kp1[i].pt,kp2_single[i].pt,cv::Scalar(0,250,0));
+       &#125;
+     &#125;
+     
+     &#x2F;&#x2F;第二张图像：多层光流的效果图
+     Mat img2_multi;
+     cv::cvtColor(img2,img2_multi,CV_GRAY2BGR);
+      for(int i&#x3D;0;i&lt;kp2_multi.size();i++)
+     &#123;
+       if(success_multi[i])   
+       &#123;
+	 cv::circle(img2_multi,kp2_multi[i].pt,2,cv::Scalar(250,0,0),2);
+	  cv::line(img2_multi,kp1[i].pt,kp2_multi[i].pt,cv::Scalar(250,0,0));
+       &#125;
+     &#125;
+     
+     &#x2F;&#x2F;第三张图像：使用OpenCV中的LK光流
+     Mat img2_CV;
+     cv::cvtColor(img2,img2_CV,CV_GRAY2BGR);
+      for(int i&#x3D;0;i&lt;pt2.size();i++)
+     &#123;
+       if(status[i])   
+       &#123;
+	  cv::circle(img2_CV,pt2[i],2,cv::Scalar(0,0,250),2);
+	  cv::line(img2_CV,pt1[i],pt2[i],cv::Scalar(0,0,250));
+       &#125;
+     &#125;
+     
+     &#x2F;&#x2F;
+     cv::imshow(&quot;tracked single level&quot;,img2_single);
+     cv::imshow(&quot;tracked multi level&quot;,img2_multi);
+     cv::imshow(&quot;tracked by opencv&quot;,img2_CV);
+     cv::waitKey(0);
+     return 0;
+  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><em><strong>具体功能实现如下：</strong></em></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++"> &#x2F;&#x2F;接下来这一部分：具体函数的实现
+ &#x2F;&#x2F;第一个：单层光流函数的实现
+ void OpticalFlowSingleLevel(
+   const Mat &amp;img1,
+   const Mat &amp;img2,
+   const vector&lt;KeyPoint&gt;&amp;kp1,
+   vector&lt;KeyPoint&gt;&amp;kp2,
+   vector&lt;bool&gt;&amp;success,
+   bool inverse,
+   bool has_initial)
+ &#123;
+   &#x2F;&#x2F;resize()函数：调整图像的大小；size（）函数：获取kp1的长度
+   &#x2F;&#x2F;初始化
+   kp2.resize(kp1.size());
+   success.resize(kp1.size());   &#x2F;&#x2F;是否追踪成功的标志
+   
+   OpticalFlowTracker tracker(img1,img2,kp1,kp2,success,inverse,has_initial);  &#x2F;&#x2F;创建类的对象tracker
+   &#x2F;&#x2F;调用parallel_for_并行调用OpticalFlowTracker::calculateOpticalFlow，该函数计算指定范围内特征点的光流
+   &#x2F;&#x2F;range():从指定的第一个值开始，并在到达指定的第二个值后终止
+   parallel_for_(Range(0,kp1.size()),std::bind(&amp;OpticalFlowTracker::calculateOpticalFlow,&amp;tracker,placeholders::_1));
+ &#125;
+ 
+ &#x2F;&#x2F;类外实现成员函数
+ void OpticalFlowTracker::calculateOpticalFlow(const Range &amp;range)
+ &#123;
+   &#x2F;&#x2F;定义参数
+   int half_patch_size&#x3D;4;  &#x2F;&#x2F;窗口的大小8×8
+   int iterations&#x3D;10;  &#x2F;&#x2F;每个角点迭代10次
+   for(size_t i&#x3D;range.start;i&lt;range.end;i++)
+   &#123;
+     auto kp&#x3D;kp1[i];   &#x2F;&#x2F;将第一张图像中的第i个关键点kp1[i]存放在 kp 中
+     double dx&#x3D;0,dy&#x3D;0; &#x2F;&#x2F;初始化
+     if(has_initial)
+     &#123;
+dx&#x3D;kp2[i].pt.x-kp.pt.x;   &#x2F;&#x2F;第i个点在第二张图像中的位置与第一张图像中的位置的差值
+dy&#x3D;kp2[i].pt.y-kp.pt.y;
+     &#125;
+     
+     double cost&#x3D;0,lastCost&#x3D;0;
+     bool succ&#x3D;true;
+     
+     &#x2F;&#x2F;高斯牛顿方程
+     &#x2F;&#x2F;高斯牛顿迭代
+     Eigen::Matrix2d H &#x3D; Eigen::Matrix2d::Zero();   &#x2F;&#x2F;定义H，并进行初始化。
+     Eigen::Vector2d b &#x3D; Eigen::Vector2d::Zero();   &#x2F;&#x2F;定义b，并初始化.
+     Eigen::Vector2d J;   &#x2F;&#x2F;定义雅克比矩阵2×1
+     for(int iter&#x3D;0;iter&lt;iterations;iter++)
+     &#123;
+if(inverse&#x3D;&#x3D;false)
+&#123;
+  H&#x3D;Eigen::Matrix2d::Zero();
+  b&#x3D;Eigen::Vector2d::Zero();
+&#125;
+else
+&#123;
+  b&#x3D;Eigen::Vector2d::Zero();
+&#125;
+cost&#x3D;0;
+&#x2F;&#x2F;假设在这个8×8的窗口内像素具有同样的运动
+&#x2F;&#x2F;计算cost和J
+for(int x&#x3D;-half_patch_size;x&lt;half_patch_size;x++)
+  for(int y&#x3D;-half_patch_size;y&lt;half_patch_size;y++)
+  &#123;
+    &#x2F;&#x2F;GetPixelValue（）计算某点的灰度值
+    &#x2F;&#x2F;计算残差：I(x,y)-I(x+dx,y+dy)
+    double error&#x3D;GetPixelValue(img1,kp.pt.x+x,kp.pt.y+y)-GetPixelValue(img2,kp.pt.x+x+dx,kp.pt.y+y+dy);;
+    if(inverse&#x3D;&#x3D;false)
+    &#123;
+      &#x2F;&#x2F;雅克比矩阵为第二个图像在x+dx,y+dy处的梯度
+      J&#x3D;-1.0*Eigen::Vector2d(0.5*(GetPixelValue(img2,kp.pt.x+dx+x+1,kp.pt.y+dy+y)-
+                                 GetPixelValue(img2,kp.pt.x+dx+x-1,kp.pt.y+dy+y)),
+			     0.5*(GetPixelValue(img2,kp.pt.x+dx+x,kp.pt.y+dy+y+1)-
+			         GetPixelValue(img2,kp.pt.x+dx+x,kp.pt.y+dy+y-1)));
+    &#125;
+    else if(iter&#x3D;&#x3D;0)  &#x2F;&#x2F;如果是第一次迭代，梯度为第一个图像的梯度，反向光流法
+      &#x2F;&#x2F;在反向光流中，I(x,y)的梯度是保持不变的，可以在第一次迭代时保留计算的结果，在后续的迭代中使用。
+      &#x2F;&#x2F;当雅克比矩阵不变时，H矩阵不变，每次迭代只需要计算残差。
+    &#123;
+      J&#x3D;-1.0*Eigen::Vector2d(0.5*(GetPixelValue(img1,kp.pt.x+x+1,kp.pt.y+y)-
+                                 GetPixelValue(img1,kp.pt.x+x-1,kp.pt.y+y)),
+			     0.5*(GetPixelValue(img1,kp.pt.x+x,kp.pt.y+y+1)-
+			         GetPixelValue(img1,kp.pt.x+x,kp.pt.y+y-1)));
+    &#125;
+    &#x2F;&#x2F;计算H和b
+    b+&#x3D;-error*J;
+    cost+&#x3D;error*error;
+    if(inverse&#x3D;&#x3D;false||iter&#x3D;&#x3D;0)
+    &#123;
+      H+&#x3D;J*J.transpose();
+    &#125;
+  &#125;
+  &#x2F;&#x2F;计算增量update，求解线性方程Hx&#x3D;b
+  Eigen::Vector2d update&#x3D;H.ldlt().solve(b);
+  if(std::isnan(update[0]))  &#x2F;&#x2F;判断增量
+  &#123;
+    &#x2F;&#x2F;有时当我们遇到一个黑色或白色的方块，H是不可逆的，即高斯牛顿方程无解
+    cout&lt;&lt;&quot;update is nan&quot;&lt;&lt;endl;
+    succ&#x3D;false;   &#x2F;&#x2F;追踪失败
+    break;
+  &#125;
+  if(iter&gt;0&amp;&amp;cost&gt;lastCost)
+  &#123;
+    break;
+  &#125;
+  dx+&#x3D;update[0];
+  dy+&#x3D;update[1];
+  lastCost&#x3D;cost;
+  succ&#x3D;true;
+  if(update.norm()&lt;1e-2)
+  &#123;
+    break;
+  &#125;
+     &#125;
+     success[i]&#x3D;succ;
+     kp2[i].pt&#x3D;kp.pt+Point2f(dx,dy);
+   &#125;
+ &#125;&#x2F;&#x2F;迭代完成
+ 
+ &#x2F;&#x2F;第二个：多层光流函数的实现
+ void OpticalFlowMultiLevel(
+   const Mat &amp;img1,
+   const Mat &amp;img2,
+   const vector&lt;KeyPoint&gt;&amp;kp1,
+   vector&lt;KeyPoint&gt;&amp;kp2,
+   vector&lt;bool&gt;&amp;success,
+   bool inverse)
+ &#123;
+   int pyramids&#x3D;4; &#x2F;&#x2F;建立4层金字塔
+   double pyramid_scale&#x3D;0.5;  &#x2F;&#x2F;金字塔每层缩小0.5
+   double scales[]&#x3D;&#123;1.0,0.5,0.25,0.125&#125;;
+   
+   &#x2F;&#x2F;建立金字塔
+   chrono::steady_clock::time_point t1&#x3D;chrono::steady_clock::now();  &#x2F;&#x2F;计算时间
+   vector&lt;Mat&gt;pyr1,pyr2;
+   for(int i&#x3D;0;i&lt;pyramids;i++)
+   &#123;
+     if(i&#x3D;&#x3D;0)
+     &#123;
+&#x2F;&#x2F;将两张图像存放在pyr1,pyr2中
+pyr1.push_back(img1);    
+pyr2.push_back(img2);
+     &#125;
+     else
+     &#123;
+Mat img1_pyr,img2_pyr;
+&#x2F;&#x2F;对图像进行缩放，参数：原图，输出图像，输出图像大小，Size（宽度，高度）
+cv::resize(pyr1[i-1],img1_pyr,cv::Size(pyr1[i-1].cols*pyramid_scale,pyr1[i-1].rows*pyramid_scale));
+cv::resize(pyr2[i-1],img2_pyr,cv::Size(pyr2[i-1].cols*pyramid_scale,pyr2[i-1].rows*pyramid_scale));
+pyr1.push_back(img1_pyr);
+pyr2.push_back(img2_pyr);
+     &#125;
+   &#125;
+   chrono::steady_clock::time_point t2&#x3D;chrono::steady_clock::now();
+   auto time_used&#x3D;chrono::duration_cast&lt;chrono::duration&lt;double&gt;&gt;(t2-t1);
+   cout&lt;&lt;&quot;build pyramid time:&quot;&lt;&lt;time_used.count()&lt;&lt;endl;
+   
+   &#x2F;&#x2F;计算光流时，先从顶层的图像开始计算
+   vector&lt;KeyPoint&gt;kp1_pyr,kp2_pyr;
+   for(auto &amp;kp:kp1)
+   &#123;
+     auto kp_top&#x3D;kp;
+     kp_top.pt *&#x3D;scales[pyramids-1];   &#x2F;&#x2F;顶层
+     kp1_pyr.push_back(kp_top);
+     kp2_pyr.push_back(kp_top);
+   &#125;
+   
+   for(int level&#x3D;pyramids-1;level&gt;&#x3D;0;level--)
+   &#123;
+     success.clear();
+     t1&#x3D;chrono::steady_clock::now();
+     OpticalFlowSingleLevel(pyr1[level],pyr2[level],kp1_pyr,kp2_pyr,success,inverse,true);
+     t2&#x3D;chrono::steady_clock::now();
+     auto time_used&#x3D;chrono::duration_cast&lt;chrono::duration&lt;double&gt;&gt;(t2-t1);
+     cout&lt;&lt;&quot;track pyr&quot;&lt;&lt;level&lt;&lt;&quot;cost time:&quot;&lt;&lt;time_used.count()&lt;&lt;endl;
+     if(level&gt;0)
+     &#123;
+for(auto &amp;kp:kp1_pyr)
+  kp.pt&#x2F;&#x3D;pyramid_scale;
+for(auto &amp;kp:kp2_pyr)
+  kp.pt&#x2F;&#x3D;pyramid_scale;
+     &#125;
+   &#125;
+   for(auto &amp;kp:kp2_pyr)
+     kp2.push_back(kp);
+ &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_51547017/article/details/115359316?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-115359316-blog-126934983.235%5Ev28%5Epc_relevant_recovery_v2&spm=1001.2101.3001.4242.1&utm_relevant_index=3">视觉SLAM第八讲视觉里程计2— LK光流—代码详细讲解</a></p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_138.png" alt="运行结果"></p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_137.png" alt="运行结果"></p>
+<h3 id="ch8-x2F-direct-method-cpp"><a href="#ch8-x2F-direct-method-cpp" class="headerlink" title="ch8&#x2F;direct_method.cpp"></a>ch8&#x2F;direct_method.cpp</h3><p>在光流中，我们会首先追踪特征点的位置，再根据这些位置确定相机的运动。这样一种两步走的方案，很难保证全局最优。直接法通过在后一步中调整前一步的结果</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/pj18862486309/article/details/107829914?spm=1001.2101.3001.6650.6&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-6-107829914-blog-126993782.235%5Ev28%5Epc_relevant_recovery_v2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-6-107829914-blog-126993782.235%5Ev28%5Epc_relevant_recovery_v2&utm_relevant_index=10">视觉十四讲：第八讲_直接法</a></p>
+<p><img src="/pic/%E9%80%89%E5%8C%BA_139.png" alt="直接法的讨论"></p>
+<p>代码注释待更新~~~~</p>
+
                 
             </div>
             <hr/>
@@ -1842,6 +2242,10 @@ void bundleAdjustment(const vector&lt;Point3f&gt; &amp;pts1,
                             
                                 <a href="/tags/slam/">
                                     <span class="chip bg-color">slam</span>
+                                </a>
+                            
+                                <a href="/tags/c/">
+                                    <span class="chip bg-color">c++</span>
                                 </a>
                             
                         </div>
@@ -1952,6 +2356,10 @@ void bundleAdjustment(const vector&lt;Point3f&gt; &amp;pts1,
                                     slam
                                 </a>
                             
+                            <a href="/categories/slam/c/" class="post-category">
+                                    c++
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -1962,6 +2370,10 @@ void bundleAdjustment(const vector&lt;Point3f&gt; &amp;pts1,
                     
                     <a href="/tags/slam/">
                         <span class="chip bg-color">slam</span>
+                    </a>
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
                     </a>
                     
                 </div>
@@ -2002,6 +2414,10 @@ void bundleAdjustment(const vector&lt;Point3f&gt; &amp;pts1,
                                     slam
                                 </a>
                             
+                            <a href="/categories/slam/c/" class="post-category">
+                                    c++
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -2011,6 +2427,10 @@ void bundleAdjustment(const vector&lt;Point3f&gt; &amp;pts1,
                     
                     <a href="/tags/slam/">
                         <span class="chip bg-color">slam</span>
+                    </a>
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
                     </a>
                     
                     <a href="/tags/CMake/">
@@ -2228,7 +2648,7 @@ void bundleAdjustment(const vector&lt;Point3f&gt; &amp;pts1,
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">44.6k</span>
+                        class="white-color">48.1k</span>
             
             
             
