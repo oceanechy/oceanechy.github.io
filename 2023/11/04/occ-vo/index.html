@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="分类: net, Ocean">
-    <meta name="description" content="要善良,要勇敢,要像星星一样努力发光。若是你心怀旧梦，就别再无疾而终。加油，为实现梦想努力。梦想再遥远，也要笑着走去，毕竟沿途有很多美景等着去欣赏。">
+    <meta name="keywords" content="OCC-VO:生成面向自动驾驶的基于3D占用栅格的视觉里程计稠密地图, Ocean">
+    <meta name="description" content="一个新颖的VO框架，结合3D语义占用栅格，用于自动驾驶场景中的密集地图生成。通过设计的滤波器，OCC-VO在自动驾驶环境中取得了更高的准确性和稳健性。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>分类: net | Ocean</title>
+    <title>OCC-VO:生成面向自动驾驶的基于3D占用栅格的视觉里程计稠密地图 | Ocean</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -308,306 +308,503 @@
 
 </header>
 
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">OCC-VO:生成面向自动驾驶的基于3D占用栅格的视觉里程计稠密地图</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
     <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                寂静于暖，安静于甜
-                
-            </div>
-
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="/libs/typed/typed.js"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: [ 
-                            
-                                "行百里者半九十",
-                            
-                                "但行前路，不负韶华",
-                            
-                                "美好的一天，上帝不会就这样给你，需要自己去创造。",
-                            
-                                "既然选择远方，当不负青春，砥砺前行。",
-                            
-                                "生活很苦，但不要放弃爱与希望",
-                            
-                        ],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    var bannerUrl = "/medias/banner/" + new Date().getDay() + '.jpg';
-    $('.bg-cover').css('background-image', 'url(' + bannerUrl + ')');
-</script>
-
-
-    </div>
-</div>
-
-<main class="content">
-
-    
-
-<div id="category-cloud" class="container chip-container">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
     <div class="card">
-        <div class="card-content">
-            <div class="tag-title center-align">
-                <i class="fas fa-bookmark"></i>&nbsp;&nbsp;文章分类
-            </div>
-            <div class="tag-chips">
-                
-                
-                
-                <a href="/categories/cs231A/" title="cs231A: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9EBEA;">cs231A
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/DL/" title="DL: 4">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F5EEF8;">DL
-                        <span class="tag-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/Opencv/" title="Opencv: 6">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #D5F5E3;">Opencv
-                        <span class="tag-length">6</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/DL/slam/" title="slam: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">slam
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/c/" title="c++: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #FEF9E7;">c++
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/Opencv/Camera/" title="Camera: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F8F9F9;">Camera
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/git/" title="git: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #82E0AA;">git
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/slam/" title="slam: 4">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #D7BDE2;">slam
-                        <span class="tag-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/Opencv/PnP/" title="PnP: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #A3E4D7;">PnP
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/net/" title="net: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            style="background-color: #85C1E9;">net
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/ROS/" title="ROS: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F8C471;">ROS
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/linux/" title="linux: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9E79F;">linux
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/Opencv/PnP/HEF/" title="HEF: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F8F9F9;">HEF
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/net/DL/" title="DL: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9EBEA;">DL
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/ROS/c/" title="c++: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">c++
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/slam/c/" title="c++: 3">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">c++
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/docker/" title="docker: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F8F9F9;">docker
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-
-    
-
-    <article id="articles" class="container articles">
-        <div class="row tags-posts">
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/03/31/net/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="服务器开发与工具使用（vscode,anaconda,DL等）">
-                            
-                            <span class="card-title">服务器开发与工具使用（vscode,anaconda,DL等）</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                使用服务器开发，包括配置开发环境，深度学习框架，使用vscode的进行远程链接服务器开发等
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-31
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/net/" class="post-category">
-                                    net
-                                </a>
-                                
-                                <a href="/categories/net/DL/" class="post-category">
-                                    DL
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
                     
-                    <div class="card-action article-tags">
+                    <div class="article-tag">
                         
-                        <a href="/tags/net/">
-                            <span class="chip bg-color">net</span>
-                        </a>
+                            <a href="/tags/ssc/">
+                                <span class="chip bg-color">ssc</span>
+                            </a>
                         
-                        <a href="/tags/ssh/">
-                            <span class="chip bg-color">ssh</span>
-                        </a>
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/tags/DL/">
-                            <span class="chip bg-color">DL</span>
-                        </a>
+                            <a href="/categories/DL/" class="post-category">
+                                DL
+                            </a>
                         
-                        <a href="/tags/vscode/">
-                            <span class="chip bg-color">vscode</span>
-                        </a>
-                        
-                        <a href="/tags/anaconda/">
-                            <span class="chip bg-color">anaconda</span>
-                        </a>
+                            <a href="/categories/DL/slam/" class="post-category">
+                                slam
+                            </a>
                         
                     </div>
                     
                 </div>
             </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-11-04
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    3 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="OCC-VO-Dense-Mapping-via-3D-Occupancy-Based-Visual-Odometry-for-Autonomous-Driving"><a href="#OCC-VO-Dense-Mapping-via-3D-Occupancy-Based-Visual-Odometry-for-Autonomous-Driving" class="headerlink" title="OCC-VO: Dense Mapping via 3D Occupancy-Based Visual Odometry for Autonomous Driving"></a>OCC-VO: Dense Mapping via 3D Occupancy-Based Visual Odometry for Autonomous Driving</h1><p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.11011.pdf">OCC-VO-pdf</a><br>代码链接：<a target="_blank" rel="noopener" href="https://github.com/USTCLH/OCC-VO">OCC-VO-py</a></p>
+<p>生成面向自动驾驶的基于3D占用栅格的视觉里程计稠密地图</p>
+<p>主要贡献：</p>
+<ol>
+<li><p><strong>OCC-VO框架的设计和开发：</strong> 作者设计并开发了OCC-VO框架，该框架接受环视相机图像作为输入，并生成密集语义地图，有助于增强场景理解，从而支持感知和导航等下游任务。</p>
+</li>
+<li><p><strong>3D语义占用预测模块：</strong> 在OCC-VO框架中，使用了名为TPV-Former的开源3D语义占用预测模块，用于将环视相机图像转化为3D语义占用栅格，实现对环境的语义理解。</p>
+</li>
+<li><p><strong>位姿估计和地图算法的定制：</strong> 为了解决3D语义占用地图的配准问题，作者设计了一种专为此任务定制的位姿估计和地图算法。该算法以GICP算法为基础，结合语义约束，以更好地对齐点云数据，特别适用于处理具有相似几何结构但不同语义的场景，如自动驾驶道路表面。</p>
+</li>
+<li><p><strong>全局语义地图的构建：</strong> 在地图创建阶段，借鉴了PFilter中的思想，消除了不可靠的点，从而创建了一个更稳健的全局语义地图。</p>
+</li>
+<li><p><strong>精准的地图和姿态估计：</strong> 最终的成果是经过精心调整的姿态估计和高度准确的地图，为感知和导航任务提供了可靠的基础。</p>
+</li>
+</ol>
+<p>这些贡献共同构成了这项工作的核心，旨在提高环境理解和导航系统的性能，特别是在自动驾驶等领域中。</p>
+<p>这段文本提供了关于OCC-VO框架的详细信息，包括作者、代码地址以及主要贡献。以下是以Markdown形式的总结：</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>OCC-VO是一个新颖的框架，充分利用深度学习技术，将2D相机图像转化为3D语义占用，以解决自主系统中的视觉里程计（VO）挑战。它使用TPV-Former模块将环视相机图像转化为3D语义占用，经过特定设计的位姿估计和地图算法，包括语义标签滤波器、动态对象滤波器以及Voxel PFilter，生成密集的全局语义地图。在Occ3D-nuScenes数据集上的评估结果表明，OCC-VO相较于ORB-SLAM3取得了更高的成功率和轨迹准确性，成功率提高了20.6%，轨迹准确性提高了29.6%。</p>
+<h2 id="主要贡献"><a href="#主要贡献" class="headerlink" title="主要贡献"></a>主要贡献</h2><ol>
+<li><p>设计和开发OCC-VO框架，将环视相机图像转化为密集语义地图，用于增强场景理解和支持感知和导航任务。</p>
+</li>
+<li><p>使用TPV-Former模块，将环视相机图像转化为3D语义占用栅格。</p>
+</li>
+<li><p>定制位姿估计和地图算法，包括语义标签滤波器、动态对象滤波器，以及Voxel PFilter，以提高配准和全局地图一致性。</p>
+</li>
+<li><p>在Occ3D-nuScenes数据集上的评估，显示OCC-VO在自动驾驶场景中取得了较高的准确性和稳健性，尤其相较于ORB-SLAM3。</p>
+</li>
+</ol>
+<h2 id="内容概述"><a href="#内容概述" class="headerlink" title="内容概述"></a>内容概述</h2><ul>
+<li><p>系统概述：介绍了OCC-VO的工作流程，包括图像转化、姿态估计、过滤器应用，以及全局地图维护。</p>
+</li>
+<li><p>语义标签过滤器：介绍了基于语义标签的对象过滤方法，以提高配准准确性。</p>
+</li>
+<li><p>动态对象过滤器：解释了如何处理动态对象，以平衡准确性和场景恶化。</p>
+</li>
+<li><p>Voxel PFilter：介绍了引入Voxel PFilter来维护全局地图的一致性，校正网络干扰噪音。</p>
+</li>
+<li><p>实验：使用Occ3D-nuScenes数据集评估OCC-VO，比较其性能和执行时间分析。</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>OCC-VO是一个新颖的VO框架，结合3D语义占用栅格，用于自动驾驶场景中的密集地图生成。通过设计的滤波器，OCC-VO在自动驾驶环境中取得了更高的准确性和稳健性。未来的工作将包括将环路闭合检测等模块整合到OCC-VO中，以发展成为一个完整的SLAM系统。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/q_YpZSS2mDoa2SNhUCAOTg">来源</a></strong></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">oceanechy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://oceanechy.github.io/2023/11/04/occ-vo/">http://oceanechy.github.io/2023/11/04/occ-vo/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">oceanechy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/ssc/">
+                                    <span class="chip bg-color">ssc</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
             
         </div>
-    </article>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2023/11/05/code-ssc2/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="语义场景补全（SSC）代码篇（二）">
+                        
+                        <span class="card-title">语义场景补全（SSC）代码篇（二）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            SSC中的理论与代码实现总结(第二章)
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-11-05
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ssc/">
+                        <span class="chip bg-color">ssc</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/11/03/code-ssc/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="语义场景补全（SSC）代码篇（一）">
+                        
+                        <span class="card-title">语义场景补全（SSC）代码篇（一）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            SSC中的理论与代码实现总结(第一章)
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ssc/">
+                        <span class="chip bg-color">ssc</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
 </main>
 
 
