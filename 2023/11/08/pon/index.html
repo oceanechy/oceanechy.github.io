@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="图像变换(image_transformer), Ocean">
-    <meta name="description" content="几何空间变换是图像处理中的最基础的算法，主要包括图像的旋转，平移，缩放，偏移，组合变换等等,本文从基本的变换开始，对常用的变换进行总结">
+    <meta name="keywords" content="PON:利用金字塔占用网络预测图像的语义地图表示, Ocean">
+    <meta name="description" content="提出了一个dense transformer（并非self attention的transformer， 只是MLP结构）的网络结构用于将2D图转换成BEV">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>图像变换(image_transformer) | Ocean</title>
+    <title>PON:利用金字塔占用网络预测图像的语义地图表示 | Ocean</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -312,12 +312,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">图像变换(image_transformer)</h1>
+                    <h1 class="description center-align post-title">PON:利用金字塔占用网络预测图像的语义地图表示</h1>
                 </div>
             </div>
         </div>
@@ -341,12 +341,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/transformer/">
-                                <span class="chip bg-color">transformer</span>
-                            </a>
-                        
-                            <a href="/tags/opencv/">
-                                <span class="chip bg-color">opencv</span>
+                            <a href="/tags/bev/">
+                                <span class="chip bg-color">bev</span>
                             </a>
                         
                     </div>
@@ -357,8 +353,12 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/cs231A/" class="post-category">
-                                cs231A
+                            <a href="/categories/DL/" class="post-category">
+                                DL
+                            </a>
+                        
+                            <a href="/categories/DL/bev/" class="post-category">
+                                bev
                             </a>
                         
                     </div>
@@ -370,7 +370,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-27
+                    2023-11-08
                 </div>
                 
 
@@ -379,14 +379,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    918
+                    303
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    1 分
                 </div>
                 
 
@@ -409,117 +409,18 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="图像变换"><a href="#图像变换" class="headerlink" title="图像变换"></a>图像变换</h1><p>基本的图像变换有<strong>刚性变换(等距变换、欧式变换)、相似变换、仿射变换、射影变换(透视变换、投影变换)</strong></p>
-<blockquote>
-<p>刚性变化：只对图像进行平移与旋转，形状保持不变</p>
-</blockquote>
-<p>欧式变换（等距变换）保持了向量的<strong>长度和夹角</strong>，相当于我们把一个刚体原封不动地进行移动或旋转，不改变它自身的样子</p>
-<p><img src="/pic/%E9%80%89%E5%8C%BA_020.png" alt="刚体变换矩阵"></p>
-<blockquote>
-<p>相似变换： 等距变换与一个均匀缩放的复合；等距变换+ 均匀缩放，类似相似三角形，比例不变</p>
-</blockquote>
-<p>相似变换比欧氏变换多了一个自由度，它允许物体进行均匀的放缩，其矩阵表示形式为：</p>
-<p><img src="/pic/%E9%80%89%E5%8C%BA_021.png" alt="相似变换矩阵"></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> cv2
-<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
-<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
-
-img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'/hone/chy/pic/git.png'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
-img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>cvtColor<span class="token punctuation">(</span>img<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>COLOR_BGR2RGB<span class="token punctuation">)</span>
-
-<span class="token comment"># print(img.shape)</span>
-
-<span class="token comment"># 得到相似变换的矩阵  # center：旋转中心 angle：旋转角度   scale：缩放比例</span>
-M <span class="token operator">=</span> cv2<span class="token punctuation">.</span>getRotationMatrix2D<span class="token punctuation">(</span>center <span class="token operator">=</span> <span class="token punctuation">(</span>img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">,</span>img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-                              angle <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">,</span>
-                              scale <span class="token operator">=</span> <span class="token number">0.5</span><span class="token punctuation">)</span> 
-
-<span class="token comment"># 原图像按照相似矩阵进行相似变换  三个参数：原图像，相似矩阵，画布面积</span>
-img_rotate <span class="token operator">=</span> cv2<span class="token punctuation">.</span>warpAffine<span class="token punctuation">(</span>img<span class="token punctuation">,</span> M<span class="token punctuation">,</span> <span class="token punctuation">(</span>img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span>figsize<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>subplot<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span>img<span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>subplot<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span>img_rotate<span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><img src="/pic/%E9%80%89%E5%8C%BA_019.png" alt="相似变换结果"></p>
-<blockquote>
-<p>仿射变换：非齐次坐标下的一个非奇异线性变换与一个平移变换的复合，（即第三行是0,0,1）; 旋转+平移+缩放+切变，保持平行性</p>
-</blockquote>
-<p>仿射变换只要求 A 是一个可逆矩阵，而不必是正交矩阵。仿射变换也叫正交投影。经过仿射变换之后，立方体就不再是方的了，但是各个面仍是平行四边形 </p>
+                <h1 id="PON-Predicting-Semantic-Map-Representations-from-Images-using-Pyramid-Occupancy-Networks"><a href="#PON-Predicting-Semantic-Map-Representations-from-Images-using-Pyramid-Occupancy-Networks" class="headerlink" title="PON:Predicting Semantic Map Representations from Images using Pyramid Occupancy Networks"></a>PON:Predicting Semantic Map Representations from Images using Pyramid Occupancy Networks</h1><p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.13402.pdf">PON-pdf</a><br>代码链接：<a target="_blank" rel="noopener" href="https://github.com/tom-roddick/mono-semantic-maps">PON-py</a></p>
+<p>PON:利用金字塔占用网络预测图像的语义地图表示</p>
+<p>提出了一个dense transformer（并非self attention的transformer， 只是MLP结构）的网络结构用于将2D图转换成BEV</p>
+<p>我们的贡献如下:</p>
 <ul>
-<li>性质：Parallel lines are still parallel lines（不再具有保角性，具有保平行性）</li>
-<li>三个非共线的点对（6 parameters）确定一个仿射变换。</li>
+<li>提出了一种新的密集变换层，它将基于图像的特征图映射到鸟瞰图空间。</li>
+<li>设计了一个深度卷积神经网络架构，其中包括在多个图像尺度上运行的变压器金字塔，以从单眼图像预测准确的鸟瞰图。</li>
+<li>我们在两个大规模自动驾驶数据集上评估我们的方法，并表明我们能够显着提高文献中领先作品的性能。<br>我们还定性地展示了如何使用贝叶斯语义占用网格框架来累积跨多个相机和时间步长的地图预测，以构建完整的场景模型。 该方法足够快，可用于实时应用程序，在单个 GeForce RTX 2080 Ti 显卡上每秒处理 23.2 帧</li>
 </ul>
-<p><img src="/pic/%E9%80%89%E5%8C%BA_022.png" alt="仿射变换矩阵"></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> cv2
-<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
-<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
-
-<span class="token comment"># 3 Src(原始) Points + 3 Dst(目标) Points</span>
-<span class="token comment"># cols：列/长  rows：行/宽</span>
-
-img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'lenna.jpg'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
-img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>cvtColor<span class="token punctuation">(</span>img<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>COLOR_BGR2RGB<span class="token punctuation">)</span>
-
-<span class="token comment"># print(img.shape)</span>
-
-cols <span class="token operator">=</span> img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
-rows <span class="token operator">=</span> img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
-
-pt1 <span class="token operator">=</span> np<span class="token punctuation">.</span>float32<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>cols<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> rows<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-pt2 <span class="token operator">=</span> np<span class="token punctuation">.</span>float32<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span>cols<span class="token operator">*</span><span class="token number">0.3</span><span class="token punctuation">,</span> rows<span class="token operator">*</span><span class="token number">0.3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>cols<span class="token operator">*</span><span class="token number">0.8</span><span class="token punctuation">,</span> rows<span class="token operator">*</span><span class="token number">0.2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>cols<span class="token operator">*</span><span class="token number">0.1</span><span class="token punctuation">,</span> rows<span class="token operator">*</span><span class="token number">0.9</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-
-<span class="token comment"># [[0,0], [cols, 0], [0, rows]] --> [[cols*0.3, rows*0.3], [cols*0.8, rows*0.2], [cols*0.1, rows*0.9]]</span>
-M <span class="token operator">=</span> cv2<span class="token punctuation">.</span>getAffineTransform<span class="token punctuation">(</span>pt1<span class="token punctuation">,</span> pt2<span class="token punctuation">)</span>       <span class="token comment"># 仿射变换矩阵</span>
-dst <span class="token operator">=</span> cv2<span class="token punctuation">.</span>warpAffine<span class="token punctuation">(</span>img<span class="token punctuation">,</span> M<span class="token punctuation">,</span> <span class="token punctuation">(</span>cols<span class="token punctuation">,</span> rows<span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span>figsize<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>subplot<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span>img<span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>subplot<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span>dst<span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="/pic/%E9%80%89%E5%8C%BA_024.png" alt="仿射变换结果"></p>
-<blockquote>
-<p>射影变换:次坐标的一般非奇异线性变换 。射影变换可以分解为相似变换，仿射变换，射影变换的复合，不保留平行性，保留重合关系、长度的交比</p>
-</blockquote>
-<p><img src="/pic/%E9%80%89%E5%8C%BA_026.png" alt="射影变换矩阵"></p>
-<p>它左上角为可逆矩阵 A，右上为平移 t，左下缩放 a^{T} 。由于采用齐坐标，当 v \neq 0 时吗我们可以对整个矩阵除于 v得到一个右下角为 1 的矩阵；否则，则得到右下角为 0 的矩阵。因此，2D 的射影变换一共有8个自由度，3D则共有15个自由度。</p>
-<ul>
-<li>性质：Lines are still lines（不保角，不保平行，保直线性）</li>
-<li>四个非共线的点对（8 parameters）确定一个透视变换</li>
-</ul>
-<p><img src="/pic/%E9%80%89%E5%8C%BA_023.png" alt="射影变换矩阵"></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> cv2
-<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
-<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
-
-img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'lenna.jpg'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
-img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>cvtColor<span class="token punctuation">(</span>img<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>COLOR_BGR2RGB<span class="token punctuation">)</span>
-
-width <span class="token operator">=</span> img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
-height <span class="token operator">=</span> img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
-
-pts1 <span class="token operator">=</span> np<span class="token punctuation">.</span>float32<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>width<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span>height<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>width<span class="token punctuation">,</span>height<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-pts2 <span class="token operator">=</span> np<span class="token punctuation">.</span>float32<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span>width<span class="token operator">*</span><span class="token number">0.1</span><span class="token punctuation">,</span>height<span class="token operator">*</span><span class="token number">0.1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>width<span class="token operator">*</span><span class="token number">0.9</span><span class="token punctuation">,</span> width<span class="token operator">*</span><span class="token number">0.1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>height<span class="token operator">*</span><span class="token number">0.2</span><span class="token punctuation">,</span>height<span class="token operator">*</span><span class="token number">0.8</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>width<span class="token operator">*</span><span class="token number">0.7</span><span class="token punctuation">,</span>height<span class="token operator">*</span><span class="token number">0.7</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-
-M_warp <span class="token operator">=</span> cv2<span class="token punctuation">.</span>getPerspectiveTransform<span class="token punctuation">(</span>pts1<span class="token punctuation">,</span> pts2<span class="token punctuation">)</span>     <span class="token comment"># 单应性矩阵</span>
-img_warp <span class="token operator">=</span> cv2<span class="token punctuation">.</span>warpPerspective<span class="token punctuation">(</span>img<span class="token punctuation">,</span> M_warp<span class="token punctuation">,</span> <span class="token punctuation">(</span>width<span class="token punctuation">,</span> height<span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span>figsize<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>subplot<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span>img<span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>subplot<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span>img_warp<span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><img src="/pic/%E9%80%89%E5%8C%BA_025.png" alt="射影变换结果"></p>
+<p>一些参考链接</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43889128/article/details/122301675?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522169927967316800213076409%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=169927967316800213076409&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-122301675-null-null.142%5Ev96%5Epc_search_result_base3&utm_term=Predicting%20Semantic%20Map%20Representations%20from%20Images%20using%20Pyramid%20Occupancy%20Networks&spm=1018.2226.3001.4187">翻译</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Never__Say__No/article/details/120958739?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522169927967316800213076409%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=169927967316800213076409&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-4-120958739-null-null.142%5Ev96%5Epc_search_result_base3&utm_term=Predicting%20Semantic%20Map%20Representations%20from%20Images%20using%20Pyramid%20Occupancy%20Networks&spm=1018.2226.3001.4187">图像到BEV转换</a></p>
 
                 
             </div>
@@ -546,7 +447,7 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://oceanechy.github.io/2023/03/27/image-transformer/">http://oceanechy.github.io/2023/03/27/image-transformer/</a>
+                    <a href="http://oceanechy.github.io/2023/11/08/pon/">http://oceanechy.github.io/2023/11/08/pon/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -584,12 +485,8 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/transformer/">
-                                    <span class="chip bg-color">transformer</span>
-                                </a>
-                            
-                                <a href="/tags/opencv/">
-                                    <span class="chip bg-color">opencv</span>
+                                <a href="/tags/bev/">
+                                    <span class="chip bg-color">bev</span>
                                 </a>
                             
                         </div>
@@ -668,42 +565,52 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/03/27/slam/">
+                <a href="/2023/11/08/pon/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="视觉及其融合惯性SLAM技术发展综述">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="PON:利用金字塔占用网络预测图像的语义地图表示">
                         
-                        <span class="card-title">视觉及其融合惯性SLAM技术发展综述</span>
+                        <span class="card-title">PON:利用金字塔占用网络预测图像的语义地图表示</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            视觉及其融合惯性的 SLAM 技术发展综述
+                            提出了一个dense transformer（并非self attention的transformer， 只是MLP结构）的网络结构用于将2D图转换成BEV
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-08
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            oceanechy
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                            
+                            <a href="/categories/DL/bev/" class="post-category">
+                                    bev
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/slam/">
-                        <span class="chip bg-color">slam</span>
+                    <a href="/tags/bev/">
+                        <span class="chip bg-color">bev</span>
                     </a>
                     
                 </div>
@@ -717,31 +624,31 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/27/epipolar-geometry/">
+                <a href="/2023/11/05/code-ssc2/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="对极几何(Epipolar_Geometry)">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="语义场景补全（SSC）代码篇（二）">
                         
-                        <span class="card-title">对极几何(Epipolar_Geometry)</span>
+                        <span class="card-title">语义场景补全（SSC）代码篇（二）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            对极几何是相机在两个不同的位置生成的两幅图像，其拍摄位置和生成图像之间的特殊几何关系。
+                            SSC中的理论与代码实现总结(第二章)
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/cs231A/" class="post-category">
-                                    cs231A
+                            <a href="/categories/DL/" class="post-category">
+                                    DL
                                 </a>
                             
                             
@@ -751,12 +658,8 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%AF%B9%E6%9E%81%E5%87%A0%E4%BD%95/">
-                        <span class="chip bg-color">对极几何</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%AF%B9%E6%9E%81%E7%BA%A6%E6%9D%9F/">
-                        <span class="chip bg-color">对极约束</span>
+                    <a href="/tags/ssc/">
+                        <span class="chip bg-color">ssc</span>
                     </a>
                     
                 </div>
