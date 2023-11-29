@@ -559,7 +559,7 @@
     
     <div class="col s12" >
         
-            <div class="post-card" style="background-image: url('/medias/featureimages/22.jpg')">
+            <div class="post-card" style="background-image: url('/medias/featureimages/10.jpg')">
             
             <div class="post-body">
                 <div class="post-categories">
@@ -569,11 +569,11 @@
                         
                     
                 </div>
-                <a href="/2023/10/29/ssc/">
-                    <h3 class="post-title">语义场景补全（SSC）</h3>
+                <a href="/2023/11/28/bev-time-fusion/">
+                    <h3 class="post-title">BEV感知中的时序融合方法（部分待更新）</h3>
                 </a>
-                <p class="post-description">语义场景补全（SSC）相关文章与数据集总结</p>
-                <a href="/2023/10/29/ssc/" class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #FF5E3A 0%, #FF2A68 100%)" target="_blank">
+                <p class="post-description">在传统感知算法中,时序融合是提高感知算法准确性和连续性的关键,可以弥补单帧感知的局限性,增加感受野,改善目标检测(Object Detection)帧间跳变和目标遮挡问题,更加准确地判断目标运动速度,同时也对目标预测(Prediction)和跟踪(Tracking)有重要作用.</p>
+                <a href="/2023/11/28/bev-time-fusion/" class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #FF5E3A 0%, #FF2A68 100%)" target="_blank">
                     <i class="icon far fa-eye fa-fw"></i>阅读更多
                 </a>
             </div>
@@ -583,7 +583,7 @@
     
     <div class="col s12 m6" data-aos="zoom-in-up">
         
-            <div class="post-card" style="background-image: url('/medias/featureimages/18.jpg')">
+            <div class="post-card" style="background-image: url('/medias/featureimages/17.jpg')">
             
             <div class="post-body">
                 <div class="post-categories">
@@ -593,11 +593,11 @@
                         
                     
                 </div>
-                <a href="/2023/11/05/code-ssc2/">
-                    <h3 class="post-title">语义场景补全（SSC）代码篇（二）</h3>
+                <a href="/2023/11/28/bev-reserch/">
+                    <h3 class="post-title">BEV感知总结</h3>
                 </a>
-                <p class="post-description">SSC中的理论与代码实现总结(第二章)</p>
-                <a href="/2023/11/05/code-ssc2/" class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #EF4DB6 0%, #C643FC 100%)" target="_blank">
+                <p class="post-description">在感知任务的鸟瞰(BEV)中学习强大的表征是一种趋势，并引起了工业界和学术界的广泛关注。BEV感知继承了几个优点，因为在BEV中表示周围场景是直观和融合友好的；并且在BEV中表示目标最适合于后续模块，如在规划和/或控制中。</p>
+                <a href="/2023/11/28/bev-reserch/" class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #EF4DB6 0%, #C643FC 100%)" target="_blank">
                     <i class="icon far fa-eye fa-fw"></i>阅读更多
                 </a>
             </div>
@@ -607,7 +607,7 @@
     
     <div class="col s12 m6" data-aos="zoom-in-up">
         
-            <div class="post-card" style="background-image: url('/medias/featureimages/14.jpg')">
+            <div class="post-card" style="background-image: url('/medias/featureimages/12.jpg')">
             
             <div class="post-body">
                 <div class="post-categories">
@@ -617,11 +617,11 @@
                         
                     
                 </div>
-                <a href="/2023/11/03/code-ssc/">
-                    <h3 class="post-title">语义场景补全（SSC）代码篇（一）</h3>
+                <a href="/2023/11/29/bevformer-learning/">
+                    <h3 class="post-title">BEVFormer学习总结（结合代码）</h3>
                 </a>
-                <p class="post-description">SSC中的理论与代码实现总结(第一章)</p>
-                <a href="/2023/11/03/code-ssc/" class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #1AD6FD 0%, #1D62F0 100%)" target="_blank">
+                <p class="post-description">BEVFormer 通过提取环视相机采集到的图像特征，并将提取的环视特征通过模型学习的方式转换到 BEV 空间（模型去学习如何将特征从图像坐标系转换到BEV坐标系），从而实现 3D 目标检测和地图分割任务，并取得了 SOTA 的效果。</p>
+                <a href="/2023/11/29/bevformer-learning/" class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #1AD6FD 0%, #1D62F0 100%)" target="_blank">
                     <i class="icon far fa-eye fa-fw"></i>阅读更多
                 </a>
             </div>
@@ -645,6 +645,251 @@
     <!-- 所有文章卡片 -->
     <article id="articles" class="container articles">
         <div class="row article-row">
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2023/11/29/weakly-supervised-det/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="弱监督下的BEV检测和占据预测(部分汇总)">
+                            
+                            <span class="card-title">弱监督下的BEV检测和占据预测(部分汇总)</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                持续更新
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-29
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/bev/">
+                            <span class="chip bg-color">bev</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2023/11/29/bevformer-learning/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="BEVFormer学习总结（结合代码）">
+                            
+                            <span class="card-title">BEVFormer学习总结（结合代码）</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                BEVFormer 通过提取环视相机采集到的图像特征，并将提取的环视特征通过模型学习的方式转换到 BEV 空间（模型去学习如何将特征从图像坐标系转换到BEV坐标系），从而实现 3D 目标检测和地图分割任务，并取得了 SOTA 的效果。
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-29
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/bev/">
+                            <span class="chip bg-color">bev</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2023/11/28/bev-time-fusion/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="BEV感知中的时序融合方法（部分待更新）">
+                            
+                            <span class="card-title">BEV感知中的时序融合方法（部分待更新）</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                在传统感知算法中,时序融合是提高感知算法准确性和连续性的关键,可以弥补单帧感知的局限性,增加感受野,改善目标检测(Object Detection)帧间跳变和目标遮挡问题,更加准确地判断目标运动速度,同时也对目标预测(Prediction)和跟踪(Tracking)有重要作用.
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-28
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/bev/">
+                            <span class="chip bg-color">bev</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2023/11/28/bev-reserch/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="BEV感知总结">
+                            
+                            <span class="card-title">BEV感知总结</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                在感知任务的鸟瞰(BEV)中学习强大的表征是一种趋势，并引起了工业界和学术界的广泛关注。BEV感知继承了几个优点，因为在BEV中表示周围场景是直观和融合友好的；并且在BEV中表示目标最适合于后续模块，如在规划和/或控制中。
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-28
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/bev/">
+                            <span class="chip bg-color">bev</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
+            
+             <!-- 隐藏某个文章 -->
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2023/11/26/bev-evalution/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="BEV感知经验性的评估和可能改进的方法">
+                            
+                            <span class="card-title">BEV感知经验性的评估和可能改进的方法</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                BEV感知经验性的评估和可能改进的方法总结了在各种基准上实现最佳结果的技巧和最有用的实践。建立在BEVFormer之上的BEVFormer++，用于仅用于相机检测，以及从SPVCNN派生的Voxel-SPVCNN用于LiDAR分割。这些实践
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-26
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/bev/">
+                            <span class="chip bg-color">bev</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+              <!-- 隐藏某个文章 -->
             
              <!-- 隐藏某个文章 -->
             <div class="article col s12 m6 l4" data-aos="zoom-in">
@@ -997,263 +1242,6 @@
             </div>
               <!-- 隐藏某个文章 -->
             
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/05/15/zhiling/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="ubuntu学习记录">
-                            
-                            <span class="card-title">ubuntu学习记录</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                记录ubuntu使用中的一些东西
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-15
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/linux/" class="post-category">
-                                    linux
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/linux/">
-                            <span class="chip bg-color">linux</span>
-                        </a>
-                        
-                        <a href="/tags/ubuntu/">
-                            <span class="chip bg-color">ubuntu</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/05/07/docker1/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="docker学习记录">
-                            
-                            <span class="card-title">docker学习记录</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                记录docker学习中的一些东西
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-05-07
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/docker/" class="post-category">
-                                    docker
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/docker/">
-                            <span class="chip bg-color">docker</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/04/11/c-base2/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="c++核心编程">
-                            
-                            <span class="card-title">c++核心编程</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                本阶段主要针对c++面向对象进行编程，探讨c++中的核心和精髓
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-11
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/c/" class="post-category">
-                                    c++
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/c/">
-                            <span class="chip bg-color">c++</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/04/11/c-base/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="linux环境下c++实现通讯录系统">
-                            
-                            <span class="card-title">linux环境下c++实现通讯录系统</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                通讯录系统实现
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-11
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/c/" class="post-category">
-                                    c++
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/c/">
-                            <span class="chip bg-color">c++</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
-             <!-- 隐藏某个文章 -->
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/04/08/slam14-3/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="slam14讲源代码的记录（后九讲）">
-                            
-                            <span class="card-title">slam14讲源代码的记录（后九讲）</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                记录slam14讲源代码中的一些东西（后九讲）
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-08
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/slam/" class="post-category">
-                                    slam
-                                </a>
-                                
-                                <a href="/categories/slam/c/" class="post-category">
-                                    c++
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/c/">
-                            <span class="chip bg-color">c++</span>
-                        </a>
-                        
-                        <a href="/tags/slam/">
-                            <span class="chip bg-color">slam</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-              <!-- 隐藏某个文章 -->
-            
         </div>
     </article>
 
@@ -1357,7 +1345,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">95.9k</span>
+                        class="white-color">121.3k</span>
             
             
             
