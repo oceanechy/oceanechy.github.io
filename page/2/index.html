@@ -386,7 +386,7 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                记录ubuntu使用中的一些东西
+                                &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
                             
                         </div>
                         <div class="publish-info">
@@ -439,7 +439,16 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                记录docker学习中的一些东西
+                                docker 的基本使用docker镜像命令和容器命令
+
+
+
+&#x3D;&#x3D;docker 作业练习&#x3D;&#x3D;
+&#x3D;&#x3D;Docker 安装 Nginx&#x3D;&#x3D;
+
+
+# -d后台运行
+#-
                             
                         </div>
                         <div class="publish-info">
@@ -488,7 +497,12 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                本阶段主要针对c++面向对象进行编程，探讨c++中的核心和精髓
+                                内存分区模型c++程序执行时，将内存大方向分为4个区域：
+
+代码区：存放函数体的二进制代码，由操作系统进行管理的
+全局区：存放全局变量和静态变量以及常量
+栈区：由编译器自动分配释放，存放函数的参数值，局部变量等
+堆区：由程序员分配和释放，若
                             
                         </div>
                         <div class="publish-info">
@@ -537,7 +551,14 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                通讯录系统实现
+                                通讯录系统该系统具有下面7种操作：
+
+***** 1、添加联系人*****
+***** 2、显示联系人*****
+***** 3、删除联系人*****
+***** 4、查找联系人*****
+***** 5、修改联系人*****
+***** 
                             
                         </div>
                         <div class="publish-info">
@@ -586,7 +607,9 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                记录slam14讲源代码中的一些东西（后九讲）
+                                第六讲本讲只要讲解最小二乘法的含义以及处理方式，如高斯牛顿（GN）、列文伯格-马夸尔特法(L-M)等下降法策略
+在ch6&#x2F;gaussNewton.cpp中，手写GN法，最小二乘估计曲线参数&#x2F;&#x2F;求解误差项
+   
                             
                         </div>
                         <div class="publish-info">
@@ -643,7 +666,15 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                记录slam14讲源代码中的一些东西（前五讲）
+                                第二讲本讲主要是cmake的使用以及一些库的链接方式
+#声明cmake的最低版本
+cmake_minimum_required(VERSION 2.8)
+
+#声明一个cmake工程
+project(HelloSLAM)
+
+#设置编译模式
+s
                             
                         </div>
                         <div class="publish-info">
@@ -720,7 +751,10 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                orb_slam2改进代码汇总
+                                orb_slam2改进代码的相关汇总点线特征相关添加了线特征。从3D密集SLAM进行表面重建的增量3D线段提取
+Add line feature based ORB-SLAM2
+RGB-D模式下添加了点线融合
+RGBD-SLAM with 
                             
                         </div>
                         <div class="publish-info">
@@ -773,7 +807,17 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                slam14讲简短总结
+                                
+
+
+实际操作 图像去畸变 双目模型生成点云 RGB-D生成点云
+
+
+
+
+
+
+
                             
                         </div>
                         <div class="publish-info">
@@ -830,7 +874,35 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                Opencv的基本使用，3D相关HEF矩阵计算以及位姿求解方法solvePnP,solvePnPRansac等
+                                3D相关HEF矩阵计算F矩阵含义
+相邻两帧一组对应像素点的约束关系
+像素点在下一帧极线上的位置
+
+
+
+
+
+
+
+
+
+
+
+
+
+E矩阵含义本质矩阵是归一化平面下的基本矩阵的特殊形式
+
+
+
+
+
+
+
+
+H矩阵意义
+
+
+注：以上截图内容参考计算机视觉l
                             
                         </div>
                         <div class="publish-info">
@@ -899,7 +971,16 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                Opencv的基本使用，相机标定
+                                Opencv相机标定基本理论知识请查看如下链接：
+相机模型
+张正友标定法
+张正友标定法假设
+
+标定板的角点在一个平面上
+世界坐标系的xy平面在标定板平面上，Z&#x3D;0
+相机模型不考虑畸变
+
+Opencv现有函数 cv::calibra
                             
                         </div>
                         <div class="publish-info">
@@ -960,7 +1041,12 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                Opencv的基本使用，显示与绘制
+                                Opencv显示与绘制OpenCV 的基础绘制功能OpenCV 中提供直线、椭圆、矩形、圆以及多边形的绘制功能。 在OpenCV 的图形绘制中我们会经常使用以下两种结构：
+
+cv::Point 和cv::Scalar
+
+
+cv::Point
                             
                         </div>
                         <div class="publish-info">
@@ -1013,7 +1099,12 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                Opencv的基本使用，图像滤波方向
+                                Opencv图像滤波连通域&amp;直方图
+计算图像直方图
+void cv::calcHist
+(   
+    const Mat *     images,           &#x2F;&#x2F;输入图像
+    int     
                             
                         </div>
                         <div class="publish-info">

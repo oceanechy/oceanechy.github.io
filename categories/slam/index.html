@@ -448,28 +448,19 @@
                 </a>
                 
                 
-                <a href="/categories/net/" title="net: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #A3E4D7;">net
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/slam/" title="slam: 4">
                     <span class="chip center-align waves-effect waves-light
                              chip-active "
-                            style="background-color: #85C1E9;">slam
+                            style="background-color: #A3E4D7;">slam
                         <span class="tag-length">4</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/Opencv/PnP/" title="PnP: 1">
+                <a href="/categories/net/" title="net: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F8C471;">PnP
+                            style="background-color: #85C1E9;">net
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -478,7 +469,16 @@
                 <a href="/categories/ROS/" title="ROS: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F9E79F;">ROS
+                            style="background-color: #F8C471;">ROS
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/Opencv/PnP/" title="PnP: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F9E79F;">PnP
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -493,19 +493,19 @@
                 </a>
                 
                 
-                <a href="/categories/Opencv/PnP/HEF/" title="HEF: 1">
+                <a href="/categories/ROS/c/" title="c++: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F8F9F9;">HEF
+                            style="background-color: #E8F8F5;">c++
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/ROS/c/" title="c++: 1">
+                <a href="/categories/Opencv/PnP/HEF/" title="HEF: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #E8F8F5;">c++
+                            style="background-color: #F8F9F9;">HEF
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -563,7 +563,9 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                记录slam14讲源代码中的一些东西（后九讲）
+                                第六讲本讲只要讲解最小二乘法的含义以及处理方式，如高斯牛顿（GN）、列文伯格-马夸尔特法(L-M)等下降法策略
+在ch6&#x2F;gaussNewton.cpp中，手写GN法，最小二乘估计曲线参数&#x2F;&#x2F;求解误差项
+   
                             
                         </div>
                         <div class="publish-info">
@@ -617,7 +619,15 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                记录slam14讲源代码中的一些东西（前五讲）
+                                第二讲本讲主要是cmake的使用以及一些库的链接方式
+#声明cmake的最低版本
+cmake_minimum_required(VERSION 2.8)
+
+#声明一个cmake工程
+project(HelloSLAM)
+
+#设置编译模式
+s
                             
                         </div>
                         <div class="publish-info">
@@ -691,7 +701,10 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                orb_slam2改进代码汇总
+                                orb_slam2改进代码的相关汇总点线特征相关添加了线特征。从3D密集SLAM进行表面重建的增量3D线段提取
+Add line feature based ORB-SLAM2
+RGB-D模式下添加了点线融合
+RGBD-SLAM with 
                             
                         </div>
                         <div class="publish-info">
@@ -741,7 +754,17 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                slam14讲简短总结
+                                
+
+
+实际操作 图像去畸变 双目模型生成点云 RGB-D生成点云
+
+
+
+
+
+
+
                             
                         </div>
                         <div class="publish-info">
