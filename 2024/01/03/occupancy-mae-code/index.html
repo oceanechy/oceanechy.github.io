@@ -1,0 +1,1678 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="室外大规模点云自监督学习代码篇(Occupancy-MAE), Ocean">
+    <meta name="description" content="室外大规模点云自监督学习代码篇(Occupancy-MAE)Occupancy-MAE,原版名为Voxel-MAE(v1~v7)
+代码链接
+Occupancy-MAE: Self-supervised Pre-training Large-">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>室外大规模点云自监督学习代码篇(Occupancy-MAE) | Ocean</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(/medias/ocean.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ocean</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ocean</div>
+        <div class="logo-desc">
+            
+            要善良,要勇敢,要像星星一样努力发光。若是你心怀旧梦，就别再无疾而终。加油，为实现梦想努力。梦想再遥远，也要笑着走去，毕竟沿途有很多美景等着去欣赏。
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/oceanechy" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/oceanechy" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">室外大规模点云自监督学习代码篇(Occupancy-MAE)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/mae/">
+                                <span class="chip bg-color">mae</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/MAE/" class="post-category">
+                                MAE
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-01-03
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="室外大规模点云自监督学习代码篇-Occupancy-MAE"><a href="#室外大规模点云自监督学习代码篇-Occupancy-MAE" class="headerlink" title="室外大规模点云自监督学习代码篇(Occupancy-MAE)"></a>室外大规模点云自监督学习代码篇(Occupancy-MAE)</h1><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2206.09900">Occupancy-MAE,原版名为Voxel-MAE(v1~v7)</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chaytonmin/Occupancy-MAE">代码链接</a></p>
+<h2 id="Occupancy-MAE-Self-supervised-Pre-training-Large-scale-LiDAR-Point-Clouds-with-Masked-Occupancy-Autoencoders-代码"><a href="#Occupancy-MAE-Self-supervised-Pre-training-Large-scale-LiDAR-Point-Clouds-with-Masked-Occupancy-Autoencoders-代码" class="headerlink" title="Occupancy-MAE: Self-supervised Pre-training Large-scale LiDAR Point Clouds with Masked Occupancy Autoencoders(代码)"></a>Occupancy-MAE: Self-supervised Pre-training Large-scale LiDAR Point Clouds with Masked Occupancy Autoencoders(代码)</h2><p>本工作的主要贡献如下:</p>
+<ul>
+<li>提出了一种新的自监督掩码占用自动编码框架，称为Occupancy-MAE，用于预训练大规模户外LiDAR点云，减少了对昂贵的注释3D数据的需求。</li>
+<li>提出了一个3D占用预测pretext task，该任务利用大规模LiDAR点云逐渐稀疏的占用结构。通过从少量可见体素中恢复3D周围世界的掩模占用分布，迫使网络提取高级语义信息。</li>
+<li>引入距离感知随机掩码策略，利用大规模LiDAR点云密度变化的优势，提高预训练性能。</li>
+<li>提出的Occupancy-MAE在各种下游任务上显著优于从头开始的训练，包括3D目标检测、语义分割、多目标跟踪和无监督域自适应。<br><img src="/pic/mae3d10.png" alt="核心流程图"></li>
+</ul>
+<p><img src="/pic/mae3d7.png" alt="整体架构。首先将大规模不规则LiDAR点云转换为体积表示，根据体素与LiDAR传感器的距离随机掩码(即距离感知掩码策略)，然后使用非对称自编码器网络重建一般3D世界的几何占用结构。采用以位置编码为编码骨干的3D空间稀疏卷积[6]。使用二元占用分类作为pretext task来区分体素是否包含点。预训练后，丢弃轻量级解码器，使用编码器对下游任务的主干进行预热。"></p>
+<h3 id="代码介绍"><a href="#代码介绍" class="headerlink" title="代码介绍"></a>代码介绍</h3><p>网络依托<a target="_blank" rel="noopener" href="https://github.com/open-mmlab/OpenPCDet">OpenPCDet(v0.5)</a>进行构建</p>
+<blockquote>
+<p>OpenPCDet 是一个清晰、简单、独立的开源项目，用于基于 LiDAR 的 3D 物体检测。同时也是[PointRCNN]、[Part-A2-Net]、[PV-RCNN]、[Voxel R-CNN]、[PV-RCNN++]和[MPPNet]的官方代码发布。</p>
+</blockquote>
+<p><strong>配置文件保存在tools&#x2F;cfgs目录下，不同的数据集设置了不同的配置(主要看携带mae的配置文件)：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">tools&#x2F;cfgs
+├── dataset_configs
+│   ├── kitti_dataset.yaml
+│   ├── lyft_dataset.yaml
+│   ├── nuscenes_dataset.yaml
+│   ├── pandaset_dataset.yaml
+│   └── waymo_dataset.yaml
+├── kitti_models
+│   ├── CaDDN.yaml
+│   ├── PartA2_free.yaml
+│   ├── PartA2.yaml
+│   ├── pointpillar_newaugs.yaml
+│   ├── pointpillar_pyramid_aug.yaml
+│   ├── pointpillar.yaml
+│   ├── pointrcnn_iou.yaml
+│   ├── pointrcnn.yaml
+│   ├── pv_rcnn.yaml
+│   ├── second_iou.yaml
+│   ├── second_multihead.yaml
+│   ├── second.yaml
+│   ├── voxel_mae_kitti.yaml
+│   └── voxel_rcnn_car.yaml
+├── lyft_models
+│   ├── cbgs_second_multihead.yaml
+│   └── cbgs_second-nores_multihead.yaml
+├── nuscenes_models
+│   ├── cbgs_dyn_pp_centerpoint.yaml
+│   ├── cbgs_pp_multihead.yaml
+│   ├── cbgs_second_multihead.yaml
+│   ├── cbgs_voxel0075_res3d_centerpoint.yaml
+│   ├── cbgs_voxel01_res3d_centerpoint.yaml
+│   └── voxel_mae_res_nuscenes.yaml
+└── waymo_models
+    ├── centerpoint_dyn_pillar_1x.yaml
+    ├── centerpoint_pillar_1x.yaml
+    ├── centerpoint_without_resnet.yaml
+    ├── centerpoint.yaml
+    ├── PartA2.yaml
+    ├── pointpillar_1x.yaml
+    ├── pv_rcnn_plusplus_resnet.yaml
+    ├── pv_rcnn_plusplus.yaml
+    ├── pv_rcnn_with_centerhead_rpn.yaml
+    ├── pv_rcnn.yaml
+    ├── second.yaml
+    ├── voxel_mae_waymo.yaml
+    └── voxel_rcnn_with_centerhead_dyn_voxel.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="下面将以kitti数据集上的配置代码撸一遍流程"><a href="#下面将以kitti数据集上的配置代码撸一遍流程" class="headerlink" title="下面将以kitti数据集上的配置代码撸一遍流程"></a>下面将以kitti数据集上的配置代码撸一遍流程</h4><p>**以kitti数据集为例,它的配置文件是<a target="_blank" rel="noopener" href="https://github.com/open-mmlab/OpenPCDet/blob/master/tools/cfgs/dataset_configs/kitti_dataset.yaml">cfgs&#x2F;dataset_configs&#x2F;kitti_dataset.yaml</a>**：<br>这是一个用于配置KITTI数据集处理的配置文件。以下是主要部分的解释：</p>
+<ol>
+<li><p><strong>DATASET</strong>: 数据集的名称，指定为’KittiDataset’。</p>
+</li>
+<li><p><strong>DATA_PATH</strong>: 数据集的路径，指定为’..&#x2F;data&#x2F;kitti’。</p>
+</li>
+<li><p><strong>POINT_CLOUD_RANGE</strong>: 点云的范围，指定为<code>[0, -40, -3, 70.4, 40, 1]</code>。</p>
+</li>
+<li><p><strong>DATA_SPLIT</strong>: 数据集的划分，包含’train’和’test’两个子集。</p>
+</li>
+<li><p><strong>INFO_PATH</strong>: 数据集信息的路径，分别指定了’train’和’test’子集的信息文件。</p>
+</li>
+<li><p><strong>GET_ITEM_LIST</strong>: 获取数据项的列表，包括”points”。</p>
+</li>
+<li><p><strong>FOV_POINTS_ONLY</strong>: 是否仅使用视场内的点，指定为True。</p>
+</li>
+<li><p><strong>DATA_AUGMENTOR</strong>: 数据增强的配置，包括禁用的增强、增强配置列表等。</p>
+<ul>
+<li><p><strong>DISABLE_AUG_LIST</strong>: 禁用的数据增强，包括’placeholder’。</p>
+</li>
+<li><p><strong>AUG_CONFIG_LIST</strong>: 数据增强的配置列表，包括gt_sampling、random_world_flip、random_world_rotation和random_world_scaling。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>POINT_FEATURE_ENCODING</strong>: 点特征的编码配置，采用绝对坐标编码，包括使用的特征列表等。</p>
+</li>
+<li><p><strong>DATA_PROCESSOR</strong>: 数据处理的配置，包括mask_points_and_boxes_outside_range、shuffle_points和transform_points_to_voxels。</p>
+<ul>
+<li><p><strong>mask_points_and_boxes_outside_range</strong>: 在范围之外屏蔽点和框。</p>
+</li>
+<li><p><strong>shuffle_points</strong>: 随机打乱点的顺序，指定在训练和测试阶段是否启用。</p>
+</li>
+<li><p><strong>transform_points_to_voxels</strong>: 将点转换为体素的配置，包括体素大小、最大点数等。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>这个配置文件定义了KITTI数据集的加载、处理和增强流程，以及训练和测试阶段的一些设置。配置文件中的每个部分都用于指导数据流程的一个方面。</p>
+<p><strong>配置文件以<a target="_blank" rel="noopener" href="https://github.com/chaytonmin/Occupancy-MAE/blob/main/tools/cfgs/kitti_models/voxel_mae_kitti.yaml">voxel_mae_kitti.yaml</a>为例：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">CLASS_NAMES: [&#39;Car&#39;, &#39;Pedestrian&#39;, &#39;Cyclist&#39;]
+
+DATA_CONFIG: 
+    _BASE_CONFIG_: cfgs&#x2F;dataset_configs&#x2F;kitti_dataset.yaml
+
+
+MODEL:
+    NAME: Voxel_MAE
+
+    VFE:
+        NAME: MeanVFE
+
+    BACKBONE_3D:
+        NAME: Voxel_MAE
+        MASKED_RATIO: 0.5  # masked_ratio for Voxel_MAE
+
+
+OPTIMIZATION:
+    BATCH_SIZE_PER_GPU: 4
+    NUM_EPOCHS: 30
+
+    OPTIMIZER: adam_onecycle
+    LR: 0.003
+    WEIGHT_DECAY: 0.01
+    MOMENTUM: 0.9
+
+    MOMS: [0.95, 0.85]
+    PCT_START: 0.4
+    DIV_FACTOR: 10
+    DECAY_STEP_LIST: [35, 45]
+    LR_DECAY: 0.1
+    LR_CLIP: 0.0000001
+
+    LR_WARMUP: False
+    WARMUP_EPOCH: 1
+
+    GRAD_NORM_CLIP: 10
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这是一个用于配置模型、优化器和训练过程的配置文件。以下是主要部分的解释：</p>
+<ol>
+<li><p><strong>CLASS_NAMES</strong>: 数据集中的类别名称，包括’Car’, ‘Pedestrian’, ‘Cyclist’。</p>
+</li>
+<li><p><strong>DATA_CONFIG</strong>: 数据集的配置，包括基础配置文件的引用。</p>
+<ul>
+<li><strong><em>BASE_CONFIG</em></strong>: 数据集配置的基础配置文件，指定为’cfgs&#x2F;dataset_configs&#x2F;kitti_dataset.yaml’。</li>
+</ul>
+</li>
+<li><p><strong>MODEL</strong>: 模型的配置。</p>
+<ul>
+<li><p><strong>NAME</strong>: 模型的名称，指定为’Voxel_MAE’。</p>
+</li>
+<li><p><strong>VFE</strong>: 体素特征编码器的配置，包括名称为’MeanVFE’的体素特征编码器。</p>
+</li>
+<li><p><strong>BACKBONE_3D</strong>: 3D主干网络结构的配置，包括名称为’Voxel_MAE’的结构和’MASKED_RATIO’的设置。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>OPTIMIZATION</strong>: 优化器和训练过程的配置。</p>
+<ul>
+<li><p><strong>BATCH_SIZE_PER_GPU</strong>: 每个GPU的批量大小，设置为4。</p>
+</li>
+<li><p><strong>NUM_EPOCHS</strong>: 训练的总时期数，设置为30。</p>
+</li>
+<li><p><strong>OPTIMIZER</strong>: 优化器的名称，设置为’adam_onecycle’。</p>
+</li>
+<li><p><strong>LR</strong>: 学习率，设置为0.003。</p>
+</li>
+<li><p><strong>WEIGHT_DECAY</strong>: 权重衰减，设置为0.01。</p>
+</li>
+<li><p><strong>MOMENTUM</strong>: 动量，设置为0.9。</p>
+</li>
+<li><p><strong>MOMS</strong>: 动量的配置，包括[0.95, 0.85]。</p>
+</li>
+<li><p><strong>PCT_START</strong>: OneCycleLR学习率策略的初始学习率占总时期数的百分比，设置为0.4。</p>
+</li>
+<li><p><strong>DIV_FACTOR</strong>: OneCycleLR学习率策略的学习率最大值和最小值的比例，设置为10。</p>
+</li>
+<li><p><strong>DECAY_STEP_LIST</strong>: 学习率衰减的时期列表，设置为[35, 45]。</p>
+</li>
+<li><p><strong>LR_DECAY</strong>: 学习率衰减因子，设置为0.1。</p>
+</li>
+<li><p><strong>LR_CLIP</strong>: 学习率的下限，设置为0.0000001。</p>
+</li>
+<li><p><strong>LR_WARMUP</strong>: 是否进行学习率预热，设置为False。</p>
+</li>
+<li><p><strong>WARMUP_EPOCH</strong>: 学习率预热的时期数，设置为1。</p>
+</li>
+<li><p><strong>GRAD_NORM_CLIP</strong>: 梯度范数的裁剪值，设置为10。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>这个配置文件定义了模型的结构、优化器的选择以及训练的各种参数。每个部分都用于指导模型训练的一个方面。</p>
+<p>主干网络包含如下这些，其中我们主要使用<a target="_blank" rel="noopener" href="https://github.com/chaytonmin/Occupancy-MAE/blob/main/pcdet/models/detectors/voxel_mae_net.py">Voxel_MAE</a>：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> <span class="token punctuation">.</span>detector3d_template <span class="token keyword">import</span> Detector3DTemplate
+<span class="token keyword">from</span> <span class="token punctuation">.</span>PartA2_net <span class="token keyword">import</span> PartA2Net
+<span class="token keyword">from</span> <span class="token punctuation">.</span>point_rcnn <span class="token keyword">import</span> PointRCNN
+<span class="token keyword">from</span> <span class="token punctuation">.</span>pointpillar <span class="token keyword">import</span> PointPillar
+<span class="token keyword">from</span> <span class="token punctuation">.</span>pv_rcnn <span class="token keyword">import</span> PVRCNN
+<span class="token keyword">from</span> <span class="token punctuation">.</span>second_net <span class="token keyword">import</span> SECONDNet
+<span class="token keyword">from</span> <span class="token punctuation">.</span>second_net_iou <span class="token keyword">import</span> SECONDNetIoU
+<span class="token keyword">from</span> <span class="token punctuation">.</span>caddn <span class="token keyword">import</span> CaDDN
+<span class="token keyword">from</span> <span class="token punctuation">.</span>voxel_rcnn <span class="token keyword">import</span> VoxelRCNN
+<span class="token keyword">from</span> <span class="token punctuation">.</span>centerpoint <span class="token keyword">import</span> CenterPoint
+<span class="token keyword">from</span> <span class="token punctuation">.</span>pv_rcnn_plusplus <span class="token keyword">import</span> PVRCNNPlusPlus
+
+<span class="token keyword">from</span> <span class="token punctuation">.</span>detector3d_template_voxel_mae <span class="token keyword">import</span> Detector3DTemplate_voxel_mae
+<span class="token keyword">from</span> <span class="token punctuation">.</span>voxel_mae_net <span class="token keyword">import</span> Voxel_MAE
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'Detector3DTemplate'</span><span class="token punctuation">:</span> Detector3DTemplate<span class="token punctuation">,</span>
+    <span class="token string">'SECONDNet'</span><span class="token punctuation">:</span> SECONDNet<span class="token punctuation">,</span>
+    <span class="token string">'PartA2Net'</span><span class="token punctuation">:</span> PartA2Net<span class="token punctuation">,</span>
+    <span class="token string">'PVRCNN'</span><span class="token punctuation">:</span> PVRCNN<span class="token punctuation">,</span>
+    <span class="token string">'PointPillar'</span><span class="token punctuation">:</span> PointPillar<span class="token punctuation">,</span>
+    <span class="token string">'PointRCNN'</span><span class="token punctuation">:</span> PointRCNN<span class="token punctuation">,</span>
+    <span class="token string">'SECONDNetIoU'</span><span class="token punctuation">:</span> SECONDNetIoU<span class="token punctuation">,</span>
+    <span class="token string">'CaDDN'</span><span class="token punctuation">:</span> CaDDN<span class="token punctuation">,</span>
+    <span class="token string">'VoxelRCNN'</span><span class="token punctuation">:</span> VoxelRCNN<span class="token punctuation">,</span>
+    <span class="token string">'CenterPoint'</span><span class="token punctuation">:</span> CenterPoint<span class="token punctuation">,</span>
+    <span class="token string">'PVRCNNPlusPlus'</span><span class="token punctuation">:</span> PVRCNNPlusPlus<span class="token punctuation">,</span>
+    <span class="token string">'Detector3DTemplate_voxel_mae'</span><span class="token punctuation">:</span> Detector3DTemplate_voxel_mae<span class="token punctuation">,</span>
+    <span class="token string">'Voxel_MAE'</span><span class="token punctuation">:</span> Voxel_MAE
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token keyword">def</span> <span class="token function">build_detector</span><span class="token punctuation">(</span>model_cfg<span class="token punctuation">,</span> num_class<span class="token punctuation">,</span> dataset<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    model <span class="token operator">=</span> __all__<span class="token punctuation">[</span>model_cfg<span class="token punctuation">.</span>NAME<span class="token punctuation">]</span><span class="token punctuation">(</span>
+        model_cfg<span class="token operator">=</span>model_cfg<span class="token punctuation">,</span> num_class<span class="token operator">=</span>num_class<span class="token punctuation">,</span> dataset<span class="token operator">=</span>dataset
+    <span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> model
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>voxel_mae_net.py代码如下，继承<a target="_blank" rel="noopener" href="https://github.com/chaytonmin/Occupancy-MAE/blob/main/pcdet/models/detectors/detector3d_template_voxel_mae.py">Detector3DTemplate_voxel_mae</a>,这里主要讲了如何配置主干网络，其中维护了一个model_info_dict字典</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Detector3DTemplate_voxel_mae</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#部分代码</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> model_cfg<span class="token punctuation">,</span> num_class<span class="token punctuation">,</span> dataset<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>model_cfg <span class="token operator">=</span> model_cfg
+        self<span class="token punctuation">.</span>num_class <span class="token operator">=</span> num_class
+        self<span class="token punctuation">.</span>dataset <span class="token operator">=</span> dataset
+        self<span class="token punctuation">.</span>class_names <span class="token operator">=</span> dataset<span class="token punctuation">.</span>class_names
+        self<span class="token punctuation">.</span>register_buffer<span class="token punctuation">(</span><span class="token string">'global_step'</span><span class="token punctuation">,</span> torch<span class="token punctuation">.</span>LongTensor<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>zero_<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>module_topology <span class="token operator">=</span> <span class="token punctuation">[</span>
+            <span class="token string">'vfe'</span><span class="token punctuation">,</span> <span class="token string">'backbone_3d'</span>
+        <span class="token punctuation">]</span>
+
+    <span class="token decorator annotation punctuation">@property</span>
+    <span class="token keyword">def</span> <span class="token function">mode</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">'TRAIN'</span> <span class="token keyword">if</span> self<span class="token punctuation">.</span>training <span class="token keyword">else</span> <span class="token string">'TEST'</span>
+
+    <span class="token keyword">def</span> <span class="token function">update_global_step</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>global_step <span class="token operator">+=</span> <span class="token number">1</span>
+
+    <span class="token keyword">def</span> <span class="token function">build_networks</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        model_info_dict <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">'module_list'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token string">'num_rawpoint_features'</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>point_feature_encoder<span class="token punctuation">.</span>num_point_features<span class="token punctuation">,</span>
+            <span class="token string">'num_point_features'</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>point_feature_encoder<span class="token punctuation">.</span>num_point_features<span class="token punctuation">,</span>
+            <span class="token string">'grid_size'</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>grid_size<span class="token punctuation">,</span>
+            <span class="token string">'point_cloud_range'</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>point_cloud_range<span class="token punctuation">,</span>
+            <span class="token string">'voxel_size'</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>voxel_size<span class="token punctuation">,</span>
+            <span class="token string">'depth_downsample_factor'</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>depth_downsample_factor
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">for</span> module_name <span class="token keyword">in</span> self<span class="token punctuation">.</span>module_topology<span class="token punctuation">:</span>
+            <span class="token triple-quoted-string string">"""
+            使用 getattr 函数从当前对象 self 中获取这个方法。getattr 接受一个对象和一个字符串作为参数，返回对象的属性或方法。
+
+            调用获取到的方法，并传递 model_info_dict=model_info_dict 作为参数。这样，构建方法就可以更新 model_info_dict，并返回构建的模块。
+            """</span>
+            module<span class="token punctuation">,</span> model_info_dict <span class="token operator">=</span> <span class="token builtin">getattr</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> <span class="token string">'build_%s'</span> <span class="token operator">%</span> module_name<span class="token punctuation">)</span><span class="token punctuation">(</span>
+                model_info_dict<span class="token operator">=</span>model_info_dict
+            <span class="token punctuation">)</span>
+            <span class="token comment">#将构建的模块 module 添加到当前对象 self 中，并为它指定一个名称 module_name。</span>
+            self<span class="token punctuation">.</span>add_module<span class="token punctuation">(</span>module_name<span class="token punctuation">,</span> module<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> model_info_dict<span class="token punctuation">[</span><span class="token string">'module_list'</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> <span class="token punctuation">.</span>detector3d_template_voxel_mae <span class="token keyword">import</span> Detector3DTemplate_voxel_mae
+
+
+<span class="token keyword">class</span> <span class="token class-name">Voxel_MAE</span><span class="token punctuation">(</span>Detector3DTemplate_voxel_mae<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> model_cfg<span class="token punctuation">,</span> num_class<span class="token punctuation">,</span> dataset<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span>model_cfg<span class="token operator">=</span>model_cfg<span class="token punctuation">,</span> num_class<span class="token operator">=</span>num_class<span class="token punctuation">,</span> dataset<span class="token operator">=</span>dataset<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>module_list <span class="token operator">=</span> self<span class="token punctuation">.</span>build_networks<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> batch_dict<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> cur_module <span class="token keyword">in</span> self<span class="token punctuation">.</span>module_list<span class="token punctuation">:</span>
+            batch_dict <span class="token operator">=</span> cur_module<span class="token punctuation">(</span>batch_dict<span class="token punctuation">)</span>
+
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>training<span class="token punctuation">:</span>
+            loss<span class="token punctuation">,</span> tb_dict<span class="token punctuation">,</span> disp_dict <span class="token operator">=</span> self<span class="token punctuation">.</span>get_training_loss<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+            ret_dict <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">'loss'</span><span class="token punctuation">:</span> loss
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">return</span> ret_dict<span class="token punctuation">,</span> tb_dict<span class="token punctuation">,</span> disp_dict
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            pred_dicts<span class="token punctuation">,</span> recall_dicts <span class="token operator">=</span> self<span class="token punctuation">.</span>post_processing<span class="token punctuation">(</span>batch_dict<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> pred_dicts<span class="token punctuation">,</span> recall_dicts
+
+    <span class="token keyword">def</span> <span class="token function">get_training_loss</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        disp_dict <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> 
+
+        loss_rpn<span class="token punctuation">,</span> tb_dict <span class="token operator">=</span> self<span class="token punctuation">.</span>backbone_3d<span class="token punctuation">.</span>get_loss<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        tb_dict <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">'loss_rpn'</span><span class="token punctuation">:</span> loss_rpn<span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token operator">**</span>tb_dict
+        <span class="token punctuation">&#125;</span>
+
+        loss <span class="token operator">=</span> loss_rpn
+        <span class="token keyword">return</span> loss<span class="token punctuation">,</span> tb_dict<span class="token punctuation">,</span> disp_dict
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>这里主要看BACKBONE_3D，具体包括这些：</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> <span class="token punctuation">.</span>pointnet2_backbone <span class="token keyword">import</span> PointNet2Backbone<span class="token punctuation">,</span> PointNet2MSG
+<span class="token keyword">from</span> <span class="token punctuation">.</span>spconv_backbone <span class="token keyword">import</span> VoxelBackBone8x<span class="token punctuation">,</span> VoxelResBackBone8x
+<span class="token keyword">from</span> <span class="token punctuation">.</span>spconv_unet <span class="token keyword">import</span> UNetV2
+<span class="token keyword">from</span> <span class="token punctuation">.</span>voxel_mae <span class="token keyword">import</span> Voxel_MAE
+<span class="token keyword">from</span> <span class="token punctuation">.</span>voxel_mae_res <span class="token keyword">import</span> Voxel_MAE_res	
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'VoxelBackBone8x'</span><span class="token punctuation">:</span> VoxelBackBone8x<span class="token punctuation">,</span>
+    <span class="token string">'UNetV2'</span><span class="token punctuation">:</span> UNetV2<span class="token punctuation">,</span>
+    <span class="token string">'Voxel_MAE'</span><span class="token punctuation">:</span> Voxel_MAE<span class="token punctuation">,</span>
+    <span class="token string">'Voxel_MAE_res'</span><span class="token punctuation">:</span> Voxel_MAE_res<span class="token punctuation">,</span>
+    <span class="token string">'PointNet2Backbone'</span><span class="token punctuation">:</span> PointNet2Backbone<span class="token punctuation">,</span>
+    <span class="token string">'PointNet2MSG'</span><span class="token punctuation">:</span> PointNet2MSG<span class="token punctuation">,</span>
+    <span class="token string">'VoxelResBackBone8x'</span><span class="token punctuation">:</span> VoxelResBackBone8x<span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>核心部分，先看<a target="_blank" rel="noopener" href="https://github.com/chaytonmin/Occupancy-MAE/blob/main/pcdet/models/backbones_3d/voxel_mae.py">Voxel_MAE.py</a><br>这段代码定义了一个名为 <code>Voxel_MAE</code> 的 PyTorch 模型。以下是对代码的一些主要解释：</p>
+<ol>
+<li><p><strong>SparseBasicBlock 类</strong>：这是一个基本的稀疏块，用于构建深度神经网络。它继承自 <code>spconv.SparseModule</code>，其中包含了一系列稀疏卷积、批量归一化和激活函数的层。该类被用作 Voxel_MAE 模型中的基本构建块。</p>
+</li>
+<li><p><strong>Voxel_MAE 类</strong>：这是主要的模型类。以下是该类的一些关键部分：</p>
+<ul>
+<li><p><strong>初始化方法</strong>：模型的初始化方法定义了网络的结构，包括一系列的稀疏卷积层 (<code>SparseSequential</code> 和 <code>SparseConv3d</code>)、归一化层 (<code>BatchNorm1d</code> 和 <code>BatchNorm3d</code>)、激活函数 (<code>ReLU</code>) 以及转置卷积层 (<code>ConvTranspose3d</code>)。模型的结构主要包括四个卷积阶段 (<code>conv1</code> 到 <code>conv4</code>)，每个阶段都包含了多个基本块 (<code>SparseBasicBlock</code>)。</p>
+</li>
+<li><p><strong>前向传播方法</strong>：<code>forward</code> 方法实现了模型的前向传播过程。在前向传播中，输入的点云数据首先通过一系列的稀疏卷积层，然后经过转置卷积层进行上采样。同时，根据模型配置，选择性地对输入进行掩码操作。最终，模型输出包括预测的稀疏张量和与输入相对应的目标。</p>
+</li>
+<li><p><strong>get_loss 方法</strong>：用于计算模型的损失。在这里，使用二进制交叉熵损失 (<code>BCEWithLogitsLoss</code>) 计算预测值与目标值之间的差异。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>总体而言，这段代码实现了一个处理稀疏点云数据的神经网络模型，其中使用了稀疏卷积和转置卷积层，以及一些基本的块来构建网络结构。</p>
+<p><strong>以下是 <code>Voxel_MAE</code> 模型的前向传播方法的逐行介绍：</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> batch_dict<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    Args:
+        batch_dict:
+            batch_size: int
+            vfe_features: (num_voxels, C)
+            voxel_coords: (num_voxels, 4), [batch_idx, z_idx, y_idx, x_idx]
+    Returns:
+        batch_dict:
+            encoded_spconv_tensor: sparse tensor
+            point_features: (N, C)
+    """</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个前向传播方法接受一个 <code>batch_dict</code> 参数，其中包含了输入数据的一些关键信息，如批大小、体素特征 (<code>vfe_features</code>) 和体素坐标 (<code>voxel_coords</code>)。返回一个更新后的 <code>batch_dict</code>，其中包含了编码的稀疏卷积张量 (<code>encoded_spconv_tensor</code>) 和点特征 (<code>point_features</code>)。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">voxel_features<span class="token punctuation">,</span> voxel_coords <span class="token operator">=</span> batch_dict<span class="token punctuation">[</span><span class="token string">'voxel_features'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> batch_dict<span class="token punctuation">[</span><span class="token string">'voxel_coords'</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>从输入的 <code>batch_dict</code> 中提取体素特征和体素坐标。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">select_ratio <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">-</span> self<span class="token punctuation">.</span>masked_ratio <span class="token comment"># ratio for select voxel</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>计算用于选择体素的比率，即 1 减去模型配置中指定的 <code>masked_ratio</code>。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">voxel_coords_distance <span class="token operator">=</span> <span class="token punctuation">(</span>voxel_coords<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">**</span><span class="token number">2</span> <span class="token operator">+</span> voxel_coords<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token operator">**</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">0.5</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>计算体素坐标在 y 和 x 方向上的欧氏距离。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">select_30 <span class="token operator">=</span> voxel_coords_distance<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token operator">&lt;=</span><span class="token number">30</span>
+select_30to50 <span class="token operator">=</span> <span class="token punctuation">(</span>voxel_coords_distance<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token operator">></span><span class="token number">30</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span>voxel_coords_distance<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token operator">&lt;=</span><span class="token number">50</span><span class="token punctuation">)</span>
+select_50 <span class="token operator">=</span> voxel_coords_distance<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token operator">></span><span class="token number">50</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>根据欧氏距离将体素划分为三个区域，分别是距离小于等于 30、30 到 50、大于 50。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">id_list_select_30 <span class="token operator">=</span> torch<span class="token punctuation">.</span>argwhere<span class="token punctuation">(</span>select_30<span class="token operator">==</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">.</span>reshape<span class="token punctuation">(</span>torch<span class="token punctuation">.</span>argwhere<span class="token punctuation">(</span>select_30<span class="token operator">==</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+id_list_select_30to50 <span class="token operator">=</span> torch<span class="token punctuation">.</span>argwhere<span class="token punctuation">(</span>select_30to50<span class="token operator">==</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">.</span>reshape<span class="token punctuation">(</span>torch<span class="token punctuation">.</span>argwhere<span class="token punctuation">(</span>select_30to50<span class="token operator">==</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+id_list_select_50 <span class="token operator">=</span> torch<span class="token punctuation">.</span>argwhere<span class="token punctuation">(</span>select_50<span class="token operator">==</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">.</span>reshape<span class="token punctuation">(</span>torch<span class="token punctuation">.</span>argwhere<span class="token punctuation">(</span>select_50<span class="token operator">==</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>为每个区域生成相应的索引列表。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">shuffle_id_list_select_30 <span class="token operator">=</span> id_list_select_30
+random<span class="token punctuation">.</span>shuffle<span class="token punctuation">(</span>shuffle_id_list_select_30<span class="token punctuation">)</span>
+
+shuffle_id_list_select_30to50 <span class="token operator">=</span> id_list_select_30to50
+random<span class="token punctuation">.</span>shuffle<span class="token punctuation">(</span>shuffle_id_list_select_30to50<span class="token punctuation">)</span>
+
+shuffle_id_list_select_50 <span class="token operator">=</span> id_list_select_50
+random<span class="token punctuation">.</span>shuffle<span class="token punctuation">(</span>shuffle_id_list_select_50<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>对每个区域的索引列表进行随机打乱。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">slect_index <span class="token operator">=</span> torch<span class="token punctuation">.</span>cat<span class="token punctuation">(</span><span class="token punctuation">(</span>shuffle_id_list_select_30<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token builtin">int</span><span class="token punctuation">(</span>select_ratio<span class="token operator">*</span><span class="token builtin">len</span><span class="token punctuation">(</span>shuffle_id_list_select_30<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+                         shuffle_id_list_select_30to50<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token builtin">int</span><span class="token punctuation">(</span><span class="token punctuation">(</span>select_ratio<span class="token operator">+</span><span class="token number">0.2</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token builtin">len</span><span class="token punctuation">(</span>shuffle_id_list_select_30to50<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+                         shuffle_id_list_select_50<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token builtin">int</span><span class="token punctuation">(</span><span class="token punctuation">(</span>select_ratio<span class="token operator">+</span><span class="token number">0.2</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token builtin">len</span><span class="token punctuation">(</span>shuffle_id_list_select_50<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>将选择的索引合并成一个索引列表，以实现按比率选择体素。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">nums <span class="token operator">=</span> voxel_features<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+
+voxel_fratures_all_one <span class="token operator">=</span> torch<span class="token punctuation">.</span>ones<span class="token punctuation">(</span>nums<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">(</span>voxel_features<span class="token punctuation">.</span>device<span class="token punctuation">)</span>
+voxel_features_partial<span class="token punctuation">,</span> voxel_coords_partial <span class="token operator">=</span> voxel_features<span class="token punctuation">[</span>slect_index<span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">,</span> voxel_coords<span class="token punctuation">[</span>slect_index<span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>生成所有体素特征为 1 的全 1 张量，并根据选择的索引提取部分体素特征和坐标。</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">batch_size <span class="token operator">=</span> batch_dict<span class="token punctuation">[</span><span class="token string">'batch_size'</span><span class="token punctuation">]</span>
+input_sp_tensor <span class="token operator">=</span> spconv<span class="token punctuation">.</span>SparseConvTensor<span class="token punctuation">(</span>
+    features<span class="token operator">=</span>voxel_features_partial<span class="token punctuation">,</span>
+    indices<span class="token operator">=</span>voxel_coords_partial<span class="token punctuation">.</span><span class="token builtin">int</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    spatial_shape<span class="token operator">=</span>self<span class="token punctuation">.</span>sparse_shape<span class="token punctuation">,</span>
+    batch_size<span class="token operator">=</span>batch_size
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用 <code>spconv.SparseConvTensor</code> 构建稀疏卷积张量，输入包括部分体素特征、坐标、稀疏形状和批大小。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">input_sp_tensor_ones <span class="token operator">=</span> spconv<span class="token punctuation">.</span>SparseConvTensor<span class="token punctuation">(</span>
+    features<span class="token operator">=</span>voxel_fratures_all_one<span class="token punctuation">,</span>
+    indices<span class="token operator">=</span>voxel_coords<span class="token punctuation">.</span><span class="token builtin">int</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    spatial_shape<span class="token operator">=</span>self<span class="token punctuation">.</span>sparse_shape<span class="token punctuation">,</span>
+    batch_size<span class="token operator">=</span>batch_size
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>构建所有体素特征为 1 的稀疏卷积张量，用于计算损失。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">x <span class="token operator">=</span> self<span class="token punctuation">.</span>conv_input<span class="token punctuation">(</span>input_sp_tensor<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>将输入的稀疏卷积张量传递给第一个稀疏卷积层。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">x_conv1 <span class="token operator">=</span> self<span class="token punctuation">.</span>conv1<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+x_conv2 <span class="token operator">=</span> self<span class="token punctuation">.</span>conv2<span class="token punctuation">(</span>x_conv1<span class="token punctuation">)</span>
+x_conv3 <span class="token operator">=</span> self<span class="token punctuation">.</span>conv3<span class="token punctuation">(</span>x_conv2<span class="token punctuation">)</span>
+x_conv4 <span class="token operator">=</span> self<span class="token punctuation">.</span>conv4<span class="token punctuation">(</span>x_conv3<span class="token punctuation">)</span>
+out <span class="token operator">=</span> self<span class="token punctuation">.</span>conv_out<span class="token punctuation">(</span>x_conv4<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>依次通过模型的各个卷积层，得到最终的输出 <code>out</code>。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">self<span class="token punctuation">.</span>forward_re_dict<span class="token punctuation">[</span><span class="token string">'target'</span><span class="token punctuation">]</span> <span class="token operator">=</span> input_sp_tensor_ones<span class="token punctuation">.</span>dense<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>将目标值（全 1 张量）添加到 <code>forward_re_dict</code> 中。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">x_up1 <span class="token operator">=</span> self<span class="token punctuation">.</span>deconv1<span class="token punctuation">(</span>out<span class="token punctuation">.</span>dense<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+x_up2 <span class="token operator">=</span> self<span class="token punctuation">.</span>deconv2<span class="token punctuation">(</span>x_up1<span class="token punctuation">)</span>
+x_up3 <span class="token operator">=</span> self<span class="token punctuation">.</span>deconv3<span class="token punctuation">(</span>x_up2<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>通过一系列的转置卷积层进行上采样。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">self<span class="token punctuation">.</span>forward_re_dict<span class="token punctuation">[</span><span class="token string">'pred'</span><span class="token punctuation">]</span> <span class="token operator">=</span> x_up3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>将预测值添加到 <code>forward_re_dict</code> 中。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">return</span> batch_dict<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>返回更新后的 <code>batch_dict</code>。</p>
+<p>损失计算。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">self<span class="token punctuation">.</span>criterion <span class="token operator">=</span> nn<span class="token punctuation">.</span>BCEWithLogitsLoss<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">#二元交叉熵损失函数</span>
+self<span class="token punctuation">.</span>forward_re_dict <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token keyword">def</span> <span class="token function">get_loss</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> tb_dict<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+   tb_dict <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token keyword">if</span> tb_dict <span class="token keyword">is</span> <span class="token boolean">None</span> <span class="token keyword">else</span> tb_dict
+   pred <span class="token operator">=</span> self<span class="token punctuation">.</span>forward_re_dict<span class="token punctuation">[</span><span class="token string">'pred'</span><span class="token punctuation">]</span>
+   target <span class="token operator">=</span> self<span class="token punctuation">.</span>forward_re_dict<span class="token punctuation">[</span><span class="token string">'target'</span><span class="token punctuation">]</span>
+   loss <span class="token operator">=</span> self<span class="token punctuation">.</span>criterion<span class="token punctuation">(</span>pred<span class="token punctuation">,</span> target<span class="token punctuation">)</span>
+
+   tb_dict <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+      <span class="token string">'loss_rpn'</span><span class="token punctuation">:</span> loss<span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">&#125;</span>
+
+   <span class="token keyword">return</span> loss<span class="token punctuation">,</span> tb_dict<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong><a target="_blank" rel="noopener" href="https://github.com/chaytonmin/Occupancy-MAE/blob/main/pcdet/models/backbones_3d/voxel_mae_res.py">Voxel_MAE_res.py</a>区别不是很大，具体可以看源码</strong></p>
+<h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p><strong><a target="_blank" rel="noopener" href="https://github.com/chaytonmin/Occupancy-MAE/blob/main/pcdet/models/backbones_3d/vfe/__init__.py">VFE</a>模块的包括如下：</strong></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> <span class="token punctuation">.</span>mean_vfe <span class="token keyword">import</span> MeanVFE
+<span class="token keyword">from</span> <span class="token punctuation">.</span>pillar_vfe <span class="token keyword">import</span> PillarVFE
+<span class="token keyword">from</span> <span class="token punctuation">.</span>dynamic_mean_vfe <span class="token keyword">import</span> DynamicMeanVFE
+<span class="token keyword">from</span> <span class="token punctuation">.</span>dynamic_pillar_vfe <span class="token keyword">import</span> DynamicPillarVFE
+<span class="token keyword">from</span> <span class="token punctuation">.</span>image_vfe <span class="token keyword">import</span> ImageVFE
+<span class="token keyword">from</span> <span class="token punctuation">.</span>vfe_template <span class="token keyword">import</span> VFETemplate
+
+__all__ <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'VFETemplate'</span><span class="token punctuation">:</span> VFETemplate<span class="token punctuation">,</span>
+    <span class="token string">'MeanVFE'</span><span class="token punctuation">:</span> MeanVFE<span class="token punctuation">,</span>
+    <span class="token string">'PillarVFE'</span><span class="token punctuation">:</span> PillarVFE<span class="token punctuation">,</span>
+    <span class="token string">'ImageVFE'</span><span class="token punctuation">:</span> ImageVFE<span class="token punctuation">,</span>
+    <span class="token string">'DynMeanVFE'</span><span class="token punctuation">:</span> DynamicMeanVFE<span class="token punctuation">,</span>
+    <span class="token string">'DynPillarVFE'</span><span class="token punctuation">:</span> DynamicPillarVFE<span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>这里主要看<a target="_blank" rel="noopener" href="https://github.com/chaytonmin/Occupancy-MAE/blob/main/pcdet/models/backbones_3d/vfe/mean_vfe.py">MeanVFE.py</a>:</strong></p>
+<p>这是一个用于点云特征提取的模块，该模块实现了一个均值池化的 VFE（Voxel Feature Extractor）。以下是对代码的解释：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> torch
+
+<span class="token keyword">from</span> <span class="token punctuation">.</span>vfe_template <span class="token keyword">import</span> VFETemplate
+
+
+<span class="token keyword">class</span> <span class="token class-name">MeanVFE</span><span class="token punctuation">(</span>VFETemplate<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> model_cfg<span class="token punctuation">,</span> num_point_features<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span>model_cfg<span class="token operator">=</span>model_cfg<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>num_point_features <span class="token operator">=</span> num_point_features
+
+    <span class="token keyword">def</span> <span class="token function">get_output_feature_dim</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>num_point_features
+
+    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> batch_dict<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Args:
+            batch_dict:
+                voxels: (num_voxels, max_points_per_voxel, C)
+                voxel_num_points: optional (num_voxels)
+            **kwargs:
+
+        Returns:
+            vfe_features: (num_voxels, C)
+        """</span>
+        voxel_features<span class="token punctuation">,</span> voxel_num_points <span class="token operator">=</span> batch_dict<span class="token punctuation">[</span><span class="token string">'voxels'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> batch_dict<span class="token punctuation">[</span><span class="token string">'voxel_num_points'</span><span class="token punctuation">]</span>
+        points_mean <span class="token operator">=</span> voxel_features<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> keepdim<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+        normalizer <span class="token operator">=</span> torch<span class="token punctuation">.</span>clamp_min<span class="token punctuation">(</span>voxel_num_points<span class="token punctuation">.</span>view<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">min</span><span class="token operator">=</span><span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">.</span>type_as<span class="token punctuation">(</span>voxel_features<span class="token punctuation">)</span>
+        points_mean <span class="token operator">=</span> points_mean <span class="token operator">/</span> normalizer
+        batch_dict<span class="token punctuation">[</span><span class="token string">'voxel_features'</span><span class="token punctuation">]</span> <span class="token operator">=</span> points_mean<span class="token punctuation">.</span>contiguous<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">return</span> batch_dict
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li><p><strong>类结构：</strong></p>
+<ul>
+<li><code>MeanVFE</code> 类继承自 <code>VFETemplate</code> 类，表示它是一个 VFE 模块的具体实现。</li>
+</ul>
+</li>
+<li><p><strong>初始化方法：</strong></p>
+<ul>
+<li><code>__init__</code> 方法接受模型配置 (<code>model_cfg</code>) 和点的特征数量 (<code>num_point_features</code>) 作为参数，并通过调用父类的初始化方法来初始化模块。</li>
+</ul>
+</li>
+<li><p><strong>输出特征维度获取：</strong></p>
+<ul>
+<li><code>get_output_feature_dim</code> 方法返回 VFE 模块的输出特征维度，即 <code>num_point_features</code>。</li>
+</ul>
+</li>
+<li><p><strong>前向传播方法：</strong></p>
+<ul>
+<li><code>forward</code> 方法用于执行前向传播。</li>
+<li>接收一个字典 <code>batch_dict</code> 作为输入，其中包含了 <code>voxels</code>（体素特征）和可选的 <code>voxel_num_points</code>（每个体素中的点的数量）。</li>
+<li>计算每个体素中点的均值，然后更新 <code>batch_dict[&#39;voxel_features&#39;]</code> 为计算得到的均值特征。</li>
+<li>返回更新后的 <code>batch_dict</code>。</li>
+</ul>
+</li>
+<li><p><strong>均值池化过程：</strong></p>
+<ul>
+<li>通过对 <code>voxel_features</code> 在第二个维度（点的维度）进行求和，得到每个体素内点特征的总和。</li>
+<li>创建一个 <code>normalizer</code>，其值为每个体素内的点的数量，用于规范化均值的计算。</li>
+<li>利用 <code>normalizer</code> 对点特征总和进行均值计算。</li>
+<li>将计算得到的均值作为更新后的 <code>voxel_features</code>。</li>
+</ul>
+</li>
+</ol>
+<p>这个模块的主要作用是在每个体素中对点的特征进行均值池化，以获得更紧凑的体素特征表示。</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">oceanechy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://oceanechy.github.io/2024/01/03/occupancy-mae-code/">http://oceanechy.github.io/2024/01/03/occupancy-mae-code/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">oceanechy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/mae/">
+                                    <span class="chip bg-color">mae</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2024/01/03/occupancy-mae-code/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="室外大规模点云自监督学习代码篇(Occupancy-MAE)">
+                        
+                        <span class="card-title">室外大规模点云自监督学习代码篇(Occupancy-MAE)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-01-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/MAE/" class="post-category">
+                                    MAE
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/mae/">
+                        <span class="chip bg-color">mae</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/01/02/mae3d/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="室外大规模点云自监督学习理论篇(MAE，持续更新)">
+                        
+                        <span class="card-title">室外大规模点云自监督学习理论篇(MAE，持续更新)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-01-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/MAE/" class="post-category">
+                                    MAE
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/mae/">
+                        <span class="chip bg-color">mae</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2024</span>
+            
+            <a href="/about" target="_blank">oceanechy</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">163.7k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/oceanechy" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1945942166@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1945942166" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1945942166" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/xiao-hai-38-6-81" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/xiao-hai-38-6-81" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
