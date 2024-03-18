@@ -387,21 +387,21 @@
                     <div class="post-statis col l4 hide-on-med-and-down" data-aos="zoom-in-right">
                         
 <div class="statis">
-    <span class="count"><a href="/">44</a></span>
+    <span class="count"><a href="/">47</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories">20</a></span>
+    <span class="count"><a href="/categories">22</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">48</a></span>
+    <span class="count"><a href="/tags">50</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -417,21 +417,21 @@
                                 <div class="post-statis hide-on-large-only" data-aos="zoom-in-right">
                                     
 <div class="statis">
-    <span class="count"><a href="/">44</a></span>
+    <span class="count"><a href="/">47</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories">20</a></span>
+    <span class="count"><a href="/categories">22</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">48</a></span>
+    <span class="count"><a href="/tags">50</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -565,7 +565,7 @@
         },
         xAxis: {
             type: 'category',
-            data: ["2023-01","2023-02","2023-03","2023-04","2023-05","2023-06","2023-07","2023-08","2023-09","2023-10","2023-11","2023-12","2024-01"]
+            data: ["2023-03","2023-04","2023-05","2023-06","2023-07","2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03"]
         },
         yAxis: {
             type: 'value',
@@ -575,7 +575,7 @@
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [0,0,9,11,2,0,0,0,0,1,13,6,2],
+                data: [9,11,2,0,0,0,0,1,13,6,2,0,3],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -617,7 +617,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"DL","value":18},{"name":"cs231A","value":2},{"name":"MAE","value":3},{"name":"slam","value":1},{"name":"Opencv","value":6},{"name":"bev","value":1},{"name":"c++","value":2},{"name":"Camera","value":1},{"name":"git","value":1},{"name":"PnP","value":1},{"name":"net","value":1},{"name":"slam","value":4},{"name":"ROS","value":1},{"name":"tmux","value":1},{"name":"linux","value":1},{"name":"HEF","value":1},{"name":"DL","value":1},{"name":"c++","value":1},{"name":"c++","value":3},{"name":"docker","value":1}],
+                data: [{"name":"DL","value":19},{"name":"cs231A","value":2},{"name":"MAE","value":3},{"name":"slam","value":1},{"name":"Opencv","value":6},{"name":"bev","value":1},{"name":"SAM","value":1},{"name":"对比学习","value":1},{"name":"c++","value":2},{"name":"Camera","value":1},{"name":"PnP","value":1},{"name":"git","value":1},{"name":"net","value":1},{"name":"slam","value":4},{"name":"ROS","value":1},{"name":"tmux","value":1},{"name":"linux","value":1},{"name":"HEF","value":1},{"name":"DL","value":1},{"name":"c++","value":1},{"name":"c++","value":3},{"name":"docker","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -641,7 +641,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["bev","Opencv","c++","ssc","slam","seg","mae","occ","对极几何","对极约束"]
+                data: ["bev","Opencv","c++","ssc","slam","seg","mae","对比学习","occ","对极几何"]
             }
         ],
         yAxis: [
@@ -654,7 +654,7 @@
                 type: 'bar',
                 color: ['#82d3f4'],
                 barWidth : 18,
-                data: [8,6,6,5,5,4,3,1,1,1],
+                data: [8,6,6,5,5,4,3,2,1,1],
                 markPoint: {
                     symbolSize: 45,
                     data: [{
@@ -824,14 +824,14 @@
         <div class="tag-chips center-align">
             
             
-            <a href="/tags/bev/">
-                <span class="chip center-align waves-effect waves-light chip-default">bev</span>
+            <a href="/tags/occ/">
+                <span class="chip center-align waves-effect waves-light chip-default">occ</span>
             </a>
             
             
             
-            <a href="/tags/occ/">
-                <span class="chip center-align waves-effect waves-light chip-default">occ</span>
+            <a href="/tags/bev/">
+                <span class="chip center-align waves-effect waves-light chip-default">bev</span>
             </a>
             
             
@@ -940,6 +940,18 @@
             
             <a href="/tags/Hough/">
                 <span class="chip center-align waves-effect waves-light chip-default">Hough</span>
+            </a>
+            
+            
+            
+            <a href="/tags/sam/">
+                <span class="chip center-align waves-effect waves-light chip-default">sam</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/">
+                <span class="chip center-align waves-effect waves-light chip-default">对比学习</span>
             </a>
             
             
@@ -1242,7 +1254,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">163.7k</span>
+                        class="white-color">170.7k</span>
             
             
             
