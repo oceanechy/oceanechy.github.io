@@ -448,7 +448,9 @@
 <p><img src="/pic/CO2.png" alt="3D目标检测器大致流程。原始输入LiDAR点云首先由3D主干处理，并生成逐点/体素表示，然后将其进一步转换为Bird-EyeView(BEV)地图。最后，应用2D主干和检测头生成检测结果。"></p>
 <p><img src="/pic/CO3.png" alt="CO^3的Pipeline，对基础设施点云进行转换，并预先与车载点云融合。以车载点云和融合点云为输入，首先用3D主干对它们进行处理，生成点/体素级别的表示。在这些密集的表征下，提出了两个训练前的目标：(A)协同对比损失，这为对比学习引入了足够的视角。(B)上下文形状预测损失，以引入有利于下游任务的与任务相关的信息。"></p>
 <h3 id="协同对比损失"><a href="#协同对比损失" class="headerlink" title="协同对比损失"></a>协同对比损失</h3><p>损失的定义如下：</p>
-<p>$$<br>\begin{aligned}<br>&amp;L_{CO_2}&#x3D;\frac1N_1\sum_{n&#x3D;1}^{N_1}-\log(\frac{\exp(z_{veh}^n\cdot z_{fusion}^n&#x2F;\tau)}{\sum_{i &#x3D;1}^{N_1}\exp(z_{veh}^i \cdot z_{fusion}^i &#x2F;\tau)})   \<br>&amp; {z_{v&#x2F;f}^n}<em>{n&#x3D;1}^{N_1} \stackrel{sample}{\sim} Z</em>{v&#x2F;f} ; Z_{v&#x2F;f}&#x3D;normalize(MLP_1(\textbf{P}_{v&#x2F;f}^{feat^{enc}}))<br>\end{aligned}<br>\tag{1}<br>$$</p>
+<p> $$L_{CO_2}&#x3D;\frac1N_1\sum_{n&#x3D;1}^{N_1}-\log(\frac{\exp(z_{veh}^n\cdot z_{fusion}^n&#x2F;\tau)}{\sum_{i &#x3D;1}^{N_1}\exp(z_{veh}^i \cdot z_{fusion}^i &#x2F;\tau)}) \tag{1} $$</p>
+<p> $$ { z_{v&#x2F;f}^n }<em>{n&#x3D;1}^{N_1} \stackrel{sample}{\sim} Z</em>{v&#x2F;f} $$</p>
+<p> $$  Z_{v&#x2F;f}&#x3D;normalize(MLP_1(\textbf{P}_{v&#x2F;f}^{feat^{enc}})) $$ </p>
 <p>其中，车辆和融合点云的嵌入特征，$\textbf{P}<em>{veh} ^{feat^{enc}}$和$\textbf{P}</em>{fusion} ^{feat^{enc}}$，</p>
 <ul>
 <li>首先由多层感知器$\rm MLP_1$投影到公共特征空间，</li>
@@ -547,7 +549,9 @@ neg_sim<span class="token punctuation">.</span>append<span class="token punctuat
 <li>最后,该方法返回计算得到的协作对比损失。</li>
 </ul>
 <h3 id="上下文形状预测损失"><a href="#上下文形状预测损失" class="headerlink" title="上下文形状预测损失"></a>上下文形状预测损失</h3><p>CO^3 旨在学习适用于各种下游数据集的表示。但是公式（1）中的对比损失很难编码任务相关信息，如这个<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.07004">论文</a>中讲到的所示，作者诉诸于图像上的额外重建目标来引入任务相关信息。然而，对于室外场景点云，用点&#x2F;体素级表示重建整个场景极其困难。为了缓解这个问题，建议用其表示重建每个点&#x2F;体素的邻域。具体来说，上下文形状预测损失设计如下。描述了车辆特征的过程，类似的过程也适用于融合特征，损失函数如下：</p>
-<p>$$<br>\begin{aligned}<br>&amp;L_{CSP} &#x3D;\frac1N_2\sum_{n&#x3D;1}^{N_2}\sum_{m&#x3D;1}^{N_{bin}}p_{n,m}\log\frac{p_{n,m}}{q_{n,m}} \<br>&amp;{p_{n,<em>}}<em>{n&#x3D;1}^{N_2} \stackrel{sample}{\sim}P；{q</em>{n,</em>}}<em>{n&#x3D;1}^{N_2} \stackrel{sample}{\sim}Q；P&#x3D; softmax(MLP_2(\textbf{P}</em>{veh}^{feat^{enc}}))<br>\end{aligned}<br>\tag{2}<br>$$</p>
+<p> $$ L_{CSP} &#x3D;\frac1N_2\sum_{n&#x3D;1}^{N_2}\sum_{m&#x3D;1}^{N_{bin}}p_{n,m}\log\frac{p_{n,m}}{q_{n,m}} \tag{2}$$</p>
+<p> $$ {p_{n,*}}_{n&#x3D;1}^{N_2} \stackrel{sample}{\sim}P $$</p>
+<p> $$ {q_{n,*}}<em>{n&#x3D;1}^{N_2} \stackrel{sample}{\sim}Q；P&#x3D; softmax(MLP_2(\textbf{P}</em>{veh}^{feat^{enc}})) $$</p>
 <p>其中车辆点云的编码特征$\textbf{P}_{veh}^{feat^{enc}}$ :</p>
 <ul>
 <li>首先通过另一个多层感知器 $MLP_2$，并对投影特征应用 softmax 操作以获得每个点&#x2F;体素的预测局部分布，$N_{veh}^{p^{enc}}$ 是由 3D 编码器嵌入后的车辆侧点&#x2F;体素的数量，$N_{bin}$ 是划分每个点&#x2F;体素的局部邻域的 bin 数。</li>
@@ -558,7 +562,7 @@ neg_sim<span class="token punctuation">.</span>append<span class="token punctuat
 <blockquote>
 <p>为了计算第 i 个点&#x2F;体素的“ground Truth”形状上下文，首先将点&#x2F;体素的邻域沿 x-y 平面划分为 $N_{bin}$ 个 bin，其中 R1 &#x3D; 0.5m，R2 &#x3D; 4m。然后计算每个 bin 中的点&#x2F;体素的数量，这导致 $N_{bin} &#x3D; 32$ 个数字 $ Q_{i,<em>} ^{raw} \in \mathbb R^{N_{bin}}$ 。接下来，$Qi,</em>$ 最终确定如下，其中 $SF_{CSP}$ 是使分布合理的比例因子。</p>
 </blockquote>
-<p>$$<br>Q_{i,<em>}&#x3D;softmax(normalize(Q_{i,</em>} ^{raw})\times SF_{CSP})\tag{3}<br>$$</p>
+<p> $$ Q_{i,<em>}&#x3D;softmax(normalize(Q_{i,</em>} ^{raw})\times SF_{CSP})\tag{3} $$</p>
 <blockquote>
 <p>补充：K-L散度是一种量化两种概率分布P和Q之间差异的方式，又叫相对熵，散度越小，说明概率 Q 与概率 P 之间越接近，那么估计的概率分布与真实的概率分布也就越接近。<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/43318a3dc715">参考链接1</a>，<a target="_blank" rel="noopener" href="https://blog.csdn.net/Poyunji/article/details/123771660">参考链接2</a></p>
 </blockquote>
