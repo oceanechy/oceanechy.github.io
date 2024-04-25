@@ -1,0 +1,1406 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="弱监督下的三维目标检测(激光点云篇，接单目篇), Ocean">
+    <meta name="description" content="弱监督下的三维目标检测(激光点云篇，接单目篇)二、基于激光点云的三维目标检测VS3D:Weakly Supervised 3D Object Detection from Point Clouds（2020）论文链接
+代码链接
+
+WS3D:">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>弱监督下的三维目标检测(激光点云篇，接单目篇) | Ocean</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(/medias/ocean.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ocean</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ocean</div>
+        <div class="logo-desc">
+            
+            要善良,要勇敢,要像星星一样努力发光。若是你心怀旧梦，就别再无疾而终。加油，为实现梦想努力。梦想再遥远，也要笑着走去，毕竟沿途有很多美景等着去欣赏。
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/oceanechy" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/oceanechy" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">弱监督下的三维目标检测(激光点云篇，接单目篇)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CV/">
+                                <span class="chip bg-color">CV</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/DL/" class="post-category">
+                                DL
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-04-25
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    21.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    78 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="弱监督下的三维目标检测-激光点云篇，接单目篇"><a href="#弱监督下的三维目标检测-激光点云篇，接单目篇" class="headerlink" title="弱监督下的三维目标检测(激光点云篇，接单目篇)"></a>弱监督下的三维目标检测(激光点云篇，接单目篇)</h1><h2 id="二、基于激光点云的三维目标检测"><a href="#二、基于激光点云的三维目标检测" class="headerlink" title="二、基于激光点云的三维目标检测"></a>二、基于激光点云的三维目标检测</h2><h3 id="VS3D-Weakly-Supervised-3D-Object-Detection-from-Point-Clouds（2020）"><a href="#VS3D-Weakly-Supervised-3D-Object-Detection-from-Point-Clouds（2020）" class="headerlink" title="VS3D:Weakly Supervised 3D Object Detection from Point Clouds（2020）"></a>VS3D:Weakly Supervised 3D Object Detection from Point Clouds（2020）</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2007.13970">论文链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Zengyi-Qin/Weakly-Supervised-3D-Object-Detection">代码链接</a></p>
+<p><img src="/pic/weak3d27.png"></p>
+<h3 id="WS3D-Weakly-Supervised-3D-Object-Detection-from-Lidar-Point-Cloud（2020）"><a href="#WS3D-Weakly-Supervised-3D-Object-Detection-from-Lidar-Point-Cloud（2020）" class="headerlink" title="WS3D: Weakly Supervised 3D Object Detection from Lidar Point Cloud（2020）"></a>WS3D: Weakly Supervised 3D Object Detection from Lidar Point Cloud（2020）</h3><h3 id="Towards-a-Weakly-Supervised-Framework-for-3D-Point-Cloud-Object-Detection-and-Annotation（2021）"><a href="#Towards-a-Weakly-Supervised-Framework-for-3D-Point-Cloud-Object-Detection-and-Annotation（2021）" class="headerlink" title="Towards a Weakly Supervised Framework for 3D Point Cloud Object Detection and Annotation（2021）"></a>Towards a Weakly Supervised Framework for 3D Point Cloud Object Detection and Annotation（2021）</h3><p><strong>上面两篇文章为同一作者所写，后者为前者的延伸</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2007.11901">论文链接1</a><br><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/9369074/">论文链接2</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/hlesmqh/WS3D">代码链接</a></p>
+<p><img src="/pic/weak3d28.png"></p>
+<h3 id="SS3D-Sparsely-Supervised-3D-Object-Detection-from-Point-Cloud（2022）"><a href="#SS3D-Sparsely-Supervised-3D-Object-Detection-from-Point-Cloud（2022）" class="headerlink" title="SS3D: Sparsely-Supervised 3D Object Detection from Point Cloud（2022）"></a>SS3D: Sparsely-Supervised 3D Object Detection from Point Cloud（2022）</h3><p><a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content/CVPR2022/papers/Liu_SS3D_Sparsely-Supervised_3D_Object_Detection_From_Point_Cloud_CVPR_2022_paper.pdf">论文链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gaocq/SS3D2">代码暂未开源</a></p>
+<h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>传统的基于深度学习的 3D 目标检测方法需要大量的 3D 边界框注释进行训练，这在实践中获取成本很高。稀疏注释的对象检测可以很大程度上减少注释，这是非常具有挑战性的，因为丢失的注释实例在训练过程中将被视为背景。在本文中，我们提出了一种稀疏监督的 3D 对象检测方法，称为 SS3D。为了消除缺失注释造成的负面监督，我们设计了一个缺失注释实例挖掘模块，采用严格的过滤策略来挖掘正例。同时，我们设计了可靠的背景挖掘模块和点云填充数据增强策略，以生成置信数据，以便在可靠的监督下进行迭代学习。所提出的 SS3D 是一个通用框架，可用于学习任何现代 3D 对象检测器。对 KITTI 数据集的大量实验表明，在不同的 3D 检测器上，所提出的 SS3D 框架只需 20% 的注释即可实现与完全监督方法相当的性能。与 KITTI 上最先进的半监督 3D 对象检测相比，我们的 SS3D 在相同注释工作负载下显着提高了基准。此外，我们的 SS3D 还显着优于最先进的弱监督方法，凸显了其有效性。</p>
+<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>三维（3D）物体检测旨在从 3D 传感器数据（例如 LiDAR 点云）中对物体进行定位和分类，由于其在自动驾驶、增强&#x2F;虚拟现实和室内机器人领域的多样化应用而受到越来越多的关注。最近，人们提出了许多基于体素或点特征的方法[1,17,18,34,35]，并在大规模基准数据集上实现了高性能[2,21]。然而，大多数提出的 3D 对象检测器都需要完全监督学习，这意味着模型学习需要完全注释的数据集。与 2D 图像对象相比，注释 3D 点云对象更加耗费人力：注释者必须仔细切换视点或放大和缩小整个 3D 场景，以标记每个 3D 对象。因此，开发具有同等检测性能且仅需要轻量级对象注释的 3D 检测器是实际应用中需要解决的一个有意义的问题。</p>
+<p>最近，很少有工作[10,15,24,26,33]被提出来解决这个问题。在[10]中，采用了弱监督学习策略。具体来说，点注释方案用于减轻注释边界框的负担。然而，点标注提供的监督信息较弱，因此必须额外提供一定量的全标注，才能达到最佳性能。在[24, 33]中，使用了半监督学习策略，其中仅部分数据集被注释，其余部分未标记。利用师生框架将信息从标记数据传输到未标记数据。然而，当标记数据和未标记数据之间的差距很大时，信息传输往往是无效的。此外，虽然只标注了数据集的一部分，但标记单个场景仍然需要付出不可忽视的劳动，特别是对于具有许多 3D 对象的拥挤场景，如图 1 所示。</p>
+<p><img src="/pic/weak3d38.png" alt="图 1. 完全监督方法和我们的方法所需注释的演示。左边的案例显示了 PV-RCNN [16] 的训练阶段，PV-RCNN 是一种高性能检测器，具有完整的注释作为输入，而我们的模型只为每个场景注释一个实例。右侧案例显示了 PV-RCNN 和我们的模型的预测结果，表明我们的模型实现了与全监督方法相当的性能。"></p>
+<p>在本文中，我们采用稀疏标注策略，仅标注场景中的一个 3D 对象，如图 1 左侧所示。这样，我们就能够获得每个场景的一个 3D 对象的完整监督信息。 。直观上，这有助于学习未标记对象的信息，因为场景内信息传输比跨场景知识传输容易得多。然而，稀疏注释的对象检测也提出了新的挑战：缺失注释的实例将带来不正确的监督信号（即作为负样本）来干扰网络的训练。在训练过程中，由于缺失注释的实例以及这些实例附近的区域可能被错误地标记为背景，因此当梯度反向传播时，网络的权重更新将被显着误导。通过利用 2D 对象之间的重叠或层次关系信息，2D 稀疏对象检测方法 [11, 27] 已经解决了这一挑战。然而，此类信息在 3D 数据集中可能不存在，例如 KITTI [2]，这阻碍了此类方法直接应用于 3D 应用。</p>
+<p>为了应对这一挑战，我们提出了一种新颖有效的稀疏注释 3D 对象检测方法，即 SS3D，它可以应用于任何先进的 3D 检测器。我们的 SS3D 的主要思想是以高置信度迭代挖掘正实例和背景，并进一步使用这些生成的数据来训练 3D 检测器。我们设计了两个有效的模块，即<strong>缺失标注实例挖掘模块和可靠背景挖掘模块</strong>，分别挖掘可靠缺失正实例和背景。这确保了 3D 检测器能够使用可靠的监督数据进行训练。通过这种设计，与使用完全注释数据集训练的 3D 检测器相比，我们的 SS3D 可以实现相当的性能，其中稀疏注释数据集只需要 20% 的注释。</p>
+<p>总而言之，我们的贡献如下： </p>
+<ul>
+<li>我们提出了一种从点云进行稀疏注释的 3D 对象检测的新方法，该方法可以用作训练任何现有 3D 全监督检测器的通用框架。据我们所知，这是第一个探索 3D 对象检测任务的稀疏注释策略的工作。</li>
+<li>我们设计了两个有效的模块来分别挖掘可靠的缺失正实例和背景，这确保了3D检测器能够使用可靠的监督数据进行训练。 </li>
+<li>实验结果表明，我们的稀疏注释方法可以实现与完全监督方法相当的性能，并且远远优于最先进的半监督和弱监督3D 对象检测方法。</li>
+</ul>
+<h4 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h4><p><strong>完全监督的 3D 物体检测</strong></p>
+<p>现有的3D检测方法可大致分为两类：基于体素的方法[4,5,28,34,35]和基于点的方法[12,17,19,29,30,32]。</p>
+<p><strong>对于基于体素的方法</strong>，体素化是不规则点云应用传统 2D 或 3D 卷积的常用措施。在voxelNet [36]中，采用体素特征编码层从点云中提取统一的特征表示。 SECOND [28] 通过修改稀疏卷积算法 [3, 7] 有效地从 3D 体素中提取特征。 TANet [8] 利用堆叠注意力模块来利用多级特征关系。 Part-A² [18]提出了一个两阶段网络，通过对对象内部分特征进行分组来探索空间关系。 SE-SSD[35]采用了一对教师和学生检测器来提高性能，而无需在推理中引入额外的计算。 Voxel R-CNN [1] 设计了一个体素 RoI 池化来直接聚合来自 3D 体素特征卷的空间上下文。</p>
+<p><strong>基于点的方法</strong>直接将原始不规则点作为输入来提取局部和全局特征[13, 14]。 PointRCNN [17] 融合了提取的特征和以自下而上的方式生成的 3D 提案中的原始点以进行细化。 STD [30]提出了一种新颖的球形锚点来减少锚点的数量，并利用稀疏到密集的思想来提高性能。 3DSSD[29]提出了一种基于特征距离的融合采样策略，以保留丰富的信息。 PV-RCNN [16]利用体素到关键点场景编码和关键点到网格特征聚合来提高性能。</p>
+<p>尽管之前的工作已经取得了显着的进展并表现出了令人印象深刻的性能，但这样的结果很大程度上依赖于大规模的手动注释，这非常耗时且费力。我们提出的方法采用稀疏注释策略，仅为每个场景注释一个对象，同时实现与这些完全监督方法相当的性能。此外，无论是基于体素的探测器还是基于点的探测器，我们的 SS3D 都可以直接应用。</p>
+<p><strong>弱&#x2F;半监督 3D 物体检测</strong></p>
+<p>为了减少 3D 对象的注释，WS3D [24] 采用了弱监督学习策略，这是通过基于点击注释方案的两阶段架构来实现的。 WS3D [10] 在第 1 阶段通过单击注释场景生成圆柱形对象建议，并在第 2 阶段使用轻微标记良好的实例细化建议以获取长方体。然而，弱监督点标注提供的监督信息较弱，因此必须额外提供一定量的全标注。同时，基于VoteNet [12]，SESS [33]首先提出了一种半监督3D对象检测，利用互助师生[22]框架来强制执行三种一致性损失。在SESS之后，3DIoUMatch [24]被提出来估计3D IoU作为定位度量，并设置一个自我调整的阈值来过滤伪标签。</p>
+<p>与这些方法不同，我们提出的方法对每个场景中存在的对象进行精确的监督信息，这使我们能够在场景内传输可靠的监督信息。直观上，这优于跨场景传输监督信息，特别是对于变化较大的场景。</p>
+<p><strong>稀疏监督的二维物体检测</strong></p>
+<p>稀疏注释的对象检测是减少网络对仅注释部分对象的数据注释的依赖的另一种方法。由于部分实例缺少注释，当梯度反向传播时，网络的权重更新可能会受到很大的误导。为了解决这个问题，现有的先进方法采用了对 ROI（感兴趣区域）损失进行重新加权或重新校准的策略，以消除未标记实例的影响。软采样 [27] 利用 RoIs 和带注释的实例之间的重叠来重新加权损失。基于焦点损失[6]的背景重新校准损失[31]将未标记的实例视为硬负样本并重新校准其损失，仅适用于单级检测器。特别是，部分感知采样[11]通过使用人类直觉来判断标记和未标记实例之间的层次关系，从而忽略了部分类别的分类损失。联合挖矿[25]提出了一个联合生成模块，将未标记的实例转换为正向监督。</p>
+<p>上述稀疏标注的目标检测方法都是针对二维图像目标的。由于 2D 图像和 3D 点云之间的模态差异，这些方法不能应用于我们的 3D 对象检测任务。例如，在KITTI [2]中，3D对象是自然分离的，这意味着对象之间的重叠为零，并且对象之间不存在层次关系。与重新加权和重新校准方法相比，本文提出了一种稀疏注释的 3D 对象检测的新方法，该方法利用缺失注释的实例挖掘模块和简单但有效的背景挖掘模块来挖掘置信的正实例和背景，这是训练高性能检测器的关键。</p>
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><p><strong>总体框架</strong></p>
+<p>作为一个通用框架，所提出的 SS3D 旨在促进 3D 检测器的学习，以便在基于稀疏注释数据集从头开始训练时获得最佳检测性能。如图2所示，所提出的SS3D主要由缺失注释实例挖掘模块、可靠背景挖掘模块、点云填充数据增强和实例库组成。给定 3D 检测器，最初，我们在稀疏注释的数据集上从头开始训练检测器。然后，我们使用检测器通过具有严格过滤策略的缺失注释实例挖掘模块，从训练数据中的点云中挖掘可靠的缺失注释实例。我们将挖掘的实例（橙色）和原始带注释的实例（红色）存储到实例库中。依托实例库，我们进一步利用检测器通过可靠背景挖掘模块来挖掘可靠背景。基于这两个模块的结果，我们利用所提出的点云填充数据增强来构建置信数据集，该数据集可进一步用于重新训练检测器。通过这种迭代学习方式，我们最终可以获得高性能的3D检测器。下面详细介绍。</p>
+<p><img src="/pic/weak3d39.png" alt="图 2.我们的 SS3D 管道。缺失标注实例挖掘模块搜索缺失标注实例并将其存储在实例库中。可靠背景挖掘模块利用实例库进一步获取具有可靠背景的破碎场景。然后使用点云填充数据增强策略生成置信数据以迭代学习检测器。"></p>
+<p><strong>探测器架构</strong></p>
+<p>我们的方法是使用稀疏注释数据集训练 3D 目标检测器的通用框架，可以直接应用于各种检测器。在本文中，我们使用 PointRCNN [17]、Part-A2 [18]、PV-RCNN [16] 和 VoxelRCNN [1] 最先进的 3D 检测器验证我们的 SS3D。我们以PV-RCNN为例，简单回顾一下该方法。 PV-RCNN 是一种高性能、高效的两级点云检测器，通过新颖的方法将多尺度 3D 体素卷积神经网络 (CNN) 特征和基于 PointNet++ 的集合抽象特征深度集成到一小组关键点中。体素集抽象模块。</p>
+<p><strong>缺失注释实例挖掘模块</strong></p>
+<p>如图3所示，我们设计了一个缺失注释的实例挖掘模块，该模块结合了IoU引导的抑制和基于分数的过滤方案，作为将未标记的正实例挖掘为高质量伪实例的强化措施。然后，将选定的伪实例存储在实例库中，以进一步指导可靠后台挖掘模块。</p>
+<p><img src="/pic/weak3d40.png" alt="图 3.我们提出的缺失注释实例挖掘模块的图示。训练数据和相应的增强数据是检测器的两个不同输入。然后，我们利用基于分数的过滤来删除原始训练数据的增强预测和具有低置信度分数的增强数据的预测。此外，提出了 IoU 引导抑制来过滤掉低质量的预测。最后，我们将剩余的预测作为伪实例存储在实例库中。"></p>
+<p><strong>基于分数的过滤</strong> 如图 3 所示，首先，原始输入点云 x 通过顶部检测器生成预测 pt。然后，我们执行一组全局增强，其中包括对 x 进行随机旋转、翻转和缩放以生成增强点云 ˆx，与 pt 同步生成增强预测 ˆpt，底部检测器基于 ˆx 生成预测 pb。最后，我们设置分类置信度阈值τcls来过滤掉可能包含错误类别的pb和^pt的预测，然后获得过滤后的预测。</p>
+<p><strong>IoU引导抑制</strong>请注意，仅基于分数的过滤策略无法获得可靠的预测。受 FixMatch [20] 的启发，我们进一步提出了一种有效的 IoUguided 抑制策略。得到过滤后的预测后，我们计算 ^pt 和 pb 中每对边界框之间的 IoU 矩阵，旨在匹配来自不规则点云的两个预测的框。然后，我们过滤掉 IoU 小于阈值 τIoU 的不匹配的配对边界框，从而进一步提高伪实例的质量。</p>
+<p>最后一步实例库处理结合基于分数的过滤和IoU引导的抑制，可以有效避免低质量的伪实例生成，最终获得一组边界框{br}N n&#x3D;1，其中N和r是训练数量场景和边界框分别保留在场景中。然后，我们计算索引 n 的同一场景的框 br n 和 bB n （来自实例库 B 的边界框）之间的 IoU，并选择不与 bB n 重叠的 br n 。最后，所选的边界框（橙色）以及相应的预测类标签和点云存储在实例库中，该实例库还包含所有稀疏注释的立场（红色）。通过这样的设计，随着网络的迭代，我们的实例库可以存储越来越多的正实例来指导可靠背景挖掘模块挖掘更可靠的背景。</p>
+<p><strong>可靠的背景挖掘模块</strong></p>
+<p>依靠更新的实例库，我们利用所提出的可靠背景挖掘模块来挖掘背景点，并进一步消除由于缺失注释实例而导致的负面监督信息。与现有的针对不正确监督的重新缩放策略[11, 31]相比，我们的方法更加简单有效。</p>
+<p>如图4所示，为了获得可靠的背景点云，我们采取尽可能寻找潜在前景点的策略。具体来说，我们使用具有低置信度得分阈值τl的检测器来获得对象检测结果。同时，我们从检测器中删除了非极大值抑制（NMS）操作。通过这种方式，我们确保结果尽可能包含潜在的前景点，这意味着原始点云的其余部分往往是可靠的背景点云。为了生成新的训练数据，我们删除了检测到的对象的 3D 边界框中不与实例库中的实例重叠的点数据。</p>
+<p><img src="/pic/weak3d41.png" alt="图 4.我们提出的可靠后台挖掘模块的图示。首先，我们将原始点云提供给没有 NMS 的检测器以产生近乎重复的预测，并利用实例库中存储的实例来过滤掉不可靠的对象点。这将导致场景破碎，并通过点云填充策略进一步处理。"></p>
+<p><strong>点云填充数据增强</strong></p>
+<p>经过可靠的背景选择处理后，点云场景被打破。同时，场景中的实例可能非常稀疏。这些问题将显着降低网络的性能。受到[28]提出的地面实况（GT）采样增强的启发，我们进一步提出了点云填充数据增强策略来解决这些问题。对于每个剩余的边界框，我们从实例库中随机选择一个边界框，并将相应的点云放置在所选边界框内的剩余边界框的中心，如果所选边界框不与实例库中现有的边界框重叠。破碎的场景。然后我们利用 GT 采样增强 [28] 进一步增强当前场景。最后，我们获得具有置信的正例和可靠背景的合并点云。通过这种设计，我们可以修复之前删除点所带来的密度不均匀问题，同时更多的groundtruth box也减少了每个场景中只有少量实例稀疏标注时对网络的负面影响。</p>
+<p>通过前面的处理，可能对网络造成负面影响的歧义点大部分被去除，包括那些缺失标注的实例并且没有被我们的缺失标注实例挖掘模块挖掘到。此外，生成的置信数据为以迭代方式重新训练检测器提供了重要的监督信息。算法 1 总结了我们的 SS3D。</p>
+<p><img src="/pic/weak3d42.png"></p>
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><p>遵循最先进的方法 [4,8,17,18,34,35]，我们在 KITTI 3D 和 BEV 对象检测基准 [2] 上评估我们的 SS3D。这是一个广泛用于性能评估的流行数据集，包含 3D 对象检测的完整注释。有 7,481 个样本用于训练，7,518 个样本用于测试，我们进一步将训练样本分为 3,712 个样本的训练分割和 3,769 个样本的验证分割作为常见做法[16]。另外，由于对象的遮挡和截断程度，KITTI基准在评估上分为三个难度级别：简单、中等和困难。在[31]中生成稀疏注释数据集之后，我们在训练分割中的每个 3D 场景中随机保留一个注释对象，以生成极其稀疏的分割。与 KITTI 上所有对象的完整注释相比，极其稀疏的分割只需要注释 20% 的对象。为了公平比较，我们报告了 40 个和 11 个召回位置的 mAP，对于汽车、行人和骑自行车这三个类别，3D 重叠阈值分别为 0.7、0.5、0.5。</p>
+<p><strong>实施细节</strong></p>
+<p>首先，我们按照 PCDet [23] 以有监督的方式训练我们的检测器，并使用极其稀疏的分割，并保持与所使用的检测器相同的监督损失。在训练阶段，我们采用 ADAM 优化器和余弦退火学习率 [9]，批量大小为 8，持续 6 个 epoch。在可靠的背景选择中，我们将低分阈值τl设置为0.01。对于基于分数的过滤和 IoU 引导的抑制，我们将置信度分数阈值 τcls 和 IoU 阈值 τIoU 设置为 0.9。注意，我们设置迭代学习的次数M&#x3D;10。在我们的全局增强中，我们以 0.5 的概率沿 X 轴和 Y 轴随机翻转每个场景，然后使用 [0.8, 1.2] 中的均匀采样因子对其进行缩放。最后，我们以从 [ −π &#x2F;4 , π&#x2F; 4 ] 采样的随机角度绕 Z 轴旋转点云。</p>
+<p><strong>与最先进方法的比较</strong></p>
+<p>与完全监督方法的比较我们将所提出的方法与四种最先进的完全监督方法进行比较：PointRCNN [17]、Part-A2 [18]、PVRCNN [16]、Voxel-RCNN [1]，分别是带注释的训练分割和极稀疏训练分割，其中这些在极稀疏分割上训练的检测器用作我们方法的初始检测器。不同方法的结果如表1所示。 </p>
+<p><img src="/pic/weak3d43.png" alt="表 1. 在 KITTI val split 上与使用完整注释和极其稀疏的分割（完整注释的 20% 实例）训练的不同检测器进行比较。 3D 物体检测和鸟瞰图检测通过 11 个召回位置的平均精度进行评估。"></p>
+<p>从表中可以看出，由于缺失标注实例的负面影响，在极度稀疏分割上训练的四个检测器的性能平均下降了10%以上。我们的方法显着提高了这些检测器的性能，使它们接近完全监督的性能，这表明我们的方法在挖掘缺失注释实例和可靠背景方面具有良好的效果。</p>
+<p>我们的 SS3D 预测结果的可视化如图 5 所示。为了更好地查看结果，我们将 3D 点云的预测投影到相应的彩色图像上。从图中我们可以看出，所提出的方法具有高质量的预测结果。</p>
+<p><img src="/pic/weak3d44.png" alt="图 5.我们的 SS3D（基于 PV-RCNN）在 KITTI val 数据集上的定性结果。汽车、骑自行车者和行人的地面实况 3D 边界框分别用绿色、黄色和青色绘制。我们将预测的边界框设置为红色，并将点云中的框投影回彩色图像上以进行可视化。"></p>
+<p><strong>与半监督方法的比较</strong>我们将所提出的方法与基于先进检测器PV-RCNN [16]的半监督方法3DIoUMatch [24]进行比较。为了进行公平的比较，我们还采用 PV-RCNN 作为检测器，并保持所有方法具有相同数量的注释对象进行训练。在 KITTI train split 中，有 3,712 个场景，这些场景总共包含 17,289 个汽车、行人和骑自行车的物体。对于半监督方法，1％的标记数据意味着37（3712×1％）个场景，其中平均包括172（17289×1％）个用于训练的标记对象。因此，对于我们极其稀疏的分割中的 1% 标记数据，我们随机选择 172 个场景（包括 172 个标记对象）进行训练。我们还测试了两种方法的 2% 标记训练数据的情况。不同比例标记数据的结果见表 1。如图 2 所示，这说明我们的 SS3D 在具有所有三个难度级别的三个类别中显着优于当前最先进的 3DIoUMatch。与3DIoUMatch相比，我们的网络更大的优势是训练时只使用了172个场景。我们放弃剩余的场景，而 3DIoUMatch 使用列车分割中的所有 3712 个场景进行信息传输。</p>
+<p><img src="/pic/weak3d45.png" alt="表 2. 在 1% 或 2% 标记数据下 KITTI val split 与 3DIoUMatch 的比较。我们的 SS3D 和 3DIoUMatch 都是基于 PV-RCNN 的。我们报告了 40 个召回位置的 mAP，汽车、行人和骑自行车者的 IoU 阈值分别为 0.5、0.25、0.25。"></p>
+<p><strong>与弱监督方法的比较</strong>在弱监督方法中，WS3D [10]，使用 500 个带有中心单击标签的场景和 534 个精确注释的实例来训练网络。由于标准检测器不适用于中心单击标签，因此我们仅使用相同的 534 个精确注释实例来训练我们提出的 SS3D。标签。图3表示比较结果。显然，我们的 SS3D 具有不同的 3D 检测器，在所有难度级别上都取得了最高的结果，在标记工作量较少的情况下大幅优于 WS3D。</p>
+<p><img src="/pic/weak3d46.png" alt="表 3. KITTI val 分割与 WS3D 的比较。我们报告了 11 个召回位置的 mAP。 “*”表示具有中心单击的场景，“#”表示精确注释的实例。"></p>
+<h3 id="A-Simple-Vision-Transformer-for-Weakly-Semi-supervised-3D-Object-Detection（2023）"><a href="#A-Simple-Vision-Transformer-for-Weakly-Semi-supervised-3D-Object-Detection（2023）" class="headerlink" title="A Simple Vision Transformer for Weakly Semi-supervised 3D Object Detection（2023）"></a>A Simple Vision Transformer for Weakly Semi-supervised 3D Object Detection（2023）</h3><p><a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content/ICCV2023/papers/Zhang_A_Simple_Vision_Transformer_for_Weakly_Semi-supervised_3D_Object_Detection_ICCV_2023_paper.pdf">论文链接</a></p>
+<p>[代码暂未开源]</p>
+<h4 id="摘要-1"><a href="#摘要-1" class="headerlink" title="摘要"></a>摘要</h4><p>先进的 3D 物体检测方法通常依赖于大规模、精心标记的数据集来实现良好的性能。然而，标记 3D 对象的边界框既困难又昂贵。虽然半监督（SS3D）和弱监督3D对象检测（WS3D）方法可以有效降低标注成本，但它们存在两个局限性：</p>
+<ul>
+<li>1）它们的性能远远不如全监督的同行； </li>
+<li>2）它们很难适应不同的探测器或场景（例如室内或室外）。</li>
+</ul>
+<p>在本文中，我们研究了带有点注释的弱半监督 3D 对象检测（WSS3D），其中数据集包含少量完全标记和大量弱标记数据，并为每个 3D 对象注释了一个点。为了充分利用点注释，我们采用简单且非分层的视觉转换器来形成点到框转换器，称为 ViTWSS3D。通过对 LiDAR 点和相应弱标签之间的全局交互进行建模，我们的 ViT-WSS3D 可以生成高质量的伪边界框，然后将其用于训练任何 3D 检测器，而无需进行详尽的调整。对室内和室外数据集（SUN RGBD 和 KITTI）的大量实验证明了我们方法的有效性。特别是，当仅使用 10% 完全标记数据，其余作为点标记数据时，我们的 ViT-WSS3D 可以使大多数检测器使用 100% 完全标记数据实现与预言机模型类似的性能。</p>
+<h4 id="引言-1"><a href="#引言-1" class="headerlink" title="引言"></a>引言</h4><p>3D 物体检测是计算机视觉的基本任务之一，在自动驾驶和导航等现实世界中具有广泛的应用。它的目的是回归给定场景的 3D 边界框和对象的相应类别标签。由于LiDAR传感器的固有限制，点云通常是无序且稀疏的，使得3D物体检测成为一项具有挑战性的任务。</p>
+<p>为了准确定位目标，现有方法不可避免地需要对大规模数据进行精心注释，而标记 3D 边界框既繁琐又耗时。最近，一些方法[16,35,27,1]被提出来降低昂贵的标记成本。有两种典型的设置：半监督 3D 对象检测 (SS3D) [35, 47]，其中只有少量精确注释的场景可用；弱监督 3D 对象检测 (WS3D) [27, 37]，其中使用粗略注释（例如，标记对象的点）来训练 3D 检测器，而不是精确注释的 3D 边界框。</p>
+<p><img src="/pic/weak3d29.png" alt="图 1.(a) 3D 对象检测的不同类型的监督。 (b) 各种注释格式。点级标注的成本明显低于框级标注。 (c) 使用完全监督和弱半监督设置的比较性能。"></p>
+<p>虽然SS3D和WS3D方法可以有效降低标注成本，但它们仍然具有明显的局限性。一方面，他们的表现仍然远远不如完全监督的同行。具体来说，SS3D 方法 [35, 47] 通常在师生框架中将知识从标记数据迁移到未标记数据。然而，当标记数据和未标记数据之间的领域差距很大时（例如，标记数据和未标记数据分别属于晴天和雨天），知识转移可能无效。对于 WS3D 方法[27, 37]，弱标注提供的监督信息很难反映 3D 对象的特征（例如几何结构），导致性能较差。另一方面，当前的SS3D和WS3D方法通常是针对特定框架或场景（例如室内或室外）设计的，很难转换为其他框架或场景。例如，最初为 PVRCNN [29] 设计的代表性半监督方法 3DIoUMatch [35]，与 2% 全标签设置下的监督对应方法相比，可以带来 4.6% 的改进。然而，我们凭经验发现它在 PointRCNN [31] 中效果不佳，仅实现了 1.5% 的改进。</p>
+<p>考虑到这些问题，通过通用范式以相当低的注释成本训练 3D 对象检测器，同时实现与完全监督的对应物相当的性能是值得探索的。为了实现这一目标，需要一种廉价但有效的注释格式。在各种弱格式（例如，点级[37]、场景级[27]）中，点级注释注释简单，易于存储和使用，并且具有本地化感知能力，可以提供更强的对象位置先验。 。根据[37]中的方法，一个框标注需要110秒1，而一个点标注只需要5秒，如图1（b）所示。</p>
+<p>然而，仅采用点级注释是不够的。在检测性能和注释成本之间实现良好权衡的一种自然方法是结合少量完全注释的数据，我们将这种设置视为弱半监督范例。最近，一些方法[3,44,8]已经证明了弱半监督范式在二维目标检测中的潜力。这些方法帮助学生获得良好的成绩并节省大量的资源消耗。对于 3D 对象检测，毫无疑问，用 3D 点云中的点标签替换 3D 边界框是必要的，因为注释 3D 对象比 2D 对象更耗时、更费力。然而，如何将点弱半监督学习应用于3D场景，特别是点云，尚未被探索。</p>
+<p>在本文中，我们的目标是探索带有点的弱半监督3D对象检测（WSS3D），如图1（a）所示。为了充分利用有限的框级注释和丰富的点，我们提出了一种简单而有效的 WSS3D Pipeline：</p>
+<ul>
+<li>1）使用少量完全标记的数据训练点到框转换器。 </li>
+<li>2）经过训练的转换器将大量点注释转换为伪边界框。 </li>
+<li>3）最后，在完全监督的环境中使用完全标记和伪标记场景训练任何 3D 对象检测器。</li>
+</ul>
+<p>这种Pipeline的核心是构建一个强大的点对盒转换器。最近，视觉转换器 [4, 38] 在特征交互方面表现出了巨大的潜力。受到直接将图像标记编码为对象检测序列的 YOLOS [7] 的启发，我们提出了一种简单的基于视觉转换器的 WSS3D 转换器，称为 ViTWSS3D。具体来说，ViT-WSS3D采用简单且非分层的ViT [5]从点云和点注释中提取特征。尽管设计简单，ViT-WSS3D 可以通过点注释生成高质量的伪框。</p>
+<p>ViT-WSS3D的好处来自三个方面：</p>
+<ul>
+<li>1）由于视觉变压器强大的特征表示能力，我们的ViT-WSS3D可以非常简单，它具有简单且非分层的编码器结构，无需特定的领域知识进行设计。 </li>
+<li>2）简单紧凑的ViT式架构使得可以轻松扩展模型并利用2D视觉进步中提出的预训练技术（例如MAE [11]）。 </li>
+<li>3）我们的方法是开箱即用的，可以适用于任何 3D 物体检测器，无需进行彻底的调整和修改。</li>
+</ul>
+<p>为了证明我们方法的有效性，我们在室外 KITTI [9] 和室内 SUN RGB-D [32] 数据集上进行了广泛的实验。特别是，两个数据集上只有 10% 完全注释的场景，我们的 ViTWSS3D 可以帮助现有检测器与 100% 完全监督的对应物相比表现得更加接近。</p>
+<h4 id="相关工作-1"><a href="#相关工作-1" class="headerlink" title="相关工作"></a>相关工作</h4><p><strong>完全监督的 3D 物体检测</strong></p>
+<p>现有的3D物体检测器可以通过特征表示大致分为三个分支：基于体素&#x2F;柱的[49,39,15,41,14,10]，基于点的[31,25,40,45,6]和混合的风格 [29, 30]。</p>
+<p>对于基于体素和柱的方法，VoxelNet [49]将点云划分为等距的 3D 体素，并使用卷积来提取特征。由于3D卷积的开销较高，SECOND [39]和PointPillars [15]分别引入稀疏卷积和支柱表示来提高速度。 CenterPoint [41] 将表示形式展平为俯视图视图，并使用基于图像的关键点检测器。为了更好地利用体素特征，提出了密度感知的 RoI 网格池 [14] 和基于体素的集合注意力 [10]。对于基于点的方法，PointRCNN [31] 在精炼之前通过分割生成提案，而 VoteNet [25] 通过深度霍夫投票处理点云的稀疏性质。为了减少下采样带来的信息损失，引入了各种采样方法[40, 45]，并且一些检测器[6]摆脱了下采样。对于混合式方法，PVRCNN [29, 30] 系列集成了 3D CNN 和基于点的集合抽象来学习更多判别性特征。</p>
+<p>尽管这些方法取得了显着的性能，但它们的成功是建立在大规模、精心标记的数据集之上的，而满足这些要求是乏味且耗时的。</p>
+<p><strong>半&#x2F;弱监督 3D 物体检测</strong></p>
+<p>为了减轻标签的沉重负担，人们提出了两个方法分支：半监督[47,35,16,13]和弱监督[22,27,26,37]方法。</p>
+<p><strong>半监督方法</strong>通常利用师生学习框架。具体来说，SESS [47]设计了彻底的扰动方案和一致性损失，以增强预测提案之间的一致性。 3DIoUMatch [35]引入了一种基于 3D IoU 的过滤机制来过滤噪声伪标签。 DDS3D [16]提出了一种动态阈值策略，用于选择高质量的伪标签。与传统的半监督环境不同，Liu 等人。 [19]提出了第一个探索 3D 对象检测任务的稀疏注释策略的工作，该策略只需要为每个场景注释一些实例。</p>
+<p><strong>弱监督方法</strong>试图通过各种手段来恢复弱标签带来的信息丢失。具体来说，秦等人。 [26]提出了一种跨模式知识蒸馏策略来帮助学生预测结果。任等人。 [27]提出在训练时无法访问空间标签的情况下的自我和跨任务一致性损失。徐等人。 [37]利用合成的 3D 形状来补充和完善真实的标签。孟等人。 [22]建议在弱监督下生成圆柱形对象建议，并使用一些标记良好的实例对其进行细化。</p>
+<p>尽管这些方法减轻了标签的沉重负担，但它们的性能不如完全监督的方法，而且它们通常是针对特定框架或场景（例如室外和室内）而设计的。与它们不同的是，我们的方法可以生成更精确的伪标签来有效地指导学生，而无需对学生和场景做出假设，这很容易迁移。</p>
+<p><strong>Vision transformer</strong></p>
+<p>Transformer [34] 在许多计算机视觉任务中占据主导地位 [2,48,38,20,17]，这归因于其强大的特征提取能力。 3D 点云是无序的数据和集合，这使得利用 Transformer [34] 处理点云变得可行。最近，许多基于 Transformer 的网络被提出用于 3D 对象分类 [46]、点云预训练 [42, 24] 和 3D 对象检测 [23, 21, 36, 43]。与它们不同的是，我们采用普通视觉变换器来解决弱半监督 3D 物体检测。</p>
+<h4 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h4><p><strong>问题定义</strong>。在这项工作中，我们探索弱半监督 3D 物体检测，其中数据集由一小组完全标记的激光雷达场景 Φf &#x3D; {(Ii, phii f)}Nf i&#x3D;1 和大量弱注释（即点注释）激光雷达场景 Φp &#x3D; {(Ii, phii p)}Np i&#x3D;1。具体来说，Nf和Np表示全标记场景和点标记场景的数量。 Ii 表示全标记或点标记场景的点云。全标记场景的注释 phii f 表示 3D 边界框（中心、尺寸和方向）和相应的类标签，而 phii p 表示带有类标签的点注释（即 [px i , py i , pz i , ci]) 的点标记场景。请注意，对于点标记的激光雷达场景，由于原始数据集不提供点级注释，我们将随机干扰 R 添加到 3D 边界框的重力中以构造 phip。</p>
+<p><strong>网络架构</strong></p>
+<p>我们的方法的概述如图 2 所示。整个过程包含三个阶段：</p>
+<ul>
+<li>在少量完全注释的边界框 ψf 上训练点到框转换器作为教师模型。在这个阶段，我们使用具有随机扰动R的中心点作为模拟点注释，迫使转换器从噪声点中恢复框，如图2（a）所示。 </li>
+<li>使用训练有素的教师从大量点注释 phip 中推理出伪 3D 边界框 phi′ p，如图 2 (b) 所示。请注意，此阶段没有可用的 3D 边界框，受过培训的教师必须重建完整的 3D 边界框，只能访问点注释。 </li>
+<li>以完全监督的方式在完全注释的边界框 ψf 和伪框 ψ′ p 上训练任何学生检测器（图 2（c））。请注意，由于整个范式没有对学生做出任何假设，因此教师完全独立于学生，并且他们是单独训练的。</li>
+</ul>
+<p><img src="/pic/weak3d30.png" alt="图 2.我们方法的总体框架。 (a) 我们首先训练一个点到框转换器，它对点注释进行编码并进行全局交互。 (b) 然后，我们通过经过训练的转换器从弱点注释中推理出伪框。 (c) 最后，我们将完全标记的框和伪框结合起来，以完全监督的方式训练任何学生，无论学生的架构和表示类型如何。"></p>
+<p>为了更好地利用点注释，我们方法的一个基本思想是直接利用前向传递中的点注释，并通过简单且非分层的视觉转换器与点云特征交互[5]。简单紧凑的转换器包含场景编码器、注释编码器、变压器编码器和简单的检测头。在下面的部分中，我们将详细介绍每个模块的设计以及我们方法的灵活性。</p>
+<p><strong>点标记化</strong></p>
+<p>标记化的目的是将给定场景的点云和点注释嵌入到有意义的标记序列中。输入是场景点 I ∈ RS×(3+C) 和注释点 phip ∈ RM×3，其中 I 通过场景编码器转换为场景标记 Zs ∈ RN×D，而 phip 嵌入到注释标记 Za ∈ RM× 中D 通过注释编码器，然后进行简单积分，形成 token 序列 Z0 ∈ R(N+M)×D。</p>
+<p><strong>场景编码器</strong>用于将无序场景点 I 嵌入到名为场景标记 Z 的信息标记中，其中包含场景的综合特征。我们将场景点分组为 N 个局部补丁并将它们映射到特征空间。具体来说，我们首先使用最远点采样（FPS）算法从原始场景点I中选择N个关键点，然后使用kNN算法为每个关键点选择k个最近邻点以形成N个补丁。为了聚合局部信息，通过减去补丁的关键点以获得相对坐标来对每个局部补丁内的点进行归一化。我们最终使用 mini-PointNet 将无偏局部补丁映射到特征空间，获得场景标记 Zs ∈ RN×D。</p>
+<p><strong>注释编码器</strong>的目的是将点注释 phip 编码为有用的标记，称为注释标记 Za，其携带点注释的重要信息。由于点注释包含有关对象位置的丰富先验信息，因此我们希望尽可能多地利用信息而不干扰它们。因此，我们不会对它们进行分组或使它们标准化。相反，我们利用朴素的 mini-PointNet 作为编码器将点注释嵌入到注释标记 Za ∈ RM×D 中。请注意，我们将点注释用零填充到相同的 M 以进行批处理，因为对象的数量因场景而异。</p>
+<p>在场景和注释编码之后，我们需要将输出整合成有意义的标记序列，以供变压器的后续处理。</p>
+<p><img src="/pic/weak3d31.png"></p>
+<p>正如方程。如图 1 所示，我们首先堆叠注释标记和场景标记，然后通过在每个标记的中心点应用多层感知器（MLP）来获得位置嵌入 Ep，并将它们相加得到标记序列 Z0 ∈ R(N+M)×D 。这个简单的操作保留了场景和注释标记中的所有信息，这有助于特征提取。</p>
+<p><strong>变压器编码器</strong></p>
+<p>由于我们希望注释标记 Za 与场景标记 Zs 无障碍交互并平等对待它们，因此我们使用普通且非分层的 ViT [5] 从输入标记序列 Z0 中提取特征。每个 Transformer 编码器层包含多头注意力 (MSA)、MLP 和两层归一化 (LN)，并在 MSA 和 MLP 之后插入剩余旁路，正式写为：</p>
+<p><img src="/pic/weak3d32.png"></p>
+<p>其中 Zl 是第 l 个编码器层的输出标记。在编码器的最后一层之后，我们只输出最初来自注释标记的标记，其状态作为对象的特征表示，正式描述为：</p>
+<p><img src="/pic/weak3d33.png"></p>
+<p>其中 L 是 Transformer 编码器的深度，Zi L 是最后一个编码器层输出的第 i 个标记，Zd 是用于预测最终结果的检测标记。</p>
+<p>普通和非分层变压器编码器平等地对待场景标记和注释标记，无需额外组件（例如交叉注意）即可实现它们之间的直接交互，并通过自交互辅助隐式上下文（例如场景布局）表示学习在每种类型的令牌中。此外，这样的设计使得模型更容易放大。人们可以通过简单地改变变压器编码器的深度或修改特征维度来调整模型的复杂性。此外，我们的方法还可以使用流行的 2D ViT 预训练范例来提高性能，而无需额外成本。简而言之，我们的模型可以随着 2D 视觉变换器的进步而发展。</p>
+<p><strong>检测头</strong></p>
+<p>由于我们简单的设计，检测头不需要复杂的网络架构和手工制作的标签分配。由于点注释和 Transformer 编码器带来的效率，在我们的方法中使用 MLP 作为检测头就足够了。更具体地说，我们将 3D 框分为三个部分：中心、尺寸和方向，并使用 Zd 上的 MLP 来预测每个部分。对于标签分配，由于 3D 对象之间几乎没有重叠，因此我们直接为与其中心对应的预测分配一个真实值，以摆脱二分匹配，这是优雅且实用的。我们采用广泛使用的用于回归的平滑 L1 损失和用于分类的焦点损失 [18] 来训练教师。</p>
+<p><img src="/pic/weak3d34.png" alt="表1.模型架构的详细设置。"></p>
+<h4 id="实验-1"><a href="#实验-1" class="headerlink" title="实验"></a>实验</h4><p><strong>KITTI</strong>是最流行的以自动驾驶相关任务为中心的户外数据集之一，包含7481个训练样本和7518个测试样本。我们将训练样本分为训练分割（3712 个样本）和验证分割（3769 个样本）。对于汽车、行人和骑车人类别，我们使用具有 40 个召回点的 mAP 和 3D IoU 阈值分别为 0.7(<a href="mailto:&#109;&#x41;&#x50;&#x34;&#x30;&#64;&#48;&#x2e;&#x37;">&#109;&#x41;&#x50;&#x34;&#x30;&#64;&#48;&#x2e;&#x37;</a>)、0.5(<a href="mailto:&#109;&#65;&#80;&#x34;&#48;&#x40;&#x30;&#x2e;&#x35;">&#109;&#65;&#80;&#x34;&#48;&#x40;&#x30;&#x2e;&#x35;</a>) 和 0.5(<a href="mailto:&#x6d;&#x41;&#x50;&#x34;&#x30;&#x40;&#48;&#46;&#x35;">&#x6d;&#x41;&#x50;&#x34;&#x30;&#x40;&#48;&#46;&#x35;</a>)。 </p>
+<p><strong>SUN RGB-D</strong>是一个室内数据集，旨在推进所有主要场景理解任务的最新技术，该数据集由四个不同的传感器捕获，包含 10,335 个 RGB-D 图像。整个数据集分为 5285 个用于训练的样本和 5050 个用于验证的样本。我们使用 3D IoU 阈值 0.25 (<a href="mailto:&#109;&#x41;&#80;&#x40;&#48;&#x2e;&#50;&#x35;">&#109;&#x41;&#80;&#x40;&#48;&#x2e;&#50;&#x35;</a>) 的 mAP 作为 3D 检测器的指标。</p>
+<p>我们采用ViT-Small（ViT-S）和ViT-Base（ViT-B [5]）作为默认的transformer编码器，模型架构的详细设置如表1所示。 1. 我们的方法中 ViT-S 和 ViT-B 之间存在细微差别。我们只需要更改参数即可获得更强大的模型。这种便利得益于我们简单的设计。</p>
+<p>当完全标记的场景很少时（KITTI 为 2%、5%，SUN RGB-D 为 5%），我们使用 ViT-S，否则使用 ViT-B，因为更大的 Transformer 编码器更强大，更容易过度拟合。对于场景编码器，我们默认设置最近邻居的数量 k &#x3D; 32 和场景标记的数量 N &#x3D; 2048。对于注释编码器，我们为 KITTI 设置 M &#x3D; 100，为 SUN RGB-D 设置 M &#x3D; 300。我们分别为 KITTI 和 SUN RGB-D 设置随机扰动 R &#x3D; 0.1 和 R &#x3D; 0.0。在训练教师时，我们在 KITTI 上使用水平随机翻转、全局旋转尺度变换、点洗牌和 GT-Sampling [39] 数据增强。请注意，我们为每个训练集重新生成 GT-Sampling 数据库，以避免标记数据泄漏风险。在 SUN RGB-D 上，我们仅使用水平随机翻转和全局旋转比例变换增强。我们使用 2 个 NVIDIA GeForce 3090 GPU 来培训教师，在 KITTI 上需要大约 8 小时，在 SUN RGB-D 上需要 4 小时来培训教师。</p>
+<p>为了执行半弱监督学习，我们首先使用固定步长从原始数据集中均匀采样全标记场景，然后准备弱注释场景</p>
+<p><strong>定量结果</strong></p>
+<p><strong>KITTI</strong>。为了衡量我们方法的有效性，我们选择了三个完全标记场景的比例水平（10％、5％和2％）来评估我们的方法给学生带来的表现增益。我们在 KITTI 上选择了四种典型的 3D 检测器，它们利用不同的表示形式：基于柱的 PointPillars [15]、基于体素的 SECOND [39]、基于点的 PointRCNN [31] 和混合式 PVRCNN [29]。</p>
+<p>如表2所示 、与仅在少量完全标记场景上进行训练的检测器竞争，我们的方法生成的伪标签显着提高了学生的表现。例如，在 2% 的完整数据设置和中等难度下，我们的方法帮助 PointPillars、SECOND、PointRCNN 和 PVRCNN 的整体性能分别获得了 23.9%、6.0%、7.6% 和 8.1% 的 mAP 改进。此外，我们的方法极大地缩小了学生与其 100% 完整数据对应者之间的差距。请注意，在 90% 弱设置下，低于 10% 完整的学生可以达到与 100% 完整基线相当的性能，这证明了我们方法的伪标签的卓越质量。</p>
+<p><img src="/pic/weak3d35.png" alt="表 2. 有伪标签和无伪标签的学生在不同数据设置下在 KITTI val split 上的比较结果。我们分别报告汽车、行人 (Ped.) 和骑自行车者 (Cyc.) 类别的 mAP40@0.7、mAP40@0.5 和 mAP40@0.5。"></p>
+<p>对于每个类别，我们发现行人和骑行者对标记数据的比例比汽车更敏感，并且我们的方法在这两个类别上效果更好。在行人和骑自行车者方面，我们的方法使所有四名学生受益匪浅。请注意，在 10% 完整数据设置下，我们的方法可以帮助所有这些检测器实现与在行人 100% 完全标记数据上训练的基线相当甚至更好的性能。即使在灵敏度较低的汽车上，我们的方法仍然可以将所有这些检测器的性能提升显着，特别是对于整洁的 PointPillars。</p>
+<p><img src="/pic/weak3d36.png" alt="表 3. 3DIoUMatch 和我们的方法在 KITTI val split 上的比较结果。我们以PVRCNN为学生，在中等难度下报告mAP40。"></p>
+<p><strong>定性结果</strong></p>
+<p>我们将不同方法的伪标签可视化以进行直观比较，如图 3 所示。在户外 KITTI 上，PVRCNN† 输出许多误报（用气泡圈出），影响 3DIoUMatch 的伪标签质量，因为后者是基于 PVRCNN 构建的。它在室内 SUN RGB-D 上显示了类似的问题，其中 VoteNet† 遗漏了一些对象，使得 3DIoUMatch 的伪标签与 GT 显着不同（用箭头标记）。可视化展示了我们的方法的伪标签的更好质量。</p>
+<p><img src="/pic/weak3d37.png" alt="图 3.不同方法的伪标签的可视化。 (a) KITTI 的 2% 完整数据。 (b) SUN RGB-D 的 5% 完整数据。 † 表示在完全标记的数据上训练检测器，然后使用它们来推断伪框。定性结果表明我们的方法的伪标签质量更好。"></p>
+<h3 id="Weakly-Supervised-3D-Object-Detection-via-Multi-Level-Visual-Guidance-2023"><a href="#Weakly-Supervised-3D-Object-Detection-via-Multi-Level-Visual-Guidance-2023" class="headerlink" title="Weakly Supervised 3D Object Detection via Multi-Level Visual Guidance(2023)"></a>Weakly Supervised 3D Object Detection via Multi-Level Visual Guidance(2023)</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2312.07530">论文链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/kuanchihhuang/VG-W3D">代码暂未开源</a></p>
+<h4 id="摘要-2"><a href="#摘要-2" class="headerlink" title="摘要"></a>摘要</h4><p>弱监督 3D 对象检测旨在学习具有较低注释成本的 3D 检测器，例如 2D 标签。与仍然依赖于少量准确 3D 注释的先前工作不同，我们提出了一个框架来研究如何在不需要任何 3D 标签的情况下利用 2D 和 3D 域之间的约束。具体来说，我们从三个角度利用视觉数据来建立 2D 和 3D 域之间的联系。首先，我们设计一个特征级约束，根据对象感知区域来对齐 LiDAR 和图像特征。其次，开发输出级约束以强制 2D 和投影 3D 框估计之间的重叠。最后，通过生成与视觉数据对齐的准确且一致的 3D 伪标签来利用训练级别约束。我们在 KITTI 数据集上进行了广泛的实验，以验证所提出的三个约束的有效性。在不使用任何 3D 标签的情况下，我们的方法比最先进的方法取得了良好的性能，并且与使用 500 帧 3D 注释的方法具有竞争力。</p>
+<h4 id="引言-2"><a href="#引言-2" class="headerlink" title="引言"></a>引言</h4><p>自主系统的一个关键特征是能够在周围环境中准确感知和定位 3D 对象 [4, 8–10, 26]，使代理（例如车辆）能够做出明智的决策并安全导航。然而，由于其成本和复杂性，获取带注释的 3D 标签来训练 3D 对象检测模型会带来挑战，特别是与在视觉数据上标记 2D 框的速度相比（例如，慢 3-16 倍，如 [30] 所示） 。因此，3D 对象检测的弱监督学习已成为解决注释瓶颈的实用方法。</p>
+<p>最近，人们提出了多种方法来训练 3D 对象检测器并减少注释要求。 FGR [30]提出以非学习的方式从具有平截头体几何关系的相应 2D 框生成 3D 候选框。 WS3D [20, 21] 将 BEV 中对象的中心注释为弱标签，并使用一些 3D 标签进行具有圆柱约束的模型训练。几种方法 [15,16] 结合图像和 LiDAR 信息来共同学习探测器。然而，现有方法要么仍然需要精确的 3D 框标签 [15,16,20,21]，要么由于有限的学习监督而只能实现次优性能 [30]。值得注意的是，这些方法都没有探索在训练期间整合 2D 和 3D 各种视觉引导的潜力。</p>
+<p>在这项工作中，我们探索将视觉数据集成到 3D 物体检测器的训练过程中，仅利用 2D 注释进行弱监督 3D 物体检测，这与上述方法相比是独特的（比较见表 1）。如图1所示，我们从三个角度研究视觉引导的学习过程：特征层面的客观性学习、输出层面的响应学习和训练层面的伪标签学习，并有以下三个观察结果。</p>
+<p><img src="/pic/weak3d48.png" alt="表 1：VG-W3D 与相关工作的比较。我们的方法以多种视觉线索为指导，包括 2D 框输出、图像特征和训练分数，无需 3D 注释。"></p>
+<p>观察 1：特征级指导。对于校准良好的图像和激光雷达，从图像获得的物体预测应与激光雷达数据中的相应区域对齐。例如，当 3D 检测器将点云识别为前景对象时，其在图像平面上的相应投影像素应与 2D 检测器做出的类似预测对齐，反之亦然。因此，我们在特征层面上利用这个想法，将图像特征映射到点特征并仅考虑物体部分来增强 3D 物体检测器的特征学习过程。</p>
+<p>观察 2：输出水平指导。我们注意到图像平面上的 2D 和投影 3D 边界框之间存在大量重叠。基于这一见解，我们建立了独特的 2D-3D 约束来指导 3D 提案的监督。通过此约束，模型可确保估计的 3D 框准确定位在对象图像区域的截锥体内，以生成更高质量的建议。</p>
+<p><img src="/pic/weak3d47.png" alt="图 1：弱监督 3D 物体检测的多级视觉引导。我们提出了一个框架，使用三个不同的视角，包括特征、输出和训练级别约束，从弱标签（例如图像平面上的 2D 边界框）学习 3D 对象检测器。特征级为点特征学习提供对象感知信号。输出级结合 2D-3D 框约束来强制模型生成合理的框预测。训练级指导将 2D 框的置信度融入伪标签技术中，以确保 2D 和 3D 域之间的分数一致性。"></p>
+<p>观察 3：训练级别指导。我们发现，由于点云数据的稀疏性，通过非学习启发式 [30] 使用初始 3D 标签可能会产生噪声并且部分丢失对象。因此，迭代地完善这些标签以获得更高的准确性至关重要。另一个挑战是减少生成的伪标签的误报，因为在自训练过程中，模型可能很容易产生具有高置信度分数的意外估计。因此，我们提出了一种解决方案，将视觉域中的 2D 框的预测分数集成到伪标签技术中，以确保 2D 和 3D 域内任何对象的分数一致性。</p>
+<p>基于这些观察，我们提出了一种用于弱监督 3D 对象检测的多级视觉引导方法，名为 VG-W3D。我们利用视觉线索仅使用 2D 注释从三个角度训练强大的 3D 对象检测器：特征、输出和训练级别。我们的方法可以进一步与从不同领域训练的现成图像对象检测器获得的 2D 注释集成，使我们的方法适用于更具可扩展性和成本效益的 3D 对象检测。</p>
+<p>综合实验结果验证了所提出方法的有效性。具体来说，与具有相似注释成本的方法相比，我们的方法在 KITTI [6] 数据集上的 AP3D 中表现出至少 5.8% 的实质性改进。此外，我们的方法展示了与需要 500 帧 3D 注释的最先进的弱监督 3D 检测方法相当的性能。</p>
+<h4 id="相关工作-2"><a href="#相关工作-2" class="headerlink" title="相关工作"></a>相关工作</h4><p><strong>基于 LiDAR 的 3D 物体检测</strong>。基于 LiDAR 的 3D 物体检测器 [7,12,26] 最近引起了广泛关注。根据不同的点聚合技术，它们可以大致分为体素方法和基于点的方法。基于体素的方法 [5,19,31,33] 将点云体素化为体素网格表示，然后进行 2D 和 3D 卷积运算以进行对象检测。在[33]中，VoxelNet 对原始点云中的体素特征进行编码，然后使用密集区域提议网络进行 3D 对象检测。 CIA-SSD [31] 利用鸟瞰 (BEV) 网格上的轻量级网络来学习空间和语义特征，并结合 IoU 感知置信度细化模块来实现稳健检测。此外，Voxel-RCNN [19] 应用体素感兴趣区域（RoI）池化来提取提议中的体素特征以进行后续细化，而 VoxelNeXt [4] 引入了完全稀疏的架构，可以直接根据稀疏体素特征而不是密集表示来预测对象。</p>
+<p>许多方法[11、18、26、27]直接利用原始点云作为输入来提取点级特征。 PointRCNN [26]提出了一个两阶段框架，该框架对前景点进行分割，生成对象建议，然后细化规范坐标。另一方面，3DSSD[18]引入了使用特征距离的融合采样技术来确保全面的信息保存。在[27]中，Point-GNN 采用图神经网络来创建点云数据的更简洁的表示。最近，Pointformer [23] 使用了一个直接在点云上运行的用于局部和全局注意力的转换器模块。</p>
+<p>虽然这些现有的 3D 对象检测器已表现出理想的性能，但它们依赖 3D 注释进行监督学习，效率较低。相比之下，我们的方法强调开发强大的 3D 探测器，而不会产生劳动密集型成本。</p>
+<p><strong>使用弱标签的 3D 对象检测</strong>。在点云上注释 3D 边界框非常耗时。因此，几种方法专注于如何以较低的注释成本训练 3D 检测器，以减少劳动密集型工作 [15,16,20,21,24,30]。 VS3D [49] 通过以无监督的方式分析点云密度来生成 3D 提案。然后，框内的点被投影到图像平面上，由使用类标签训练的 2D 模型引导，以确定提案是否包含对象。 WS3D [20,21] 利用中心点击来注释 BEV 中对象的粗略位置，以生成初始的圆柱形对象建议，然后在第二阶段进行细化过程，几乎没有精确的 3D 标签。在[30]中，FGR引入了一种非学习技术，利用2D边界框来识别平截头体子点云，然后使用启发式方法基于分割的点云计算最精确的3D边界框。 MAP-Gen [16] 和 MTrans [15] 利用丰富的图像数据来解决 3D 点云固有的稀疏性挑战。然而，上述大多数方法仍然需要部分质心或准确的 3D 注释来开发其方法。在这项工作中，我们提出了一种不需要任何 3D 注释的方法，同时仍能实现与现有弱监督方法相比的竞争性能。</p>
+<h4 id="方法-2"><a href="#方法-2" class="headerlink" title="方法"></a>方法</h4><p><strong>框架概述</strong></p>
+<p>给定 LiDAR 点云 P 及其相应的相机图像 I，我们的目标是开发一个 3D 对象检测器，而不使用任何 3D 对象注释。在本文中，我们介绍了 VG-W3D，一种用于弱监督 3D 对象检测的多级视觉引导方法，旨在使用密集视觉信号和来自图像域的带注释的 2D 框来学习精确的 3D 边界框。</p>
+<p><img src="/pic/weak3d49.png" alt="图 2：所提出的 VG-W3D 的总体框架。我们利用非学习方法 [30] 来识别对象的视锥体点云，然后采用启发式算法来估计初始噪声边界框（右上）。在图像分支中，我们基于 2D 注释训练对象检测器来预测图像特征 FI 和 2D 边界框 BI 及其置信度 σI，作为训练 3D 检测器的视觉指导。然后，采用基于 PointNet 的 3D 对象检测器来提取点特征 FP 并输出 3D 边界框 BP 以及置信度分数 σP。我们的方法结合了 3D 训练的三个级别的视觉指导，即特征级别（第 3.2 节）、输出级别（第 3.3 节）和训练级别（第 3.4 节）。请注意，图像分支在训练阶段被冻结，并在推理阶段被丢弃。"></p>
+<p>如图 2 所示，VG-W3D 利用特征级、输出级和训练级线索来指导 3D 对象检测。为了获得用于训练的初始 3D 框，我们采用类似于 FGR [30] 的非学习方法来识别对象的截锥体点云，然后采用启发式算法来估计临时 3D 标签（更多详细信息请参阅 [30]）。</p>
+<p>在初始阶段，我们使用提供的 2D 框注释 ^BI 训练 2D 检测器 [32]，以提取视觉特征 FI 并预测 2D 边界框 BI 及其相应的置信度分数 σI。随后，我们采用基于 3D PointNet 的检测器 [26] 提取点云特征 FP 并生成 3D 边界框 BP 及其检测分数 σP。</p>
+<p>下面，我们介绍三个 2D 视觉线索来指导 3D 学习。首先，特征级线索限制了对图像和点云中前景物体的注意力，确保两种模式之间的预测一致（第 3.2 节）。其次，输出级指导通过在图像平面上强制投影 3D 框和 2D 框之间的大量重叠来确保预测 3D 提案的逻辑定位（第 3.3 节）。最后，为了生成用于重新训练 3D 对象检测器的高质量伪标签，我们将图像框和分数合并到自训练技术中，确保伪标签的改进（第 3.4 节）。</p>
+<p><strong>特征级视觉指导</strong></p>
+<p>对于弱监督 3D 物体检测，各个点通常缺乏明确的指导。即使初始 3D 标签可用 [30]，学习良好的 3D 表示仍然具有挑战性，因为这些 3D 标签有时不完整且有噪声。因此，我们利用密集的视觉提示来指导已知像素点映射的特征学习。</p>
+<p><img src="/pic/weak3d50.png" alt="图 3：特征级视觉引导。一旦我们获得了投影点特征 FP&#39; 和图像特征 FI，我们就利用对象前景图 S 来监督目标，其中应用预训练的无监督实例分割模块 MS 来提取每个带注释的 2D 边界框的对象前景图以生成S. 此外，应用图像引导的 KL 散度损失来从图像特征中学习分布。"></p>
+<p><strong>特征映射</strong>。如图 3 所示，我们考虑图像特征 FI ∈ RH×W×C（H × W 和 C 表示特征大小和特征通道数）和点云特征 FP ∈ RP×C，其中 P 为特征通道数。点。最初，我们使用相机标定参数将点云特征投影到图像平面上，产生投影点特征：FP′ &#x3D; Proj(FP) ε RH×W×C。因此，我们获得了与图像平面上的像素点匹配的投影点云特征，以实现更好的特征学习。功能指导。一种简单的方法是强制点云特征来模仿图像表示 [13]，从具有 L2 损失的 LiDAR 模态中学习图像模态的特征：</p>
+<p><img src="/pic/weak3d51.png"></p>
+<p>其中A是图像上与投影点匹配的有效像素区域，∥·∥2是L2范数距离。然而，这可能会损害点云特征学习的过程，因为图像特征不能提供比点云更多的几何信息。相反，我们建议强制执行图像和点云特征 FI 和 FP’ 的预测对象概率，以确保 3D 检测器可以通过特征级指导识别前景点。</p>
+<p>我们使用分割图进行对象性监督，以仅允许在对象区域中进行指导。在不产生额外注释成本的情况下，我们利用自监督分割方法 [22, 29] 来生成没有注释的前景图。具体来说，在每个真实的 2D 边界框中，对于 DINO [2] 获得的每个对象，都会提取对象及其前景图。然后将这些单独的图合并以形成分割地面实况图 S ∈ RH×W。然后，我们利用分类器 MP′ 将点云特征映射到预测投影点云的对象性的二元概率： CP′ &#x3D; MP′ (FP′ ) 通过焦点损失 FL：</p>
+<p><img src="/pic/weak3d52.png"></p>
+<p>另一方面，对于图像域，我们在带有线性分类器 MI 的 2D 图像检测器上添加另一个分支，以学习图像上像素的对象性：CI &#x3D;MI(FI)，使用与 (2 ）：</p>
+<p><img src="/pic/weak3d53.png"></p>
+<p>为此，我们可以利用 KL 散度损失来增强点云模态的客观性，并学习与图像模态相似的分布，而不会丢失点云的几何信息：</p>
+<p><img src="/pic/weak3d54.png"></p>
+<p><strong>输出级视觉引导</strong></p>
+<p>值得一提的是，使用 2D 和 3D 边界框检测到的任何对象都应该表现出高度重叠，如图 4 所示。这意味着在 3D 边界框未知的弱监督学习场景中，我们可以利用地面实况2D 框用于监督 3D 检测器预测的 3D 框。</p>
+<p>首先，给定预测的 3D 边界框 BP，我们获得其 3D 坐标中的八个角，表示为 C3(BP) ∈ R8×3。然后，我们利用已知的相机标定参数获得二维投影角点C ∈ R8×2。接下来，C的边界框可以通过以下方式确定：</p>
+<p><img src="/pic/weak3d55.png"></p>
+<p>其中 (xa, ya) 和 (xb, yb) 是框 Bproj 的左上角和右下角坐标。因此，我们利用相应的2D框预测BI来约束这两个框之间的差异：</p>
+<p><img src="/pic/weak3d56.png"></p>
+<p>其中 GIoU 是联合 [25] 上的广义交集，用于指导框学习。与正常的 IoU 损失相比，GIoU 损失可以更好地缓解投影 3D 框和地面真实 2D 框之间非重叠情况 [25] 的梯度消失问题。</p>
+<p>此外，^σI &#x3D; σI&#x2F; PN i σIi 是同一场景中所有 N 个对象的每个预测 2D 框的归一化分数。我们观察到，2D 检测器置信度较低的对象表明预测框的不确定性，这可能不是高质量的框。因此，不宜对每个盒子一视同仁。因此，我们引入预测分数 ^σI 作为（6）中每个框的损失权重。为此，所提出的输出级指导可以确保投影边界框与其 2D 对应物之间的精确对齐。</p>
+<p><strong>训练级视觉引导</strong></p>
+<p>提供直接监督信号的一种常见方法是使用伪标签。我们最初考虑其他方法，如 [30]，无需学习即可生成 3D 伪标签。然而，它们容易受到噪音影响，并且可能会错过许多物体。例如，[30]生成的训练数据集（3712帧）中只有大约2700帧包含伪标签。此外，伪标签可能会引入额外的误报，从而对自我训练产生负面影响。为了解决这些问题，我们引入了一种图像引导方法来生成高质量的伪标签，如算法 1 中所述。该方法从 [30] 中的初始 3D 伪标签 Bˆ 0、2D 框注释 BI 和预训练的2D 物体探测器 θI。我们利用 2D 检测器来预测每个 2D 注释的置信度分数 σI。在实践中，我们从图像检测器预测的热图中提取每个地面真实对象的中心索引的置信度。</p>
+<p><img src="/pic/weak3d57.png"></p>
+<p>每次迭代都包含三个主要步骤。首先，我们在第 t 轮基于伪标签 ^Bt 训练 3D 对象检测器，并分别使用第 3.2 节和第 3.3 节中提到的特征和输出级别指导。其次，我们为下一轮生成初始伪标签 ^Bt+1 以及相应的置信度 σP。最后，我们根据以下标准过滤伪标签以确保质量：1）利用匈牙利算法，我们匹配 2D 和投影 3D 边界框，保留 IoU 分数大于阈值 α0 的那些。此外，2D 和 3D 框的平均置信度得分应大于 α1。生成的伪标签表示为 Boverlap。 2）对于剩余的投影3D框Bunmatch &#x3D; Bt+1\Boverlap，我们应用非极大值抑制（NMS）来消除冗余框，仅保留那些具有高置信度α2的框，称为Bscore。最终选择的3D伪标签是两个集合：^Bt+1 &#x3D; Boverlap +Bscore。</p>
+<blockquote>
+<p>具体实验结果看原论文结果</p>
+</blockquote>
+<h3 id="MIXSUP-MIXED-GRAINED-SUPERVISION-FOR-LABELEFFICIENT-LIDAR-BASED-3D-OBJECT-DETECTION-MIXSUP：基于标签高效激光雷达的-3D-物体检测的混合粒度监督2024"><a href="#MIXSUP-MIXED-GRAINED-SUPERVISION-FOR-LABELEFFICIENT-LIDAR-BASED-3D-OBJECT-DETECTION-MIXSUP：基于标签高效激光雷达的-3D-物体检测的混合粒度监督2024" class="headerlink" title="MIXSUP: MIXED-GRAINED SUPERVISION FOR LABELEFFICIENT LIDAR-BASED 3D OBJECT DETECTION(MIXSUP：基于标签高效激光雷达的 3D 物体检测的混合粒度监督2024)"></a>MIXSUP: MIXED-GRAINED SUPERVISION FOR LABELEFFICIENT LIDAR-BASED 3D OBJECT DETECTION(MIXSUP：基于标签高效激光雷达的 3D 物体检测的混合粒度监督2024)</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2401.16305">论文链接</a><br><a target="_blank" rel="noopener" href="https://github.com/BraveGroup/PointSAM-for-MixSup">代码链接</a></p>
+<h4 id="摘要-3"><a href="#摘要-3" class="headerlink" title="摘要"></a>摘要</h4><p>基于标签高效 LiDAR 的 3D 物体检测目前以弱&#x2F;半监督方法为主。我们提出了 MixSup，而不是仅仅遵循其中一个，这是一种更实用的范例，同时利用大量廉价的粗标签和有限数量的精确标签进行混合粒度监督。我们首先观察到点云通常是无纹理的，这使得学习语义变得困难。然而，点云具有丰富的几何形状，并且对于距传感器的距离具有尺度不变性，使得学习物体的几何形状（例如姿势和形状）相对容易。因此，MixSup 利用大量粗略的集群级标签来学习语义，并利用一些昂贵的框级标签来学习准确的姿势和形状。我们重新设计了主流检测器中的标签分配，使它们能够无缝集成到 MixSup 中，从而实现实用性和通用性。我们使用各种检测器在 nuScenes、Waymo 开放数据集和 KITTI 中验证其有效性。 MixSup 使用廉价的集群注释和仅 10% 的框注释，实现了高达 97.31% 的完全监督性能。此外，我们提出基于Segment Anything Model的PointSAM用于自动粗标记，进一步减轻注释负担。</p>
+<h4 id="引言-3"><a href="#引言-3" class="headerlink" title="引言"></a>引言</h4><p>基于激光雷达的3D感知是自动驾驶不可或缺的功能。然而，费力的标签程序阻碍了其在学术界和工业界的发展。因此，针对基于激光雷达的3D目标检测出现了许多标签高效的学习方法，例如半监督学习（Zhao et al., 2020; Wang et al., 2021; Yin et al., 2022a; Liu et al., 2022a）。 ，2023a）和弱监督学习（Qin 等，2020；Meng 等，2020；2021；Zhang 等，2023b；Xia 等，2023）。</p>
+<p>在本文中，我们提出了一种更实用的标签高效学习范例，用于基于 LiDAR 的 3D 物体检测。特别是，我们利用大量廉价的粗标签和有限数量的精确标签进行混合粒度监督（MixSup），而不是完全遵循以前的标签高效学习范例之一。 MixSup 源于我们对点云的以下观察。 </p>
+<ul>
+<li>(1) 纹理缺失：3D点云缺乏独特的纹理和外观。 </li>
+<li>(2) 尺度不变性：3D物理世界中的点云对于距传感器的距离是尺度不变的，因为没有像2D成像那样的透视投影。 </li>
+<li>(3) 几何丰富性：3D点云由原始欧氏坐标组成，自然包含丰富的几何信息。</li>
+</ul>
+<p>我们在图 1 中总结了这些不同的属性。这些属性是双向的。一方面，纹理和外观的缺乏使得学习点云的类别和识别物体所在的大致区域（统称为语义）变得具有挑战性。另一方面，尺度不变性和几何丰富性可能使估计对象的几何属性相对容易，例如准确的姿势和形状。</p>
+<p><img src="/pic/weak3d58.png" alt="图 1：点云与图像相比的不同属性的图示。它们使得从点进行语义学习变得困难，但简化了几何估计，这是 MixSup 的最初动机。"></p>
+<p>因此，我们得出了 MixSup 的动机：一个好的检测器需要大量的语义标签来进行困难的语义学习，但只需要一些准确的标签来进行几何估计。幸运的是，对象语义标签可以很粗糙，并且比几何标签便宜得多，因为前者不需要准确的姿势和形状。因此，我们特别选择语义点簇作为粗标签，并提出 MixSup，旨在同时利用廉价的簇级标签和准确的框级标签。从技术上讲，我们重新设计了流行检测器中基于中心和基于框的分配，以确保与集群级标签的兼容性。这样，几乎任何检测器都可以集成到 MixSup 中。为了进一步降低注释成本，我们利用新兴的分段任意模型（Kirillov et al., 2023）并提出用于粗聚类标签生成的 PointSAM，享受图像识别进步带来的“免费赠品”。我们的贡献如下：</p>
+<ul>
+<li>1.基于对点云属性的观察，我们提出并验证了一个发现，即一个好的检测器需要大量粗略的语义标签来进行困难的语义学习，但只需要一些精确的几何标签来进行几何估计。 </li>
+<li>2.我们建议采用语义点簇作为粗标签，并构建一个实用且通用的范式 MixSup，以利用大量廉价的簇标签和一些准确的框标签来进行标签高效的基于 LiDAR 的 3D 对象检测。 </li>
+<li>3.我们利用Segment Anything Model，开发PointSAM进行实例分割，实现自动化粗标注，进一步降低集群标签的成本。 </li>
+<li>4.在三个基准测试和各种检测器上进行的大量实验表明，MixSup 在具有 10% 框注释和廉价集群注释的情况下，可达到完全监督对应物的 97.31% 性能。</li>
+</ul>
+<h4 id="相关工作-3"><a href="#相关工作-3" class="headerlink" title="相关工作"></a>相关工作</h4><p><strong>基于LiDAR的3D物体检测</strong>：主流的基于LiDAR的3D检测大致可以分为基于点的方法和基于体素的方法。基于点的检测器(Shi et al., 2019; Yang et al., 2020; Shi et al., 2020b; Li et al., 2021)通常采用PointNet系列(Qi et al., 2017a;b)作为点特征提取器，遵循不同的架构来预测 3D 边界框。基于体素的方法 (Zhou &amp; Tuzel, 2018; Yan et al., 2018; Yin et al., 2021; Fan et al., 2022a;b; Chen et al., 2023b; Wang et al., 2023a;b; Liu 等人，2023d）将原始点变换为 3D 体素，这有利于 3D 稀疏卷积或变换器机制。此外，还采用混合方法（Yang et al., 2020; Shi et al., 2020a; 2023）来利用双方的利益。</p>
+<p><strong>3D 中的半监督学习</strong>：半监督学习旨在通过使用少量标记数据和大量未标记数据训练模型来减轻注释负担。受 2D 领域成就的启发，半监督学习已扩展到 3D 领域。 SESS（Zhao et al., 2020）继承了Mean Teacher（Tarvainen &amp; Valpola, 2017）范式，并鼓励教师模型和学生模型之间达成共识。 3DIoUMatch（Wang et al., 2021）专注于通过一系列手工设计来提高伪标签的质量。与 3DIoUMatch 不同，Proficient Teacher (Yin et al., 2022a) 利用时空集成模块和基于聚类的框投票模块来增强教师模型并获得准确的伪标签，从而消除了故意选择的阈值。考虑到师生框架中的增强能力较弱，HSSDA（Liu et al., 2023a）提出了shuffle数据增强来加强学生模型的训练。</p>
+<p><strong>弱监督学习</strong>：弱监督学习采用廉价的弱标签来减轻注释成本的负担。特别是对于室外场景，出现的方法主要利用弱注释，包括点击级（Meng et al., 2020; 2021; Liu et al., 2022; 2023b; Zhuang et al., 2023b）、涂鸦级（Unal et al., 2023b） ., 2022）和图像级（Qin et al., 2020）。尽管这些工作取得了可喜的性能，但它们不可避免地涉及复杂的训练制度或复杂的网络架构。在本文中，我们发现利用一些准确的标签可以估计良好的几何形状。因此，引入一些准确的标签而不是遵循纯粹的弱监督设置可能更实际。</p>
+<h4 id="试点研究：对于标签效率真正重要的是什么"><a href="#试点研究：对于标签效率真正重要的是什么" class="headerlink" title="试点研究：对于标签效率真正重要的是什么"></a>试点研究：对于标签效率真正重要的是什么</h4><p>我们认为一个好的检测器需要大量的粗标签来进行语义学习，但只需要一些准确的标签来进行几何估计。在这里，我们进行了一项试点研究来证实我们的主张的有效性。</p>
+<p>我们利用预先训练的检测器（Fan 等人，2022b）的预测来裁剪点云区域。因此，这些区域被很好地分类，我们只需要关注裁剪区域中对象的几何估计。在裁剪之前，我们在提案中引入强噪声，以避免几何信息泄漏。特别是，我们将提案在所有三个维度上扩展了 2 米，随机移动它们 0.2 ∼ 0.5 米，并将它们旋转 −45° ∼ 45°。通过这种方式，我们构建了一个分类良好的数据集，其中包含裁剪后的噪声区域。最后，我们使用分类良好的数据集的不同部分训练基于稀疏卷积的检测器。试点研究的示意图如图 2 所示。</p>
+<p><img src="/pic/weak3d59.png" alt="图 2：试点研究说明。我们开发了一个分类良好的数据集来分解分类，并且只关注不同数据量对几何估计的影响。"></p>
+<p>表 1 的结果表明，数据量从 5% 到 100% 的性能非常相似。这种现象表明，基于激光雷达的探测器确实只需要非常有限数量的精确标签来进行几何估计。此外，我们在附录 A.2 中探讨了不同数据量对 3D 检测器语义学习的影响，支持我们的主张，即海量数据只是语义学习所必需的。幸运的是，语义注释相对便宜并且不需要精确的几何形状。因此，在本文的其余部分，我们深入研究利用大量廉价的粗标签进行语义学习和利用有限的精确标签进行几何估计。</p>
+<p><img src="/pic/weak3d60.png" alt="表 1：在分类良好的数据集上不同数据量的性能。"></p>
+<h4 id="方法-3"><a href="#方法-3" class="headerlink" title="方法"></a>方法</h4><p>在本节中，我们首先提出利用簇级标签并将它们与先前的粗略中心级标签进行比较（第 4.1 节），以及如何将粗略标签集成到 MixSup 中以供一般使用（第 4.2 节）。然后，我们详细介绍如何使用 PointSAM 获取粗标签以进一步释放注释负担（第 4.3 节）。</p>
+<p><img src="/pic/weak3d61.png" alt="图 3：MixSup 概述。大量的簇级标签用于语义学习，一些框标签用于学习几何属性。我们重新设计标签分配，将各种检测器集成到 MixSup 中。"></p>
+<p><strong>簇级粗标签</strong></p>
+<p>获得精确的 3D 边界框是一项艰巨且耗时的任务，需要进行细致的微调才能满足高精度的需求。一系列工作旨在获取更便宜的粗标签，例如中心级标签（Meng 等人，2020；2021）。他们单击鸟瞰视图上对象的中心以获得中心级别的标签。虽然简单，但单个中心点提供的有关物体的信息非常有限，并且不方便采用各种类型的检测器。此外，对于注释者来说，进行准确的中心单击也很重要。</p>
+<p>从今以后，我们引入集群作为更好的粗标签。聚类标签的获取非常简单。基本上，注释者可以遵循以下协议：在鸟瞰视图中围绕对象进行三次粗略单击。然后这三个点击点形成一个平行四边形，作为平行四边形的三个角。平行四边形内的点形成一个粗簇。我们强调集群的标记非常有效，因为它只需要在对象角周围进行三次粗略单击，而不是在精确的对象中心进行精确单击。在秒。 5.3，我们凭经验发现集群的平均标记成本仅为准确框的 14% 左右。我们在附录 D.1 中提供了标签协议的简单说明。</p>
+<p><strong>粗略标签分配</strong></p>
+<p>在本小节中，我们将演示如何将粗集群级标签和框标签集成到不同类型的检测器中以进行混合粒度监督，如图 3 所示。检测器中与标签最相关的部分是标签分配模块，负责为检测器正确分配标签以提供分类和回归监督。因此，MixSup只需要重新设计簇级标签的标签分配即可保证通用性。我们将这些分配分为两种类型：<strong>基于中心的分配和基于框的分配</strong>。</p>
+<p><strong>基于中心的分配</strong>和不一致消除 基于中心的分配在众多探测器中广泛采用。对于它们，我们用簇中心 ¯c 替换原始对象中心，簇中心在等式 1 中定义。 1. 替换不可避免地导致真实对象中心（精确框的）与聚类中心不一致。为了解决不一致的问题，对于框标签，我们还使用其内部聚类中心作为分类监督。至于回归监督，只能从几个框标签中获得。</p>
+<p><img src="/pic/weak3d62.png"></p>
+<p>其中 x、y、z 表示簇中点的坐标集。</p>
+<p><strong>基于框的分配</strong> 基于框的分配是将标签分配给预定义的锚点或提案的过程。例如，基于锚点的方法将与框标签具有高交集（IoU）的锚点视为正。类似地，两阶段方法选择具有适当 IoU 和框标签的提案，以进行细化和置信度学习。下面我们只关注为提案分配集群级标签，因为锚点的设计是相同的。</p>
+<p>为了实现基于框的分配，我们首先定义框簇 IoU，它被定义为提案中的点簇与簇级标签之间的点级 IoU。如图 4 所示，灰色点代表框中的点簇，而绿色轮廓的点表示簇级标签。盒簇 IoU 计算为带有绿色轮廓的灰色点与图中所有点的比率。通过盒簇 IoU，我们可以将簇级标签分配给提案，以训练任何基于锚的检测器和两级检测器。</p>
+<p><img src="/pic/weak3d63.png" alt="图 4：盒簇 IoU 图示。"></p>
+<p><strong>基于盒子的分配的模糊性</strong> 值得注意的是，盒子簇 IoU 本质上是模糊的。特别是，边界框的轻微扰动可能会导致普通框 IoU 的显着变化。然而，对边界框的轻微扰动通常不会改变内部簇，因此框簇 IoU 可能保持不变。幸运的是，我们只依靠盒簇 IoU 进行语义分配，而不是几何标签分配，并且前者不需要精确的 IoU。在秒。 5.5，我们定量地证明了歧义的不利影响可以忽略不计。</p>
+<p><strong>用于粗略标签生成的 POINTSAM</strong></p>
+<p>集群级标签的使用大大减少了人工注释的需求。为了进一步减少粗标签的注释负担，我们建议使用 PointSAM 进行自动粗标签，利用强大的 SAM（Kirillov 等人，2023）来生成粗集群级别标签。 PointSAM如图5所示，它包括两个模块：（1）基于SAM的3D实例分割：我们使用SAM来推断过度分割的掩模并将它们映射到3D点云。 （2）SeparabilityAware Refinement：由于SAM的过度分割和点像素投影不精确，我们提出SAR来缓解这些问题以提高分割质量。</p>
+<p><img src="/pic/weak3d64.png" alt="图 5：PointSAM 的总体情况。"></p>
+<p><strong>SAM 辅助的 3D 实例分割</strong>：我们首先利用预先训练的语义分割模型来生成 2D 语义掩模。然后我们将 3D 点投影到 2D 语义掩模中。映射到 2D 前景语义掩码的点可以提示 SAM 生成 2D 过分割掩码，从而显着提高推理速度。对于 SAM 生成的每个掩码，语义标签是根据掩码内像素数最高的类别分配的。通过 3D-2D 投影，我们获得初始 3D 实例掩模。</p>
+<p>**可分离性感知细化 (SAR)**： 尽管如此，SAM 的过度分割和投影误差导致分割质量平庸。例如，可能有一些属于相同对象的点被分配了不同的掩码ID，或者同一方向上两个相距较远的簇可能被分配了相同的掩码ID。幸运的是，这些问题可以通过利用点云固有的空间可分离性来缓解。具体来说，我们在前景点上采用连通分量标记（CCL）。执行CCL后，我们获得多个组件。我们将跨多个组件的蒙版分开，然后合并属于单个组件的蒙版。附录 C.2 给出了 SAR 的简单说明。我们在附录 C.3 中探讨了 SAR 对不准确校准的抵抗力。附录 C.4 中介绍了 PointSAM 与其他基于 SAM 的 3D 任务方法之间的比较。</p>
+<p><strong>训练损失</strong></p>
+<p>在训练阶段，粗聚类标签仅有助于分类（或置信度）Lcls，而准确的框标签仅有助于回归Lreg。基于标签分配，我们将分配有精确标签的正样本表示为Sa，将分配有粗标签的正样本表示为Sc，将负样本表示为Sn。 MixSup 的损失函数可以表示为等式 2：</p>
+<p><img src="/pic/weak3d65.png"></p>
+<p><strong>讨论：将 mixsup 与其他标签高效方法进行比较</strong></p>
+<p>MixSup 和其他标签高效学习设置（例如半&#x2F;弱&#x2F;自监督框架）具有提高标签效率的相同目的。然而，它们在设计理念上却截然不同。例如，弱监督方法关注如何利用某种类型的弱标签。流行的半监督方法设计自我训练等训练方案来生成高质量的伪标签。 MixSup 遵循更实用的理念来利用不同类型的监督，并尝试将它们集成到流行的检测器中以实现通用性。由于这些本质区别，MixSup 可以与其他设置无缝协作以获得更好的性能。为了展示潜力，在第二节中。 5.5，我们建立了一个简单的基线来利用半监督学习带来的自我训练技术。我们将在未来的工作中追求 MixSup 和其他标签高效方法的更有效结合。</p>
+<h4 id="实验-2"><a href="#实验-2" class="headerlink" title="实验"></a>实验</h4><blockquote>
+<p>具体实验结果请查看原文，这里展示部分结果</p>
+</blockquote>
+<p><strong>POINTSAM 分析</strong></p>
+<p><strong>定量分析</strong> 我们在 nuScenes 上执行 PointSAM 进行自动粗标记，并将标签与基于 LiDAR 的全景分割基准上的现有技术进行比较（Fong 等人，2022）。由于 PointSAM 不考虑背景，我们仅报告前景事物类别的性能，如表 10 所示。得益于强大的 SAM，PointSAM 与最近完全监督的全景分割模型不相上下，无需任何 3D 注释。</p>
+<p><img src="/pic/weak3d66.png" alt="表 10：nuScenes 验证拆分中事物类的全景分割性能。"></p>
+<p><strong>人工纠正</strong>：虽然 SAM 通常会生成高质量的聚类，但由于 nuScenes 中 3D-2D 投影的错误，不可避免地会出现假阳性聚类和假阴性。由于传感器校准不精确，这些误差无法完全修复。我们在附录 C.1 中提供了这些不良案例的分析。因此，我们根据第 2 节中的标签协议手动纠正假阳性标签和假阴性。 4.1.人工纠正产生了表 11 中的显着结果，但代价是所有粗标签的注释负担增加了 50%。</p>
+<p><strong>附录</strong></p>
+<blockquote>
+<p>具体补充请查看原文，这里展示PointSAM的补充</p>
+</blockquote>
+<p><em><strong>C PointSAM</strong></em></p>
+<p><em><strong>C.1 定性分析</strong></em></p>
+<p>我们在图 7 中列出了生成的粗略标签的可视化。如子图 (a) 和 (b) 所示，PointSAM 展示了生成高质量集群级标签的能力。然而，由于极端情况下的低质量分割或3D-2D投影误差，不可避免地会出现假阳性簇和假阴性，如图(c)和(d)所示。特别是，子图 (c) 展示了夜间驾驶的极端情况，其中 SAM 无法提供有效的分割掩模，导致不可信的集群标签。子图（d）举例说明了不正确投影的情况，其中背景点被错误地投影到前景标签。</p>
+<p><img src="/pic/weak3d67.png" alt="图 7：通过 PointSAM 生成的标签的可视化。子图（a）和（b）描绘了准确生成的样本，而子图（c）和（d）说明了包含红色圆圈中的假阳性簇和黄色圆圈中的假阴性簇的样本。"></p>
+<p><em><strong>C.2 可分离性感知细化（SAR）</strong></em></p>
+<p>图 8 显示了 SAR 的简单说明。对于跨多个组件的掩模，我们首先分析每个组件中每个掩模的数量，并保留计数最高的那个。它确保每个掩码仅与一个组件关联。随后，我们合并属于单个组件的掩模并输出最终的分割掩模。</p>
+<p><img src="/pic/weak3d68.png" alt="图 8：可分离性感知细化 (SAR) 的图示。在特区，！表示保留掩模，%表示将这些点视为背景。"></p>
+<p><em><strong>C.3 SAR 对不准确校准的抵抗力</strong></em></p>
+<p>在整个实验过程中，我们发现 nuScenes 校准中固有的不准确性，导致前景物体的像素点投影存在差异。因此，我们引入 SAR 模块来减轻投影误差引起的分割质量下降。为了进一步研究投影差异对 PointSAM 的影响，我们向每个摄像机的位置引入了随机噪声。表 14 总结了 nuScenes val split 全景分割上前景对象的性能。结果表明，SAR 派生的粗实例掩模表现出一定程度的对校准误差的抵抗力，这归因于 SAR 模块引入的细化。</p>
+<p><img src="/pic/weak3d68.png" alt="表 14：噪声校准的性能。"></p>
+<p><em><strong>C.4 基于 SAM 的方法的讨论</strong></em></p>
+<p>据我们所知，PointSAM 是第一个利用 SAM 在户外场景中进行实例分割的举措。值得注意的是，PointSAM 的性能与最近的完全监督全景分割模型相当，无需任何 3D 注释，如表 10 所示。此外，我们的 PointSAM 创新性地利用点云固有的空间可分离性来细化实例分割，从而减轻投影误差。</p>
+<p>就其他基于 SAM 的工作而言，采用 SAM3D 进行检测（Zhang et al., 2023a）、SAM3D 进行实例分割（Yang et al., 2023b）、Seal（Liu et al., 2023c）和 Label-free Scene以理解（Chen et al., 2023a）为例，用于检测的 SAM3D（Yang et al., 2023a）是一项早期探索性工作，创新地将 SAM 应用于基于 LiDAR 的 3D 物体检测。然而，它有一些局限性，例如仅限于检测车辆和不切实际的性能。 SAM3D 实例分割（Yang et al., 2023b）侧重于室内场景中的多视图合并，而 PointSAM 则注重室外场景中基于空间可分离性的细化。此外，我们集成语义来丰富信息，例如掩码。后两项工作（Liu et al., 2023c; Chen et al., 2023a）都专注于通过像素点投影进行语义分割的预训练，并取得了显着的成果。但是，它们无法处理实例分割。需要强调的是，PointSAM 的目的是为 MixSup 提供粗略标签。因此，我们很高兴看到这些杰出的作品发挥着类似的作用，并有可能与 MixSup 集成。</p>
+<blockquote>
+<p>这里将这几个应用于3D的SAM模型进行汇总</p>
+</blockquote>
+<p>SAM3D: Zero-Shot 3D Object Detection via Segment Anything Model</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2306.02245">论文链接</a><br><a target="_blank" rel="noopener" href="https://github.com/DYZhang09/SAM3D">代码链接</a></p>
+<p>SAM3D: Segment Anything in 3D Scenes</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2306.03908">论文链接</a><br><a target="_blank" rel="noopener" href="https://github.com/Pointcept/SegmentAnything3D">代码链接</a></p>
+<p>Segment Any Point Cloud Sequences by Distilling Vision Foundation Models</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2306.09347">论文链接</a><br><a target="_blank" rel="noopener" href="https://github.com/youquanl/Segment-Any-Point-Cloud">代码链接</a></p>
+<p>Towards Label-free Scene Understanding by Vision Foundation Models</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2306.03899">论文链接</a><br><a target="_blank" rel="noopener" href="https://github.com/runnanchen/Label-Free-Scene-Understanding">代码链接</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">oceanechy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://oceanechy.github.io/2024/04/25/weakly-3d-det2/">http://oceanechy.github.io/2024/04/25/weakly-3d-det2/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">oceanechy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/CV/">
+                                    <span class="chip bg-color">CV</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2024/04/25/weakly-3d-det2/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="弱监督下的三维目标检测(激光点云篇，接单目篇)">
+                        
+                        <span class="card-title">弱监督下的三维目标检测(激光点云篇，接单目篇)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CV/">
+                        <span class="chip bg-color">CV</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/04/24/weakly-3d-det/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="弱监督下的三维目标检测(单目篇)">
+                        
+                        <span class="card-title">弱监督下的三维目标检测(单目篇)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CV/">
+                        <span class="chip bg-color">CV</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2024</span>
+            
+            <a href="/about" target="_blank">oceanechy</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">204.7k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/oceanechy" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1945942166@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1945942166" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1945942166" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/xiao-hai-38-6-81" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/xiao-hai-38-6-81" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
