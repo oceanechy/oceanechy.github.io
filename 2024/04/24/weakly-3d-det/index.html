@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="keywords" content="弱监督下的三维目标检测(单目篇), Ocean">
     <meta name="description" content="弱监督下的三维目标检测(单目篇)一、基于单目图像的三维目标检测3D Object Detection from Images forAutonomous Driving: A Survey
-1.1 WeakM3D: Towards Weak">
+第一篇：WeakM3DTowards Weakly">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -416,7 +416,8 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="弱监督下的三维目标检测-单目篇"><a href="#弱监督下的三维目标检测-单目篇" class="headerlink" title="弱监督下的三维目标检测(单目篇)"></a>弱监督下的三维目标检测(单目篇)</h1><h2 id="一、基于单目图像的三维目标检测"><a href="#一、基于单目图像的三维目标检测" class="headerlink" title="一、基于单目图像的三维目标检测"></a>一、基于单目图像的三维目标检测</h2><p><a href="">3D Object Detection from Images for<br>Autonomous Driving: A Survey</a></p>
-<h3 id="1-1-WeakM3D-Towards-Weakly-Supervised-Monocular-3D-Object-Detection（2022）"><a href="#1-1-WeakM3D-Towards-Weakly-Supervised-Monocular-3D-Object-Detection（2022）" class="headerlink" title="1.1 WeakM3D: Towards Weakly Supervised Monocular 3D Object Detection（2022）"></a>1.1 WeakM3D: Towards Weakly Supervised Monocular 3D Object Detection（2022）</h3><p><a target="_blank" rel="noopener" href="https://browse.arxiv.org/pdf/2203.08332v1">论文链接</a></p>
+<h3 id="第一篇：WeakM3D"><a href="#第一篇：WeakM3D" class="headerlink" title="第一篇：WeakM3D"></a>第一篇：WeakM3D</h3><p>Towards Weakly Supervised Monocular 3D Object Detection（2022）</p>
+<p><a target="_blank" rel="noopener" href="https://browse.arxiv.org/pdf/2203.08332v1">论文链接</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/SPengLiang/WeakM3D">代码链接</a></p>
 <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>单目 3D 物体检测是 3D 场景理解中最具挑战性的任务之一。由于单目图像的不适定性质，现有的单目 3D 检测方法高度依赖于 LiDAR 点云上手动注释的 3D 框标签的训练。这个注释过程非常费力且昂贵。为了摆脱对 3D 框标签的依赖，在本文中，我们探索了弱监督的单目 3D 检测。具体来说，我们首先检测图像上的 2D 框。然后，我们采用生成的2D框来选择相应的RoI LiDAR点作为弱监督。最终，我们采用网络来预测 3D 框，它可以与相关的 RoI LiDAR 点紧密对齐。该网络是通过最小化我们新提出的 3D 框估计和相应的 RoI LiDAR 点之间的 3D 对齐损失来学习的。我们将说明上述学习问题的潜在挑战，并通过在我们的方法中引入几种有效的设计来解决这些挑战。</p>
 <p><img src="/pic/weak3d1.png" alt="图 1：我们使用 LiDAR 点云作为训练中的弱监督。 (a)：调整过程； (b)：对齐模糊问题； (c)：LiDAR 点分布不均匀。"></p>
@@ -453,7 +454,8 @@
 <p>目标激光雷达点的不同空间分布也是一个障碍，即点密度有些高，有些低。诸如几何对准损失和光线追踪损失等逐点损失都受到不均匀分布的影响。具体来说，密集区域产生的损失可以主导总损失，忽略其他相对稀疏但重要的点所产生的损失。为了平衡影响，我们在计算损失时对目标激光雷达点的密度进行归一化。让我们计算 Pi 点附近的 LiDAR 点 Ei 的数量，如下所示：</p>
 <p><img src="/pic/weak3d6.png"></p>
 <p>其他具体参考原论文</p>
-<h3 id="Weakly-Supervised-Monocular-3D-Object-Detection-using-Multi-View-Projection-and-Direction-Consistency（2023）"><a href="#Weakly-Supervised-Monocular-3D-Object-Detection-using-Multi-View-Projection-and-Direction-Consistency（2023）" class="headerlink" title="Weakly Supervised Monocular 3D Object Detection using Multi-View Projection and Direction Consistency（2023）"></a>Weakly Supervised Monocular 3D Object Detection using Multi-View Projection and Direction Consistency（2023）</h3><p><a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content/CVPR2023/papers/Tao_Weakly_Supervised_Monocular_3D_Object_Detection_Using_Multi-View_Projection_and_CVPR_2023_paper.pdf">论文链接</a></p>
+<h3 id="第二篇：Weakmono3d"><a href="#第二篇：Weakmono3d" class="headerlink" title="第二篇：Weakmono3d"></a>第二篇：Weakmono3d</h3><p>Weakly Supervised Monocular 3D Object Detection using Multi-View Projection and Direction Consistency（2023）</p>
+<p><a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content/CVPR2023/papers/Tao_Weakly_Supervised_Monocular_3D_Object_Detection_Using_Multi-View_Projection_and_CVPR_2023_paper.pdf">论文链接</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/weakmono3d/weakmono3d">代码暂未开源</a></p>
 <h4 id="摘要-1"><a href="#摘要-1" class="headerlink" title="摘要"></a>摘要</h4><p>单目3D物体检测因其易于应用而成为自动驾驶的主流方法。一个突出的优点是在推理过程中不需要LiDAR点云。然而，大多数当前方法仍然依赖 3D 点云数据来标记训练阶段使用的地面事实。训练和推理之间的这种不一致使得大规模反馈数据难以利用并增加了数据收集费用。为了弥补这一差距，我们提出了一种新的弱监督单目 3D 物体检测方法，该方法可以仅使用图像上标记的 2D 标签来训练模型。具体来说，我们在该任务中探索了三种一致性，即投影一致性、多视图一致性和方向一致性，并基于这些一致性设计了弱监督架构。此外，我们在此任务中提出了一种新的2D方向标记方法来指导模型进行准确的旋转方向预测。实验表明，我们的弱监督方法取得了与一些完全监督方法相当的性能。当用作预训练方法时，我们的模型可以显着优于仅具有 1&#x2F;3 3D 标签的相应完全监督基线。</p>
 <p>主要贡献:</p>
@@ -465,7 +467,7 @@
 </ul>
 <p><img src="/pic/weak3d12.png" alt="图 1.所提出方法的架构。左列显示，在训练阶段，来自不同视点的图像对被发送到检测模型中，并在预测和 2D 地面实况之间计算 4 个损失。右栏显示了投影一致性和多视图一致性的详细信息。为了计算投影一致性损失，我们将预测框投影到2D图像中并将其转换为2D框，最后计算2D框和2D框标签之间的差异。为了计算一致性损失，我们首先将视点 1 的预测 3D 框转换为视点 2 的坐标系，然后计算转换后的框与视点 2 的预测框之间的差异。"></p>
 <p><img src="/pic/weak3d13.png" alt="图 2. WeakMono3D 结果的可视化。图像中的实心面和 BEV 框中的短条都表示物体的方向。"></p>
-<h3 id="1-3-SKD-WM3D-Weakly-Supervised-Monocular-3D-Detection-with-a-Single-View-Image（2024）"><a href="#1-3-SKD-WM3D-Weakly-Supervised-Monocular-3D-Detection-with-a-Single-View-Image（2024）" class="headerlink" title="1.3 SKD-WM3D: Weakly Supervised Monocular 3D Detection with a Single-View Image（2024）"></a>1.3 SKD-WM3D: Weakly Supervised Monocular 3D Detection with a Single-View Image（2024）</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.19144">论文链接</a></p>
+<h3 id="第三篇：SKD-WM3D"><a href="#第三篇：SKD-WM3D" class="headerlink" title="第三篇：SKD-WM3D"></a>第三篇：SKD-WM3D</h3><p>Weakly Supervised Monocular 3D Detection with a Single-View Image（2024）<br><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.19144">论文链接</a></p>
 <p>[代码暂未公布]</p>
 <h4 id="摘要-2"><a href="#摘要-2" class="headerlink" title="摘要"></a>摘要</h4><p>单目 3D 检测 (M3D) 旨在从单视图图像中精确定位 3D 对象，这通常涉及 3D 检测框的劳动密集型注释。最近研究了弱监督 M3D，通过利用许多现有的 2D 注释来消除 3D 注释过程，但它通常需要额外的训练数据，例如 LiDAR 点云或多视图图像，这大大降低了其在各种应用中的适用性和可用性。我们提出了 SKD-WM3D，这是一种弱监督的单目 3D 检测框架，它利用深度信息仅通过单视图图像实现 M3D，无需任何 3D 注释或其他训练数据。 SKD-WM3D 的一个关键设计是自知识蒸馏框架，它通过融合深度信息将图像特征转换为 3D 表示，并有效减轻单目场景中固有的深度模糊性，而推理中的计算开销很小。此外，我们设计了一种不确定性感知蒸馏损失和一种梯度目标转移调制策略，分别促进知识获取和知识转移。大量实验表明 SKD-WM3D 明显超越了最先进的方法，甚至与许多完全监督的方法相当。</p>
 <h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>弱监督 M3D (WM3D) [32] 最近被探索用于学习没有 3D 框注释的有效 3D 检测器，旨在利用 2D 注释来弥补 3D 信息的缺失。例如，WeakM3D [32] 利用 LiDAR 点云来推断 3D 信息，如图 1(a) 所示。然而，它需要昂贵且复杂的激光雷达传感器来收集点云，这极大地限制了其适用性和可用性。 WeakMono3D [40] 仅通过利用来自多个摄像机的图像的多视图双目或从连续视频帧构建伪多视图透视来使用 2D 信息，如图 1(b) 所示。然而，收集多视角图像很复杂，并且采用伪多视角视角会明显降低检测性能。随着单视图深度估计的进步，具有单视图图像深度的 WM3D 为补偿 3D 注释的缺失提供了一种潜在的解决方案。另一方面，将这种深度直接集成到现有框架中通常需要复杂的网络架构，这会进一步产生大量的计算成本。这就提出了一个相关问题：当​​不使用额外的激光雷达点云或多视图图像对时，是否可以利用现成的深度估计器的深度，而不会在推理中引入大量计算开销？</p>
@@ -509,7 +511,8 @@
 <p>表 1. Car 类别在 KITTI 测试集上的性能比较。对于所有结果，我们使用 IoU 阈值等于 0.7 的 AP|R40 指标。最好的结果以粗体显示。<br><img src="/pic/weak3d9.png"></p>
 <p>表 2. Car 类别在 KITTI val 集上的性能比较。对于所有结果，我们使用 AP|R40 指标，IoU 阈值等于 0.5。 * 表示此性能是从官方代码复制的。弱监督 3D 对象检测方法的最佳结果以粗体显示。<br><img src="/pic/weak3d10.png"></p>
 <p>图 3. KITTI val 集的定性说明。红色框表示真实注释，绿色框表示我们的预测。 LiDAR 点云的地面实况仅用于可视化目的。放大观看效果最佳。<br><img src="/pic/weak3d11.png"></p>
-<h3 id="Weakly-Supervised-3D-Object-Detection-with-Multi-Stage-Generalization（2023）"><a href="#Weakly-Supervised-3D-Object-Detection-with-Multi-Stage-Generalization（2023）" class="headerlink" title="Weakly Supervised 3D Object Detection with Multi-Stage Generalization（2023）"></a>Weakly Supervised 3D Object Detection with Multi-Stage Generalization（2023）</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2306.05418">论文链接</a></p>
+<h3 id="第四篇：Ba2det"><a href="#第四篇：Ba2det" class="headerlink" title="第四篇：Ba2det"></a>第四篇：Ba2det</h3><p>Weakly Supervised 3D Object Detection with Multi-Stage Generalization（2023）</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2306.05418">论文链接</a></p>
 <p><a target="_blank" rel="noopener" href="https://ba2det.site/">项目页面</a></p>
 <h4 id="摘要-3"><a href="#摘要-3" class="headerlink" title="摘要"></a>摘要</h4><p>随着大型模型的快速发展，对数据的需求变得越来越重要。特别是在 3D 对象检测中，昂贵的手动注释阻碍了进一步的进步。为了减轻注释的负担，我们研究了仅基于 2D 注释实现 3D 对象检测的问题。得益于先进的 3D 重建技术，现在可以重建整个静态 3D 场景。然而，从整个场景中提取精确的对象级注释并将这些有限的注释推广到整个场景仍然是挑战。在本文中，我们介绍了一种称为 BA2-Det 的新颖范式，包括伪标签生成和多阶段泛化。我们设计了 DoubleClustering 算法，从重建的场景级点中获取对象簇，并通过发展从完整到部分、从静态到动态、从近到远的三个泛化阶段，进一步增强模型的检测能力。在大规模 Waymo 开放数据集上进行的实验表明，BA2-Det 的性能与使用 10% 注释的完全监督方法相当。此外，使用大型原始视频进行预训练，BA2-Det 可以在 KITTI 数据集上实现 20% 的相对改进。该方法在复杂场景中检测开放集 3D 对象方面也具有巨大潜力。</p>
 <h4 id="相关内容"><a href="#相关内容" class="headerlink" title="相关内容"></a>相关内容</h4><p>由于需要大量且昂贵的手动注释，完全监督的 3D 对象检测方法的进一步发展可能受到限制。为了克服这一限制，之前的一些工作探索了弱监督算法（Zakharov et al., 2020; Peng et al., 2022c）和额外的 LiDAR 数据来释放未标记图像的潜力。然而，对激光雷达传感器的依赖限制了这些方法在更一般场景中的实用性。随着二维基础模型的进步（Kirillov et al., 2023），二维注释不再是瓶颈。在本文中，我们旨在研究仅基于 2D 注释实现 3D 对象检测的可行性，这是一个尚未探索的问题。</p>
@@ -858,7 +861,7 @@
             tocSelector: '#toc-content',
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
+            collapseDepth: Number('2'),
             headingSelector: 'h2, h3, h4'
         });
 
