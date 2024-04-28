@@ -1,0 +1,1242 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Commonsense Prototype for Outdoor Unsupervised 3D Object Detection (CVPR 2024), Ocean">
+    <meta name="description" content="Commonsense Prototype for Outdoor Unsupervised 3D Object Detection (CVPR 2024)论文链接
+代码链接
+第一作者主页
+摘要无监督三维目标检测的主流方法是基于聚类的伪标签">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Commonsense Prototype for Outdoor Unsupervised 3D Object Detection (CVPR 2024) | Ocean</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(/medias/ocean.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ocean</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ocean</div>
+        <div class="logo-desc">
+            
+            要善良,要勇敢,要像星星一样努力发光。若是你心怀旧梦，就别再无疾而终。加油，为实现梦想努力。梦想再遥远，也要笑着走去，毕竟沿途有很多美景等着去欣赏。
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/oceanechy" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/oceanechy" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Commonsense Prototype for Outdoor Unsupervised 3D Object Detection (CVPR 2024)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CV/">
+                                <span class="chip bg-color">CV</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/DL/" class="post-category">
+                                DL
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-04-28
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    7.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    28 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="Commonsense-Prototype-for-Outdoor-Unsupervised-3D-Object-Detection-CVPR-2024"><a href="#Commonsense-Prototype-for-Outdoor-Unsupervised-3D-Object-Detection-CVPR-2024" class="headerlink" title="Commonsense Prototype for Outdoor Unsupervised 3D Object Detection (CVPR 2024)"></a>Commonsense Prototype for Outdoor Unsupervised 3D Object Detection (CVPR 2024)</h1><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2404.16493">论文链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/hailanyi/cpd">代码链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/hailanyi">第一作者主页</a></p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>无监督三维目标检测的主流方法是基于聚类的伪标签生成和迭代自训练过程。然而，由于激光雷达扫描的稀疏性，会导致尺寸和位置错误的伪标签，从而导致检测性能低于标准。为了解决这个问题，本文介绍了一种基于常识原型的检测器，称为CPD，用于无监督的3D物体检测。CPD首先基于常识性直觉，构建具有高质量边界框和密集点特征的常识性原型(CProto)。随后，CPD通过利用CProto先前的大小来细化低质量的伪标签。此外，CPD还利用CProto的几何知识提高了稀疏扫描目标的检测精度。在Waymo开放数据集(WOD)、PandaSet和KITTI数据集上，CPD的性能远远超过最先进的无监督3D探测器。此外，通过对CPD在WOD上的训练和在KITTI上的测试，CPD在简单和中等车型上的3D平均精度分别达到了90.85%和81.01%。这些成就使CPD接近于完全监督检测器，突出了我们方法的重要性。</p>
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>自动驾驶需要在城市场景中可靠地检测3D物体(例如车辆和骑自行车的人)，以便进行安全的路径规划和导航。由于神经网络的强大功能，许多研究已经通过完全监督的方法开发出高性能的3D探测器[4,15,30 - 33]。然而，这些模型在很大程度上依赖于来自不同场景的人工注释，以保证它们在不同场景中的有效性。这种数据标注过程通常既费力又耗时，限制了检测器在实践中的广泛部署[40]。</p>
+<p>一些研究已经探索了通过弱监督学习减少标注需求的方法[3,26,46]，将标注成本降低了80%以上。值得注意的是，3D场景中的物体具有可区分的属性，可以通过一定的常识推理轻松识别(见图1)。例如，物体通常位于具有一定形状的地面上;对象大小在不同帧之间是固定的。这一见解促使我们开发了一种无监督的3D探测器，无需人工注释即可运行。</p>
+<p><img src="/pic/unsup1.png" alt="图1所示。自动驾驶场景中无监督3D物体检测的常识性原型说明。"></p>
+<p>近年来，传统方法利用地面去除[9]和聚类技术[42]进行无监督三维目标检测。然而，由于3D场景中物体的稀疏性和遮挡，这些方法往往难以达到令人满意的性能。先进的方法通过聚类从点云序列中创建初始伪标签，并通过迭代训练深度网络来引导一个好的检测器[41]。然而，激光雷达扫描的稀疏性和视域限制导致伪标签的大小和位置不准确，误导网络收敛，导致检测性能不佳。一个对象的子集，记作完全对象T，受益于至少对整个点云序列进行一次完整扫描，允许通过时间一致性对其伪标签进行细化[41]见图2 (a)。然而，大多数物体(如图2 (c)所示，WOD上的65%[25])被称为不完整物体J，缺乏完整的扫描覆盖(见图2 (b))，无法通过时间一致性恢复。</p>
+<p><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/5548059">9:Fast segmentation of 3D point clouds for ground vehicles</a></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2311.02007">41:Towards unsupervised object detection from lidar point clouds</a></p>
+<p><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/6630946">42:Unsupervised 3d category discovery and point labeling from a large urban environment</a></p>
+<p><img src="/pic/unsup2.png" alt="图2。WOD[25]验证集上完整和不完整对象的说明和统计(大到足以展示一般问题)。(a)利用时间一致性改进完整对象T的伪标签。(b)不完整对象J的伪标签无法通过时间一致性进行细化。(c) 65%的对象缺乏完整的扫描覆盖，产生不准确的伪标签(Max IoU(交集超过联合)与GT(地面真值)&lt; 0.5)。(d)完整物体GTT和不完整物体GTJ的整车GT具有相似的尺寸分布。(e)完整对象PseT和不完整对象PseJ的伪标号大小分布不同。(f)(g)附近的静止物体在连续帧中具有高的完备性。"></p>
+<p>为了解决这个问题，本文提出了一种基于常识原型的检测器，称为CPD，用于无监督的3D物体检测。CPD建立在两个关键见解之上:(1)类内对象的基本真理在不完整对象和完整对象之间保持相似的大小(长度、宽度和高度)分布(见图2 (d))。(2)附近的静止物体在连续帧中非常完整，可以通过常识直觉准确识别(见图2 (f)(g))。<strong>我们的想法是从完整的物体中构建一个表示精确几何形状和尺寸的常识原型(Commonsense Prototype, CProto)集，以改进不完整物体的伪标签，提高检测精度</strong>。为此，我们首先设计了一种无监督的多帧聚类(MFC)方法，该方法产生高召回率的初始伪标签。随后，我们引入了一个无监督的完整性和大小相似度(CSS)评分，该评分选择高质量的标签来构建CProto集。此外，我们设计了一种CProto约束盒正则化(CBR)方法，通过结合CProto的尺寸先验来改进伪标签。此外，我们开发了CProto约束自我训练(CST)，利用CProto的几何知识提高稀疏扫描目标的检测精度。</p>
+<p>通过在广泛使用的WOD[25]、PandaSet[35]和KITTI数据集[6]上的实验验证了我们设计的有效性。此外，我们设计的各个组件也在WOD上进行了大量的实验验证[25]。这项工作的主要贡献包括:</p>
+<ul>
+<li>我们提出了一种基于常识原型的检测器(CPD)用于无监督的3D物体检测。CPD比最先进的无监督3D探测器要好得多。</li>
+<li>提出了基于多帧聚类(MFC)和CProto约束盒正则化(CBR)的伪标签生成和细化方法，极大地提高了伪标签的查全率和查准率。</li>
+<li>我们提出CProto约束盒自训练 (CST)用于无监督3D检测。提高了稀疏目标的识别和定位精度，显著提高了检测性能。</li>
+</ul>
+<h2 id="2-相关工作"><a href="#2-相关工作" class="headerlink" title="2. 相关工作"></a>2. 相关工作</h2><p><strong>完全&#x2F;弱监督3D对象检测</strong>。最近的全监督3D检测器构建了单阶段[8,10,27,39,48,49]、两阶段[4,20 - 22,31 - 33,37]或多阶段[2,30]的深度网络用于3D目标检测。然而，这些方法严重依赖于大量精确的注释。一些弱监督方法用低成本的点击标注代替方框标注[17]。其他方法通过只注释部分场景[3,26,45,46]或部分实例[34]来减少监督。与上述所有工作不同，我们的目标是设计一个不需要人类级别注释的3D检测器。</p>
+<p><strong>无监督的3D物体检测</strong>。以前的无监督预训练方法通过屏蔽标签[36]或对比损失[14,38]来识别未标记数据中的潜在模式。但这些方法需要人工标记来进行微调。传统方法[1,19,24]采用地面去除和聚类方法进行三维目标检测，无需人工标记，但检测性能较差。一些基于深度学习的方法通过聚类生成伪标签，并使用伪标签迭代地训练3D检测器[40]。最近的OYSTER[41]通过时间一致性提高了伪标签质量。然而，大多数不完整对象的伪标签不能通过时间一致性来恢复。我们的CPD通过利用CProto的几何先验来改进伪标签并指导网络收敛，从而解决了这个问题。</p>
+<p><strong>基于原型的方法</strong>。基于原型的方法被广泛应用于二维检测中[11,12,16,29,44]。受这些方法的启发，Prototypical VoteNet[47]构建了从基本类中学习的几何原型，用于少镜头3D物体检测。GPA-3D[13]和CL3D[18]从源域模型构建几何原型，用于域自适应三维检测。然而，从基本类学习和源域上的训练都需要高质量的注释。与此不同的是，我们使用常识性知识构建CProto，并在没有人类级别注释的情况下以zero-shot方式检测3D对象。</p>
+<h2 id="3-CPD方法"><a href="#3-CPD方法" class="headerlink" title="3. CPD方法"></a>3. CPD方法</h2><p>本文介绍了基于常识原型的检测器(CPD)，这是一种用于无监督三维物体检测的新方法。如图3所示，CPD主要由三个部分组成:(1)初始标签生成;(2)标签细化;(3)自我训练。我们详细设计如下。<br><img src="/pic/unsup3.png" alt="图3。CPD框架。(a)初始伪标签由多帧聚类生成。(b)基于CSS评分的高质量伪标签构建常识性原型(CProto)。低质量的标签进一步完善的形状之前从CProto。(c)由CProto的密集点馈送的原型网络产生高质量的特征，引导检测网络收敛。"></p>
+<h3 id="3-1-初始标签生成"><a href="#3-1-初始标签生成" class="headerlink" title="3.1. 初始标签生成"></a>3.1. 初始标签生成</h3><p>最近的无监督方法[40,41]以一种与类别无关的方式检测3D物体。如何在没有标注的情况下对物体(如车辆和行人)进行分类仍然是一个未解决的挑战。我们的观察表明，连续帧中的一些静止物体看起来更完整(见图2 (f))，并且可以通过预定义的大小进行分类。这促使我们设计了一种多帧聚类(MFC)方法来生成初始标签。MFC包括运动伪影去除、聚类和后处理。</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.15882">40:Learning to Detect Mobile Objects from LiDAR Scans Without Labels</a></p>
+<p>**运动伪影去除(MAR)**。直接变换和连接2n+1个连续帧{x−n，…， xn}(即过去n，未来n和当前帧)到单个点云x * 0引入运动物体的运动伪影，导致随着n的增长标签误差增加(见图4(a))。为了缓解这个问题，我们首先将连续帧转换为全局系统，并计算连续帧的持续点分数(PPScore)[40]来识别运动中的点。我们保留x0中的所有点，并删除其他帧x - n中的移动点，…， x−1,x1，…在此移除之后，我们连接帧以获得密集点x * 0。</p>
+<p><img src="/pic/unsup4.png" alt="图4。(a)不同帧的长度绝对误差。(b)多层占用评分。(c)初始标签的平均尺寸误差。"></p>
+<p><strong>聚类和后处理</strong>。根据最近的研究[41]，我们在x∗0上应用ground removal[9]， DBSCAN[5]和bounding box fitting[43]来获得一组与类别无关的边界框(bounding box)b。我们观察到，同一类的对象在三维空间中通常具有相似的大小。因此，我们根据人类的常识预先定义了特定类别的尺寸阈值(例如，车辆的长度一般大于0.5m)，将b分类为不同的类别。然后，我们应用类别无关跟踪将小背景对象与前景轨迹关联起来，并通过使用时间相干性来增强对象大小的一致性[41]。此过程得到一组初始伪标签b &#x3D; {bj}j，其中bj &#x3D; [x, y, z, l, w, h， α， β， τ]分别代表位置、宽度、长度、高度、方位角、类恒等式和跟踪恒等式。</p>
+<p><a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.5555/3001460.3001507">5:A density-based algorithm for discovering clusters in large spatial databases with noise</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ri.cmu.edu/app/uploads/2017/07/Xiao-2017-Efficient-L-Shape-Fitting.pdf">43:Efficient l-shape fitting for vehicle detection using laser scanners</a></p>
+<h3 id="3-2-标签细化的原型约束盒正则化"><a href="#3-2-标签细化的原型约束盒正则化" class="headerlink" title="3.2. 标签细化的原型约束盒正则化"></a>3.2. 标签细化的原型约束盒正则化</h3><p>如第1节所述，不完整对象的初始标签通常在大小和位置上不准确。为了解决这个问题，我们引入了CProto-constrained Box Regularization (CBR)方法。其核心思想是构建一个基于无监督评分的高质量CProto集，以完善不完整对象的伪标签。与OYSTER[41]只能细化至少一次完整扫描的目标的伪标签不同，我们的CBR可以细化所有目标的伪标签，显著降低了整体尺寸和位置误差。</p>
+<p><strong>完整性和大小相似性(CSS)评分</strong>。现有的标签评分方法，如IoU评分[21]是为完全监督检测器设计的。相反，我们引入了一种无监督的完备性和大小相似性评分(CSS)方法。它旨在仅使用常识性知识来近似IoU分数(见图5)。</p>
+<p><img src="/pic/unsup5.png" alt="图5。完整性和大小相似性评分。"></p>
+<p><strong>距离得分</strong>。CSS首先根据距离评估对象的完整性，假设离自我车辆更近的标签可能更准确。对于初始标签bj，我们在[0,1]范围内归一化到自我车辆的距离，以计算距离得分为：</p>
+<p><img src="/pic/unsup6.png"></p>
+<p>其中N是归一化函数，cj是bj的位置。然而，这种基于距离的方法有其局限性。例如，靠近自我车辆的遮挡物体，本应获得较低的分数，但由于它们距离较近，无意中被分配了较高的分数。为了缓解这一问题，我们引入了多层次占用(MLO)评分，如图4 (b)所示。</p>
+<p><strong>MLO分数</strong>。考虑到物体的大小不同，我们将初始标签的边界框划分为多个具有不同长度和宽度分辨率的网格。然后通过确定聚类点占用的网格比例来计算MLO分数：</p>
+<p><img src="/pic/unsup7.png"></p>
+<p>式中No为分辨率号，Ok为第k个分辨率下占用的网格数，rk为第k个分辨率下的网格号。</p>
+<p><strong>尺寸相似度(SS)得分</strong>。虽然距离和MLO分数可以有效地评估定位和大小质量，但它们在评估分类质量方面存在不足。为了弥补这一差距，我们引入了SS分数。这个分数使用一个类特定的模板框a (Wikipedia中典型对象的平均大小)，并计算截断的KL散度[7]。请注意，这个分数是由比率差异决定的，而不是它们的具体值。l、w、h比率的简单常识(车辆2:1:1，行人1:1:2，骑自行车者2:1:2)也可以用在这里。</p>
+<p><img src="/pic/unsup8.png"></p>
+<p>式中qa σ∈{la, wa, ha}， qb σ∈{lb, wb, hb}为模板和标签的归一化长、宽、高。</p>
+<p>我们将三个指标S(bj) &#x3D; pi ωiψi(bj)线性组合以产生最终得分，其中ωi是权重因子(在本研究中我们采用简单平均值，ωi &#x3D; 1&#x2F;3)。对于每个bj∈b，我们计算其CSS分数scss j &#x3D; S(bj)，得到分数S &#x3D; {scss j}j的集合。</p>
+<p><strong>CProto集合构造</strong>。常规的基于原型的可学习方法需要标注[13,47]，这在无监督问题中是不可用的。我们构建了一个高质量的CProto集合P &#x3D; {Pk}k，表示基于无监督CSS分数的几何和大小中心。式中，Pk &#x3D; {xp k, bp k}，其中xp k表示内部点，bp k表示边界框。具体来说，我们首先根据初始标签b的跟踪身份τ将其分类为不同的组。在每一组中，我们选择符合高CSS评分阈值η(在验证集上确定，本研究中使用0.8)的高质量框和内部点。然后，我们将所有的点和盒子转换成一个局部坐标系，通过对高质量盒子进行平均得到xp k，通过将所有的点串联得到bp k。</p>
+<p><strong>盒子正规化</strong>。接下来，我们根据CProto的大小对初始标签进行正则化。根据WOD验证集的统计[25]，我们观察到初始标签的高度相对于长度和宽度是相对正确的(见图4 (c))。直观地看，类内具有相同高度的3D对象具有相似的长度和宽度。因此，我们将初始标签bj与CProto Pk通过最小盒高差进行关联。初始的伪标签具有相同的Pk和相似的长度和宽度，自然会被归为同一组。然后，我们对每个组执行调整大小和重新定位，以改进伪标签。  </p>
+<ul>
+<li>(1)改变形状。我们直接用bp k∈Pk的长、宽、高来替换bj的大小。</li>
+<li>(2)重新定位。由于点大多在物体的表面和边界上，我们将物体划分为不同的箱，并将箱的边界和方向与最密集部分的边界点对齐(见图6)。最后，我们得到改进的伪标签b∗&#x3D; {b∗j}j。</li>
+</ul>
+<p><img src="/pic/unsup9.png" alt="图6。将初始标签的大小替换为CProto框，并更正位置。"></p>
+<p>3.3. CProto约束自我训练(CST)</p>
+<p>最近的方法[40,41]利用伪标签来训练三维检测器。然而，即使经过改进，一些伪标签仍然不准确，降低了正确监督的有效性，并可能误导培训过程。为了解决这些问题，我们提出了两种设计:(1)css加权检测损失，它根据标签质量分配不同的训练权值，以抑制虚假监督信号。(2)几何对比度损失，将稀疏扫描点的预测与密集CProto对齐，从而提高特征一致性。</p>
+<p><strong>网络体系结构</strong>。我们采用密集稀疏对齐架构(图3 (c))，由原型网络Fpro和检测网络Fdet组成，由两级CenterPoint构建[39]。在训练过程中，我们将每个b * j对应的点xp k从CProto Pk添加到场景中，得到密集的点云xpro。我们将xpro馈送到Fpro，以产生相对较好的特征和检测。然后我们将随机下采样点xdet作为稀疏样本馈送到Fdet。我们通过检测损失和对比度损失对两个分支的特征和检测进行对齐。在测试过程中，我们将没有下采样的点馈送到检测网络Fdet进行检测。</p>
+<p><strong>CSS的权重</strong>。考虑到虚假的伪标签可能会误导网络收敛，我们首先根据不同的标签质量计算一个损失权值。形式上，我们将伪标签的CSS分数sssi转换为:</p>
+<p><img src="/pic/unsup10.png"></p>
+<p>其中SH和SL是高&#x2F;低质量阈值(我们根据经验分别设置0.7和0.4)。</p>
+<p><strong>css加权检测损失</strong>。为了减少假标签的影响，我们制定了css加权检测损失来细化N个提案：</p>
+<p><img src="/pic/unsup11.png"></p>
+<p>式中Lpro i和Ldet i分别为Fpro和Fdet的检测损耗[4]。损失由伪标签b *和网络预测计算。</p>
+<p>几何对比度损失。我们制定了两种对比度损失，以最小化原型和检测网络之间的特征和预测盒差。(1)特征对比度损失。对于检测网络中的前景RoI ri，我们通过体素集抽象[4]从原型网络中提取特征fp i，从检测网络中提取特征fd i。然后我们用余弦距离表示对比度损失:</p>
+<p><img src="/pic/unsup12.png"></p>
+<p>其中Nf为前景提案号。(2)箱体对比度损失。对于来自原型网络的盒状预测dp i和来自检测网络的盒状预测dd i。然后通过IoU、位置差、角度差来计算箱体对比度损失:</p>
+<p><img src="/pic/unsup13.png"></p>
+<p>表示IoU函数;CD I， α d1 I为dd I的位置和角度;Cp I， α p1为dp I的位置和角度。我们终于把所有的损失归结为训练探测器。</p>
+<h2 id="4-实验"><a href="#4-实验" class="headerlink" title="4. 实验"></a>4. 实验</h2><h3 id="4-1-数据集"><a href="#4-1-数据集" class="headerlink" title="4.1. 数据集"></a>4.1. 数据集</h3><p>Waymo开放数据集(WOD)。由于场景的多样性，我们对其进行了大量的实验[25]。WOD包含798、202和150个序列，分别用于训练、验证和测试。我们采用了类似的指标(3D AP L1和L2)作为完全&#x2F;弱监督方法[31,34]。没有使用注释进行训练。</p>
+<p>PandaSet数据集。为了与最近的无监督方法[41]进行比较，我们还在PandaSet上进行了实验[35]。像[41]一样，我们将数据集分成73个训练片段和30个验证片段，并使用与类别无关的BEV AP和召回指标，阈值分别为0.3、0.5和0.7 IoU。</p>
+<p>KITTI数据集。由于KITTI检测数据集[6]没有提供连续帧，我们只在3769 val分割[4]上测试了我们的方法。我们使用了与完全&#x2F;弱监督方法类似的指标(具有0.5和0.7 IoU阈值的Car 3D AP R40)[32,34]。</p>
+<h3 id="4-2-实现细节"><a href="#4-2-实现细节" class="headerlink" title="4.2. 实现细节"></a>4.2. 实现细节</h3><p><strong>网络的细节</strong>。原型网络和检测网络都采用了与CenterPoint[39]相同的三维主干，与Voxel-RCNN[4]相同的RoI细化网络。对于WOD和KITTI数据集，我们使用与CenterPoint相同的检测范围和体素大小[39]。对于Pandaset，我们使用与OYSTER相同的检测距离[41]。</p>
+<p><strong>训练的细节</strong>。我们采用了广泛使用的全局缩放和旋转数据增强。我们使用ADAM优化器在8个Tesla V100 gpu上训练我们的网络。我们使用一个周期学习率策略的学习率为0.003。我们训练了CPD20个epoch。</p>
+<h3 id="4-3-与无监督检测器的比较"><a href="#4-3-与无监督检测器的比较" class="headerlink" title="4.3. 与无监督检测器的比较"></a>4.3. 与无监督检测器的比较</h3><p><strong>WOD结果</strong>。WOD验证集和测试集的结果如表1和表2所示。所有方法都使用相同大小的阈值来定义对象类，并使用单遍历。我们的方法明显优于现有的无监督方法。值得注意的是，在IoU阈值为0.7、0.5和0.5的3D AP L2下，我们的CPD在车辆、行人和骑自行车者方面分别比OYSTER[41]高出18.03%、13.08%和4.55%。这些进步来自于我们的MFC, CBR和CST设计，这些设计产生了卓越的伪标签和提高的检测精度。CPD也超越了使用类特定原型的prototo -vanilla方法[23]。</p>
+<p><img src="/pic/unsup14.png" alt="表1。WOD验证集上的无监督3D目标检测结果。我们重现了以前方法的结果。"></p>
+<p><img src="/pic/unsup15.png" alt="表2。WOD测试集上的无监督三维检测结果。"></p>
+<p><strong>PandaSet上的结果</strong>。在PandaSet上分类无关的结果如表3所示。在0.7 IoU阈值下，我们的方法优于OYSTER 6.5%的AP和9.3%的召回率。这一改进很大程度上是由于我们的CPD提高了标签质量。与OYSTER不同，OYSTER在训练过程中会受到虚假标签的误导影响，我们的CPD利用CProto的先验大小来显著改善这些标签。</p>
+<p><img src="/pic/unsup16.png" alt="表3。在PandaSet数据集上的分类无关性比较结果，在0-80m检测范围上进行评估。"></p>
+<p>4.4. 与完全&#x2F;弱监督检测器的比较</p>
+<p><strong>KITTI数据集上的结果</strong>。为了进一步验证我们的方法，我们在WOD上预训练了我们的CPD，以及OYSTER[41]和MODEST[40]，并使用统计归一化(SN)在KITTI数据集上进行了测试[28]。汽车检测结果如表4所示。我们首先将我们的方法与稀疏监督方法(带有2%标签的弱监督方法)[34]进行比较，稀疏监督方法每帧注释一个实例进行训练。我们的无监督CPD在中等车型上的性能比这种稀疏监督方法高出23.52% 3D AP@ IoU0.7。此外，我们的方法在0.5 IoU阈值下实现了简单和中等汽车类别的90.85%和81.01%的3D AP。值得注意的是，这一性能与完全监督方法CenterPoint[39]相当，证明了我们方法的先进性。</p>
+<p><img src="/pic/unsup17.png" alt="表4。KITTI val集上全监督/弱监督检测器的汽车检测比较。模型是在WOD上训练的。"></p>
+<p><strong>WOD结果</strong>。我们还将我们的方法与WOD验证集上的完全&#x2F;弱监督方法进行了比较[25]。车辆检测结果如表5所示。我们的无监督CPD在3D AP L1和L2方面分别比稀疏监督方法(2%注释)高5.25%和4.16%。</p>
+<p><img src="/pic/unsup18.png" alt="表5所示。WOD验证集上车辆检测与全监督/弱监督检测器的比较。"></p>
+<p>4.5. 伪标签比较</p>
+<p>为了验证我们的伪标签，我们在WOD验证集上分析了它们的3D召回率和精度。如表6所示，我们的方法以9.42%的召回率和5.29%的精度提高(在0.7 IoU阈值下)超过了之前表现最好的OYSTER。为了了解这种改进的来源，我们检查了伪标签和基础真值之间的IoU，并比较了图7 (a)(b)(c)中的IoU分布。我们还在图7 (d)(e)(f)中给出了不同伪标签之间的大小、位置和角度的平均绝对误差。该方法的IoU分布比其他方法更接近于1，并且在大小、位置和角度上的误差也更小。这些结果验证了我们的MFC和CBR显著减少了标签错误。</p>
+<p><img src="/pic/unsup20.png" alt="表6所示。WOD验证集上的伪标签比较结果。"></p>
+<p><img src="/pic/unsup19.png" alt="图7。(a-c)伪标签与基础真值之间的IoU分布。(d-f)不同方法生成的伪标签大小、位置、角度的平均绝对误差。"></p>
+<h3 id="4-6-消融实验"><a href="#4-6-消融实验" class="headerlink" title="4.6. 消融实验"></a>4.6. 消融实验</h3><p><strong>CPD的成分分析</strong>。为了评估我们设计的单个贡献，我们逐步添加每个组件，并使用WOD验证集评估它们对车辆检测的影响。结果如表7所示。我们的MFC方法在AP中比单帧聚类(SFC)方法高出2.52%，这归因于与单帧相比，跨连续帧的对象的点表示更完整。CBR在AP中进一步提高了19.27%的性能，因为它减少了伪标签的大小和位置错误。CST对AP的贡献增加了8.09%，证明了CProto的几何特征在检测稀疏目标方面的有效性。</p>
+<p><img src="/pic/unsup21.png" alt="表7所示。WOD验证集上的CPD成分分析结果。"></p>
+<p><strong>mfc的帧数</strong>。为了检验帧数对初始伪标签质量的影响，我们在WOD验证集上实验了不同数量的过去和未来点云帧。图8 (a)(b)所示的BEV结果表明，在[- 5,5]帧(5个过去帧、5个未来帧和当前帧)下，性能最佳。额外的帧并没有显著提高记忆的回忆率和准确率。因此，我们在本研究中使用了11帧作为初始伪标签生成。</p>
+<p><img src="/pic/unsup22.png" alt="图8。(a)(b)不同帧对初始伪标签的查全率和查准率。(c)不同分数对初始伪标签的召回精度曲线。"></p>
+<p><strong>CSS评分的成分分析</strong>。为了评估评分系统的有效性，我们计算了不同分数的初始伪标签的BEV AP。表8中报告的标签数量平均绝对误差Precision Recall (%) Precision(%)评估显示，结合所有成分(距离、MLO和SS)产生最高的AP。图8 (c)中绘制的Recall - Precision曲线也支持这一发现。这表明了各成分在准确测量伪标签质量中的重要性。</p>
+<p><img src="/pic/unsup23.png" alt="表8所示。WOD验证集上的CSS成分分析结果。"></p>
+<p><strong>CBR的成分分析</strong>。为了评估调整尺寸和重新定位对CBR的影响，我们进行了实验并分析了伪标签的性能。如表9所示，在0.5 IoU和0.7 IoU阈值下，重新调整尺寸导致BEV召回率分别增加3.91%和3.4%;在这些阈值下，重新定位进一步提高了召回率12.68%和6.43%，同时也提高了准确率。这些结果表明了这两个成分的重要性，从而有效地改进了伪标签。</p>
+<p><img src="/pic/unsup24.png" alt="表9所示。WOD验证集上的CBR成分分析结果。"></p>
+<p><strong>CST的成分分析</strong>。为了评估CST中每个成分的有效性，我们仅使用cbr生成的伪标签建立了一个基线，用于训练两阶段CenterPoint检测器，然后逐渐添加我们的损失成分，并在WOD验证集上评估车辆检测性能。如表10所示，所有损耗成分都有助于提高性能。具体来说，我们的Lcss det使用CSS权重减轻了虚假伪标签的影响，并将IoU0.7的3D AP L2提高了4.79%。通过利用密集CProto的几何知识进行更有效的稀疏目标检测，我们的Lcss技术和Lcss盒分别将IoU0.7的3D AP L2提高了0.75%和2.55%。</p>
+<p><img src="/pic/unsup25.png" alt="表10。WOD验证集上的CST成分分析结果。"></p>
+<p>4.7. 可视化的比较</p>
+<p>为了更直观地理解我们的方法是如何提高检测性能的，我们将我们的结果与MODEST[40]和OYSTER[41]进行了视觉比较，如图9所示。MODEST经常遗漏远处的、稀疏的物体(图9(1.1))，而OYSTER检测到它们，但不准确地报告它们的大小和位置(图9(2.1))。相比之下，CPD使用我们基于cproto的设计，不仅可以识别这些物体，还可以准确地预测它们的大小和位置(图9(3.1))。此外，由于我们的CST减少了虚假伪标签的影响，因此误报(图9(3.2))也比以前的方法(图9(1.2)(2.2))少得多。</p>
+<p><img src="/pic/unsup26.png" alt="图9。WOD验证集上不同检测结果的可视化比较。"></p>
+<h2 id="5-结论"><a href="#5-结论" class="headerlink" title="5. 结论"></a>5. 结论</h2><p>本文提出了一种新的无监督三维目标精确检测方法——CPD框架。首先，我们开发了一种MFC方法来生成初始伪标签。然后，使用CSS评分构造CProto集。接下来，我们介绍了一种CBR方法来改进这些伪标签。最后，设计了一种CST来提高稀疏目标的检测精度。大量的实验验证了我们设计的有效性。值得注意的是，我们的无监督CPD方法首次超过了一些弱监督方法，证明了我们方法的先进性。</p>
+<p><strong>局限性</strong>。我们工作的一个值得注意的限制是，与车辆等更普遍的类别相比，少数类别(如骑自行车的人)的平均精度(AP)明显较低(表1)。这种差异很大程度上是由于数据集中这些少数类的实例很少。未来收集这些物体的努力可能是解决这一问题的一个有希望的途径。</p>
+<h1 id="补充材料"><a href="#补充材料" class="headerlink" title="补充材料"></a>补充材料</h1><h2 id="6-方法详情"><a href="#6-方法详情" class="headerlink" title="6. 方法详情"></a>6. 方法详情</h2><p><img src="/pic/unsup27.png" alt="图10。MFC包括运动伪影去除、聚类(地面去除、点聚类和盒拟合)和后处理(跟踪、平滑和分类)。"></p>
+<p>更多关于mfc的细节。在我们的主要论文3.1节中，我们介绍了用于初始标签生成的多帧聚类(MFC)。为了更直观的理解，我们在图10中提供了一个框架说明。这里我们介绍更多的后处理细节。正如我们在主要论文中提到的，我们基于人类常识预先定义了一组特定于类的大小阈值，将伪标签分类到不同的类别中。以WOD为例，我们预先定义了五个类别:‘Discard Small’, ‘Pedestrian’, ‘Cyclist’, ‘Vehicle’, and ‘Discard Large’。形式上，对于聚类盒bj，我们通过从阈值顺序匹配来确定类恒等式β:</p>
+<p><img src="/pic/unsup28.png"></p>
+<p>式中l、w、h分别为bj的长、宽、高。“废弃大”盒子大多是树木和建筑物被直接移除。‘Discard Large’框包含潜在的前景对象和背景对象。然后，我们应用类别不可知跟踪将小背景对象与前景轨迹关联起来，并利用时间相干性增强对象大小的一致性。</p>
+<p><strong>CSS评分的更多细节</strong>。在我们的主要论文3.2节中，我们介绍了CSS评分。为了更好地理解CSS评分如何接近IoU评分，我们在图11中给出了IoU评分曲线，其中我们展示了三种方法:密度评分(sden)，距离评分(sdis)和CSS评分(scss)。直观上，好的评分应该与IoU评分保持一致。换句话说，随着分数的增加，所选择的伪标签与基础真值的借据应该更大。我们发现，随着IoU的增加，我们的CSS评分保持了最一致的增长。这里我们还提供了主论文Eq. 3中计算Size Similarity的模板盒的长度、宽度和高度:</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">&#123;</span>
+<span class="token string">'Vehicle'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">5.06</span><span class="token punctuation">,</span> <span class="token number">1.86</span><span class="token punctuation">,</span> <span class="token number">1.49</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token string">'Pedestrian'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token string">'Cyclist'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1.9</span><span class="token punctuation">,</span> <span class="token number">0.85</span><span class="token punctuation">,</span> <span class="token number">1.8</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/pic/unsup29.png" alt="图11。不同评分方法的比较。"></p>
+<h2 id="7-更多实验结果"><a href="#7-更多实验结果" class="headerlink" title="7. 更多实验结果"></a>7. 更多实验结果</h2><p><strong>更多可视化结果</strong>。为了更好地理解我们的方法是如何提高检测结果的，这里我们展示了更多的可视化结果。从图12中可以看出，由于基于cproto的设计，我们的方法(3.1-3.4)的识别和定位性能都比之前的方法(1.1-1.4,2.1-2.4)要好得多。</p>
+<p><img src="/pic/unsup30.png" alt="图12。不同的无监督检测器预测的可视化结果。"></p>
+<p><strong>WOD验证集上的BEV AP和3D APH结果</strong>。一些完全监督的方法也报道了BEV AP L2和3D APH的性能。在这里，我们分别在表11和表12中给出了结果。我们的CPD在BEV AP L2和APH L2上都大大优于之前的MODEST和OYSTER，进一步证明了我们方法的有效性。</p>
+<p><img src="/pic/unsup31.png" alt="表11所示。WOD验证集上的3D AP L2和BEV AP L2结果。"></p>
+<p><img src="/pic/unsup32.png" alt="表12。WOD验证集上的3D APH结果。"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">oceanechy</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://oceanechy.github.io/2024/04/28/unsuper-det/">http://oceanechy.github.io/2024/04/28/unsuper-det/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">oceanechy</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/CV/">
+                                    <span class="chip bg-color">CV</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2024/04/28/unsuper-det/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Commonsense Prototype for Outdoor Unsupervised 3D Object Detection (CVPR 2024)">
+                        
+                        <span class="card-title">Commonsense Prototype for Outdoor Unsupervised 3D Object Detection (CVPR 2024)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-28
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CV/">
+                        <span class="chip bg-color">CV</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/04/25/weakly-3d-det2/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="弱监督下的三维目标检测(激光点云篇)">
+                        
+                        <span class="card-title">弱监督下的三维目标检测(激光点云篇)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DL/" class="post-category">
+                                    DL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CV/">
+                        <span class="chip bg-color">CV</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('2'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2024</span>
+            
+            <a href="/about" target="_blank">oceanechy</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">212.4k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/oceanechy" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1945942166@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1945942166" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1945942166" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="https://www.zhihu.com/people/xiao-hai-38-6-81" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/xiao-hai-38-6-81" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
